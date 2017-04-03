@@ -1,0 +1,3 @@
+CREATE DATABASE ht_db
+    WITH OWNER bbgbbg0123
+    ENCODING 'UTF8';

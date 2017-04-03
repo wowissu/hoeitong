@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block Title %}Heitoong{% endblock Title %}</title>
+
+    {% block styles %}
+        <link rel="stylesheet" href="css/stylesheets.css">
+    {% endblock styles %}
+
+</head>
+<body>
+    <div class="body">
+        {% block Header %}
+            {% include "overall/header.twig" %}
+        {% endblock Header %}
+        {% block Body %}
+            {% include "overall/notfound.twig" %}
+        {% endblock Body %}
+        {% block Footer %}
+            {% include "overall/footer.twig" %}
+        {% endblock Footer %}
+    </div>
+
+    {% block scripts %}
+
+    {% endblock scripts %}
+</body>
+</html>

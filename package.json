@@ -1,0 +1,13 @@
+{
+  "name": "hoeitoong",
+  "version": "1.0.0",
+  "description": "慧同企業倉儲物料管理系統",
+  "main": "index.js",
+  "scripts": {},
+  "author": "wowissu",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.3",
+    "jquery": "^3.2.1"
+  }
+}
