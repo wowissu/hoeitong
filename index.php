@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 ini_set('display_errors', 1);
 
@@ -20,7 +20,7 @@ $ci->settings = require('config/slim.config.php');
 $app = new \Slim\App($ci);
 
 // load modules
+require 'modules.App.php';
 require 'modules.php';
-
 
 $app->run();

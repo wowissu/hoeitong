@@ -45,7 +45,7 @@ BEGIN;
         address TEXT,
         email TEXT,
         summary TEXT,
-        contacter TEXT,
+        contactor TEXT,
         created_at timestamp(0) default (now()),
         updated_at timestamp(0) default (now())
     );
@@ -83,7 +83,7 @@ BEGIN;
         created_at timestamp(0) default (now()),
         updated_at timestamp(0) default (now())
     );
-    
+
     -- 物件規格供應商 --
     CREATE TABLE IF NOT EXISTS object_spec_provider (
         id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
