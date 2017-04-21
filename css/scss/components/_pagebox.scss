@@ -1,4 +1,3 @@
-
 .pagebox_wraper
 {
     height: 100vh;
@@ -15,7 +14,6 @@
     $navbar_fontcolor: #fff;
     $navbar_bordercolor: $navbar_fontcolor;
     $navbar_shadow: 1px 1px 15px 5px rgba(0, 0, 0, 0.3);
-
     $navbar_unfold_speed: 0.5s;
     $navbar_unfold_delay: 0.7s;
 
@@ -47,7 +45,7 @@
         display: inline-block;
         vertical-align: top;
 
-        &:not(.pagebox_navbar__unable)
+        &:not(.pagebox_navbar__locked)
         {
             &.pagebox_navbar__unfold,
             &:hover

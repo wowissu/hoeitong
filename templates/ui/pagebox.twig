@@ -1,9 +1,20 @@
 <div class="pagebox">
+    {% spaceless %}
     <div class="pagebox_inner">
-        <div class="pagebox_navbar {# pagebox_navbar__unable #}">
+        {#
+            -- Navbar --
+        #}
+        <div
+            class="pagebox_navbar"
+            ng-style="navStyle"
+            ng-click="PageBox.navUnfold = true;"
+            ng-class="{
+                pagebox_navbar__locked: PageBox.$navLock
+            }"
+        >
             <div class="pagebox_navbar_inner">
-                <div class="pagebox_icon" ng-if="PageBox.icon" ng-bind-html="PageBox.icon | html">
-                    {# <i class="fa fa-anchor"></i> #}
+                <div class="pagebox_icon" ng-transclude="logo">
+                    <i class="fa fa-list-ul"></i>
                 </div>
                 <ul class="pagebox_menu">
                     <li
@@ -23,7 +34,11 @@
                     </li>
                 </ul>
             </div>
-        </div><!--
-     --><div class="pagebox_section" ng-transclude="section"></div>
+        </div>
+        {#
+            -- Section --
+        #}
+        <div class="pagebox_section" ng-transclude="section"></div>
     </div>
+    {% endspaceless %}
 </div>

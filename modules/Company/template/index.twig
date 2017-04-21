@@ -1,9 +1,21 @@
-<pagebox id="company" menu="companyMenu">
+<pagebox
+    id="company"
+    menu="companyMenu"
+    nav-lock="true"
+    nav-style="{
+        backgroundColor: 'cadetblue',
+    }"
+>
+    <logo>
+        <i class="fa fa-briefcase"></i>
+    </logo>
     <section>
         <div class="pagebox_section_scroll">
-            <a href="company">company</a>
-            <a href="company/123">company/123</a>
-            <a href="company/456">company/456</a>
+            <div class="company_section">
+                <a href="company">company</a>
+                <a href="company/123">company/123</a>
+                <a href="company/456">company/456</a>
+            </div>
         </div>
     </section>
 </pagebox>

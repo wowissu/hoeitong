@@ -2,7 +2,7 @@
 {
     "use strict";
 
-    var app = ng.module('App', ['ngRoute']);
+    var app = ng.module('App', ['ngRoute', 'suFilter']);
 
     app.config(function($interpolateProvider, $routeProvider, $locationProvider)
     {
@@ -67,8 +67,9 @@
             }
 
             this.$id = $attrs.id;
+            this.$navLock = Boolean($scope.navLock);
+
             this.menu = $scope.Boxmenu;
-            this.icon = '<i class="fa fa-list-ul" ng-click="test();"></i>';
 
             $scope.test = function () {
                 console.log('here');
@@ -84,18 +85,21 @@
         };
 
         return {
+            // priority: 0,
             require: '^^?pagebox',
             restrict: 'E',
-            // priority: 0,
             templateUrl: '/pagebox.html',
+            controllerAs: 'PageBox',
             replace: true,
             transclude: {
-                section: '?section'
+                section: '?section',
+                logo: '?logo',
             },
-            controllerAs: 'PageBox',
             scope: {
                 id: '=',
-                Boxmenu: '=menu'
+                Boxmenu: '=menu',
+                navLock: '=',
+                navStyle: '='
             },
             controller: ['$scope', '$element', '$attrs', PageBox],
             link: function postLink($scope, $element, $attrs, $parentBox)
@@ -105,10 +109,6 @@
                 $scope.PageBox.$parent = $parentBox;
             }
         };
-    }]);
-
-    app.filter('html', ['$sce', function ($sce) {
-        return $sce.trustAsHtml;
     }]);
 
 }(angular));
