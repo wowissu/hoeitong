@@ -1,0 +1,28 @@
+{% extends 'overall/html.twig' %}
+
+
+{% block Body %}
+
+    <div class="pagebox_wraper">
+        <pagebox id="site" menu="$root.siteMenu">
+            <section>
+                <ng-view></ng-view>
+            </section>
+        </pagebox>
+    </div>
+
+{% endblock %}
+
+{% block templates %}
+    <script type="text/ng-template" id="/pagebox.html">
+        {% include 'ui/pagebox.twig' %}
+    </script>
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="js/pages/object.js"></script>
+    <script src="js/pages/tools.js"></script>
+    <script src="js/pages/company.js"></script>
+{% endblock scripts %}
+

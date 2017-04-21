@@ -7,7 +7,14 @@
   "author": "wowissu",
   "license": "ISC",
   "dependencies": {
-    "angular": "^1.6.3",
-    "jquery": "^3.2.1"
+    "angular": "^1.6.4",
+    "angular-route": "^1.6.4",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "normalize.css": "^6.0.0"
+  },
+  "devDependencies": {
+    "sass-flex-mixin": "^1.0.3",
+    "scss-utils": "^1.0.1"
   }
 }

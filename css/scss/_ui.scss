@@ -1,0 +1,158 @@
+
+.pagebox_wraper
+{
+    height: 100vh;
+    width: 100vw;
+    display: block;
+}
+
+.pagebox
+{
+    $navbar_size: 50px;
+    $navbar_size_squash: 10px;
+    $navbar_size_unfold: 200px;
+    $navbar_bgcolor: slategray;
+    $navbar_fontcolor: #fff;
+    $navbar_bordercolor: $navbar_fontcolor;
+    $navbar_shadow: 1px 1px 15px 5px rgba(0, 0, 0, 0.3);
+
+    $navbar_unfold_speed: 0.5s;
+    $navbar_unfold_delay: 0.7s;
+
+    @include box-shadow($navbar_shadow);
+    position: relative;
+    display: block;
+    height: 100%;
+    width: 100%;
+
+    .pagebox_inner
+    {
+        // @include flexbox;
+        // @include flex-wrap(nowrap);
+        white-space: nowrap;
+        height: 100%;
+        width: 100%;
+    }
+
+    .pagebox_navbar
+    {
+        @include transition-property(box-shadow, width);
+        @include transition-duration($navbar_unfold_speed, $navbar_unfold_speed);
+        @include transition-delay(0s, $navbar_unfold_delay);
+        position: relative;
+        width: $navbar_size;
+        height: 100vh;
+        background-color: $navbar_bgcolor;
+        color: $navbar_fontcolor;
+        display: inline-block;
+        vertical-align: top;
+
+        &:not(.pagebox_navbar__unable)
+        {
+            &.pagebox_navbar__unfold,
+            &:hover
+            {
+                @include box-shadow($navbar_shadow);
+                @include transition-delay(0s, $navbar_unfold_delay);
+                z-index: 2;
+                width: $navbar_size_unfold;
+
+                + .pagebox_section
+                {
+                    width: calc(100% - #{$navbar_size_unfold});
+                }
+                // + .pagebox_section::after {
+                //     content: '';
+                //     display: block;
+                //     position: absolute;
+                //     top: 0;
+                //     left: 0;
+                //     width: 100%;
+                //     height: 100%;
+                //     z-index: 99;
+                //     background-color: rgba(#000, .3);
+                // }
+            }
+        }
+    }
+
+        .pagebox_icon
+        {
+            @include flexbox;
+            @include flex-just(center);
+            @include align-items(center);
+            width: 100%;
+            height: $navbar_size;
+            font-size: 20px;
+            border-bottom: 2px solid $navbar_bordercolor;
+        }
+
+        .pagebox_menu
+        {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+            .pagebox_menu_li
+            {
+                width: 100%;
+                display: block;
+            }
+        }
+
+        .pagebox_menu_item
+        {
+            .item_header
+            {
+                $margin: 5px;
+                @include flexbox;
+                @include flex-just(center);
+                @include align-items(center);
+                width: calc(100% - #{$margin * 2});
+                height: $navbar_size;
+                margin: 0 $margin;
+                border-bottom: 1px solid $navbar_bordercolor;
+                cursor: pointer;
+                overflow: hidden;
+                text-decoration: none;
+                color: $navbar_fontcolor;
+
+                .item_icon
+                {
+                    @include flexbox;
+                    @include flex-just(center);
+                    @include align-items(center);
+                    width: $navbar_size - ($margin * 2);
+                    height: 100%;
+                    font-size: 16px;
+                }
+
+                .item_title
+                {
+                    @include flex(1, 0);
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+            }
+
+
+        }
+
+    .pagebox_section
+    {
+        @include transition(width #{$navbar_unfold_speed});
+        @include transition-delay($navbar_unfold_delay);
+        width: calc(100% - #{$navbar_size});
+        position: relative;
+        min-height: 100vh;
+        display: inline-block;
+        vertical-align: top;
+
+        .pagebox_section_scroll {
+            display: block;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+    }
+}
+

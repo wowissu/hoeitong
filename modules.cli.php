@@ -1,5 +1,6 @@
 <?php
 
 // Company
-include 'modules/Company/cli.php';
+include 'modules/Company/trans.php';
+include 'modules/Object/trans.php';
 

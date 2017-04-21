@@ -5,11 +5,16 @@ BEGIN;
 
     DROP TABLE IF EXISTS company CASCADE;
     DROP TABLE IF EXISTS company_phones CASCADE;
-    DROP TABLE IF EXISTS object_category CASCADE;
+    DROP TABLE IF EXISTS tabs CASCADE;
+    DROP TABLE IF EXISTS tab_ship CASCADE;
+    DROP TABLE IF EXISTS manual CASCADE;
     DROP TABLE IF EXISTS object CASCADE;
-    DROP TABLE IF EXISTS object_spec CASCADE;
-    DROP TABLE IF EXISTS object_material CASCADE;
-    DROP TABLE IF EXISTS object_spec_provider CASCADE;
+    DROP TABLE IF EXISTS object_images CASCADE;
+    DROP TABLE IF EXISTS object_provider CASCADE;
+    -- DROP TABLE IF EXISTS object_category CASCADE;
+    -- DROP TABLE IF EXISTS object_spec CASCADE;
+    -- DROP TABLE IF EXISTS object_material CASCADE;
+    -- DROP TABLE IF EXISTS object_spec_provider CASCADE;
     DROP TABLE IF EXISTS tools CASCADE;
 
     --
@@ -38,8 +43,19 @@ BEGIN;
     ALTER SEQUENCE seq_id RESTART WITH 1000000;
     ALTER SEQUENCE seq_ranking RESTART WITH 1;
 
+
+    -- 使用手冊
+    CREATE TABLE IF NOT EXISTS manual
+    (
+        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
+        content TEXT,
+        created_at timestamp(0) default (now()),
+        updated_at timestamp(0) default (now())
+    );
+
     -- 廠商
-    CREATE TABLE IF NOT EXISTS company (
+    CREATE TABLE IF NOT EXISTS company
+    (
         id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
         title TEXT,
         address TEXT,
@@ -51,62 +67,17 @@ BEGIN;
     );
 
     -- 廠商電話
-    CREATE TABLE IF NOT EXISTS company_phones (
+    CREATE TABLE IF NOT EXISTS company_phones
+    (
         id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
+        type SMALLINT DEFAULT 0 NOT NULL, -- 0: 市話, 1: 傳真
         company_id INTEGER references company(id) ON DELETE CASCADE ON UPDATE CASCADE,
         phone TEXT
     );
 
-    -- 物件分類
-    CREATE TABLE IF NOT EXISTS object_category (
-        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
-        title TEXT
-    );
-
-    -- 物件
-    CREATE TABLE IF NOT EXISTS object (
-        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
-        category_id INTEGER references object_category(id) ON DELETE CASCADE,
-        totalAmount INTEGER,
-        created_at timestamp(0) default (now()),
-        updated_at timestamp(0) default (now()),
-        deleted_at timestamp(0) default (now())
-    );
-
-    -- 物件規格
-    CREATE TABLE IF NOT EXISTS object_spec (
-        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
-        object_id INTEGER references object(id) ON DELETE CASCADE,
-        title TEXT,
-        amount INTEGER,
-        document_id INTEGER,
-        created_at timestamp(0) default (now()),
-        updated_at timestamp(0) default (now())
-    );
-
-    -- 物件規格供應商 --
-    CREATE TABLE IF NOT EXISTS object_spec_provider (
-        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
-        spec_id INTEGER references object_spec(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        company_id INTEGER references company(id) ON DELETE CASCADE ON UPDATE CASCADE,
-        notice TEXT
-    );
-
-    -- 物件組成材料
-    CREATE TABLE IF NOT EXISTS object_material (
-        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
-        object_id INTEGER references object(id) ON DELETE CASCADE,
-        spec_id INTEGER references object_spec(id) ON DELETE CASCADE,
-        company_id INTEGER references company(id) ON DELETE CASCADE ON UPDATE CASCADE, -- 這個材料的供應商是誰
-        notice TEXT,
-        image TEXT,
-        created_at timestamp(0) default (now()),
-        updated_at timestamp(0) default (now())
-    );
-
-
     -- 工具
-    CREATE TABLE IF NOT EXISTS tools (
+    CREATE TABLE IF NOT EXISTS tools
+    (
         id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
         name TEXT,
         image TEXT,
@@ -115,5 +86,59 @@ BEGIN;
         created_at timestamp(0) default (now()),
         updated_at timestamp(0) default (now())
     );
+
+    -- 標籤
+    CREATE TABLE IF NOT EXISTS tabs
+    (
+        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
+        title TEXT
+    );
+
+    -- 標籤與關係id
+    CREATE TABLE IF NOT EXISTS tab_ship
+    (
+        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
+        tab_id INTEGER references tabs(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        relate_id INTEGER
+    );
+
+    -- 物件
+    CREATE TABLE IF NOT EXISTS object
+    (
+        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
+        type SMALLINT, -- 1:原料 2:成品 3:部位 4:規格
+        relate_id INTEGER references object(id) ON DELETE CASCADE ON UPDATE CASCADE, --
+        parent_id INTEGER references object(id) ON DELETE CASCADE ON UPDATE CASCADE, --
+        manual_id INTEGER references manual(id) ON DELETE NO ACTION ON UPDATE CASCADE, -- 文件
+        title TEXT,
+        model TEXT,
+        summary TEXT,
+        spec TEXT,
+        amount INTEGER, -- 3: 數量
+        created_at timestamp(0) default (now()),
+        updated_at timestamp(0) default (now()),
+        deleted_at timestamp(0)
+    );
+
+    -- 圖片
+    CREATE TABLE IF NOT EXISTS object_images
+    (
+        id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
+        object_id INTEGER references object(id) ON DELETE CASCADE ON UPDATE CASCADE, --
+        image TEXT
+    );
+
+    -- 物件供應商 --
+    CREATE TABLE IF NOT EXISTS object_provider
+    (
+        -- id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
+        object_id INTEGER NOT NULL references object(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        company_id INTEGER NOT NULL references company(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        notice TEXT, -- 備註
+        created_at timestamp(0) default (now()),
+        updated_at timestamp(0) default (now()),
+        PRIMARY KEY (object_id, company_id)
+    );
+
 
 COMMIT;

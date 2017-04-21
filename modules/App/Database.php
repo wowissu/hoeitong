@@ -1,23 +1,25 @@
-<?php 
+<?php
 
-// database
-$ci['db'] = function ($ci)
+
+$dbconfig = $ci->settings['db'];
+
+$capsule = new \Illuminate\Database\Capsule\Manager;
+
+foreach ($dbconfig['connections'] as $cname => $connection)
 {
-    // $dbconfig = require('config.php');
-    $dbconfig = $ci->settings['db'];
+    $cname = $cname == $dbconfig['default'] ? 'default' : $cname;
 
-    $capsule = new \Illuminate\Database\Capsule\Manager;
+    $capsule->addConnection($connection, $cname);
+}
 
-    foreach ($dbconfig['connections'] as $cname => $connection)
-    {
-        $cname = $cname == $dbconfig['default'] ? 'default' : $cname;
+$capsule->setFetchMode($dbconfig['fetch']);
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
 
-        $capsule->addConnection($connection, $cname);
-    }
-
-    $capsule->setFetchMode($dbconfig['fetch']);
-    $capsule->setAsGlobal();
-    $capsule->bootEloquent();
-
+$ci['db'] = function ($ci) use($capsule) {
     return $capsule;
 };
+
+unset($dbconfig);
+unset($cname);
+unset($connection);

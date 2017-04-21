@@ -1,12 +1,5 @@
-.test {
-    position: relative;
-    width: 100%;
+@charset "utf-8";
 
-    .try {
-        position: absolute;
-    }
-
-    .test {
-        position: absolute;
-    }
-}
+@import "mixin";
+@import "app";
+@import "ui";
