@@ -3,32 +3,26 @@
 
 {% block Body %}
 
-    <div class="pagebox_wraper" >
-
-        <div><router-link :to="{ name: 'company' }/foo">/foo</router-link></div>
-        <div><router-link to="/bar">/bar</router-link></div>
-
+    <div class="pagebox_wraper">
         <pagebox id="site" menu="$root.siteMenu">
             <section>
-
+                <ng-view></ng-view>
             </section>
         </pagebox>
-
-        <router-view></router-view>
     </div>
 
 {% endblock %}
 
 {% block templates %}
-    <script type="text/x-template" id="pagebox">
+    <script type="text/ng-template" id="/pagebox.html">
         {% include 'ui/pagebox.twig' %}
     </script>
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
-    {# <script src="js/pages/object.js"></script> #}
-    {# <script src="js/pages/tools.js"></script> #}
+    <script src="js/pages/object.js"></script>
+    <script src="js/pages/tools.js"></script>
     <script src="js/pages/company.js"></script>
 {% endblock scripts %}
 
