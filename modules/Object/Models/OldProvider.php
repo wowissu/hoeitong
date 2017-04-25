@@ -6,7 +6,7 @@ use \Modules\App\BaseModel;
 /**
  *
  */
-class ObjectProviderRelation extends BaseModel
+class OldProvider extends BaseModel
 {
     protected $connection = 'mysql';
     protected $table = 'objectProviderRelation';

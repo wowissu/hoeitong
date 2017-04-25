@@ -1,0 +1,83 @@
+<div>
+    <pagebox
+        id="company"
+        class="company_pagebox"
+        :menu="menu"
+        :navbar="navbar"
+    >
+        <template slot="logo">
+            <i class="fa fa-briefcase"></i>
+        </template>
+        <template slot="section">
+            <div class="company_section">
+                <div class="company_navheader">
+                    <div class="navheader_inner">
+                        <div id="search">
+                            <input type="text" id="search_input" placeholder="搜尋...">
+                            <label for="search_input">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="company_body pagebox_section_scroll">
+                    {% spaceless %}
+                    <table class="companies_table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" v-model="checkAll" @click="">
+                                </th>
+                                <th>公司名稱</th>
+                                <th>聯絡人</th>
+                                <th>電話</th>
+                                <th class="row_toolbar">
+                                    <i class="fa fa-wrench"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="company in companies" class="company_li">
+                                <td>
+                                    <div class="row_id">
+                                        <input type="checkbox" name="company[]" :id="company.id" v-model="company.checked">
+                                    </div>
+                                </td>
+                                <td>
+                                    <label :for="company.id" class="row_title" v-text="company.title"></label>
+                                </td>
+                                <td>
+                                    <div class="row_contactor" v-text="company.contactor"></div>
+                                </td>
+                                <td>
+                                    <ul class="row_phones">
+                                       <li v-for="phone in company.phones">
+                                            <span v-if="phone.type == 0"><i class="fa fa-phone"></i></span>
+                                            <span v-else><i class="fa fa-fax"></i></span>
+                                            <span v-text="phone.phone"></span>
+                                       </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <div class="row_toolbar">
+                                        <span class="row_tool editor">
+                                            {# <i class="fa fa-pencil" aria-hidden="true"></i> #}
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% endspaceless %}
+                </div>
+
+                {# <router-link to="/company">"company/"</router-link>
+                <router-link to="/company/123">"company/123"</router-link>
+                <router-link to="/company/456">"company/456"</router-link> #}
+
+                {# <router-view></router-view> #}
+            </div>
+        </template>
+    </pagebox>
+</div>

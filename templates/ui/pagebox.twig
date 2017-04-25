@@ -1,3 +1,4 @@
+{% autoescape %}
 <div class="pagebox">
     {% spaceless %}
     <div class="pagebox_inner">
@@ -6,30 +7,46 @@
         #}
         <div
             class="pagebox_navbar"
-            ng-style="navStyle"
-            ng-click="PageBox.navUnfold = true;"
-            ng-class="{
-                pagebox_navbar__locked: PageBox.$navLock
+            @click="navbar.locked = true"
+            :style="navbar.style"
+            :class="{
+                pagebox_navbar__locked: navbar.locked,
+                pagebox_navbar__unfold: navbar.unfold
             }"
         >
             <div class="pagebox_navbar_inner">
-                <div class="pagebox_icon" ng-transclude="logo">
-                    <i class="fa fa-list-ul"></i>
+                <div class="pagebox_icon">
+                    <slot name="logo">
+                        <i class="fa fa-list-ul"></i>
+                    </slot>
                 </div>
                 <ul class="pagebox_menu">
                     <li
                         class="pagebox_menu_li"
-                        ng-repeat="(code, item) in PageBox.menu"
+                        v-for="item in menu"
                     >
-                        <div class="pagebox_menu_item" title="[[ item.title ]]">
-                            <a
-                                class="item_header"
-                                href="[[ item.url || 'javascript:void(0)' ]]"
-                                ng-click="item.click($event) || angular.noop"
-                            >
-                                <div class="item_icon" ng-bind-html="item.icon | html"></div>
-                                <div class="item_title">[[ item.title ]]</div>
-                            </a>
+                        <div class="pagebox_menu_item" :title="item.title">
+                            <div v-if="item.url">
+                                <router-link
+                                    class="item_header"
+                                    :to="item.url"
+
+                                >
+                                    <div class="item_icon" v-html="item.icon"></div>
+                                    <div class="item_title" v-text="item.title"></div>
+                                </router-link>
+                            </div>
+                            <div v-else>
+                                <div
+                                    class="item_header"
+                                    @click="item.click()"
+                                >
+
+                                    <div class="item_icon" v-html="item.icon"></div>
+                                    <div class="item_title" v-text="item.title"></div>
+                                </div>
+                            </div>
+
                         </div>
                     </li>
                 </ul>
@@ -38,7 +55,10 @@
         {#
             -- Section --
         #}
-        <div class="pagebox_section" ng-transclude="section"></div>
+        <div class="pagebox_section">
+            <slot name="section"></slot>
+        </div>
     </div>
     {% endspaceless %}
 </div>
+{% endautoescape %}

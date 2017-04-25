@@ -3,32 +3,44 @@
 
 {% block Body %}
 
-    <div class="pagebox_wraper" >
-
-        <div><router-link :to="{ name: 'company' }/foo">/foo</router-link></div>
-        <div><router-link to="/bar">/bar</router-link></div>
-
-        <pagebox id="site" menu="$root.siteMenu">
-            <section>
-
-            </section>
+    <div class="pagebox_wraper">
+        <pagebox
+            id="site"
+            :menu="sitemenu"
+        >
+            <template slot="section">
+                <div>
+                    <router-view></router-view>
+                </div>
+            </template>
         </pagebox>
-
-        <router-view></router-view>
     </div>
 
 {% endblock %}
 
 {% block templates %}
-    <script type="text/x-template" id="pagebox">
+    <script type="text/x-template" id="pagebox-template">
         {% include 'ui/pagebox.twig' %}
+    </script>
+
+    <script type="text/x-template" id="companies-template">
+        {% include 'Company/list.twig' %}
+    </script>
+
+    <script type="text/x-template" id="company-template">
+        <div>
+            company id
+        </div>
     </script>
 {% endblock %}
 
 {% block scripts %}
+
+    <script src="js/pagebox.js"></script>
+    <script src="js/Company/company.js"></script>
+
     {{ parent() }}
     {# <script src="js/pages/object.js"></script> #}
     {# <script src="js/pages/tools.js"></script> #}
-    <script src="js/pages/company.js"></script>
 {% endblock scripts %}
 

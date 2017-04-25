@@ -22,12 +22,16 @@ $app->get('/company/trans', function ($req, $res, $args)
     {
         // dd($row->toArray());
 
+        if ($row->contacter === '任何會計' || strlen($row->contacter) <= 0) {
+            $row->contacter = null;
+        }
+
         $companies[] = [
             'id' => $row->fty_id,
             'title' => $row->name,
-            'address' => $row->address,
-            'email' => $row->email,
-            'summary' => $row->memo,
+            'address' => $row->address ? $row->address : null,
+            'email' => $row->email ? $row->email : null,
+            'summary' => $row->memo ? $row->memo : null,
             'contactor' => $row->contacter,
             'created_at' => $row->created_at,
             'updated_at' => $row->updated_at

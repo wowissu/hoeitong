@@ -2,62 +2,43 @@
 {
     "use strict";
 
-    Vue.component('pagebox', {
-        props: ['menu'],
-        template: '#pagebox',
-        data: function ()
-        {
-            console.log(arguments);
-
-            return {
-                navbar: {
-                    style: {},
-                    class: {
-                        pagebox_navbar__locked: false
-                    }
-                }
-            };
-        }
-    });
-
-    var Company = function (resolve, reject)
-    {
-        $.get('template/company.html').done(function (template)
-        {
-            console.log(template);
-            resolve({
-                template: template,
-                watch: {
-                    $route: function (to, from) {
-
-                    }
-                }
-            });
-        });
-    };
-
-    var Foo = { template: '<div>Foo</div>' };
-    var Bar = { template: '<div>Bar</div>' };
-
     var router = new VueRouter({
         routes: [
-            { path: '/Foo', component: Foo, name: 'foo' },
-            { path: '/Bar', component: Bar, name: 'bar' }
+            {
+                path: '/company',
+                component: VueComponents.companiesComponent,
+                children: [
+                    {
+                        path: ':id',
+                        component: VueComponents.companyComponent
+                    }
+                ]
+            },
         ]
     });
 
     var app = new Vue({
         router: router,
         data: {
-            menu: {
+            sitemenu: {
                 company: {
                     title: '廠商管理',
-                    url: '/foo',
-                    icon: '<i class="fa fa">'
+                    url: '/company',
+                    icon: '<i class="fa fa-briefcase"></i>'
+                },
+                object: {
+                    title: '物件管理',
+                    url: '/object',
+                    icon: '<i class="fa fa-cubes"></i>'
+                },
+                tools: {
+                    title: '工具管理',
+                    url: '/tools',
+                    icon: '<i class="fa fa-wrench"></i>'
                 }
-
             }
         }
     }).$mount('#app');
+
 
 }());

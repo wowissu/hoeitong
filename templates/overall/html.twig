@@ -16,6 +16,7 @@
 
 </head>
 <body >
+
     <div class="{% block pageClass %}site_body{% endblock %}" id="app">
         {% block Header %}
             {% include "overall/header.twig" %}
@@ -32,11 +33,11 @@
     <script src="js/vue/vue.min.js"></script>
     <script src="js/vue-router/vue-router.min.js"></script>
 
+    {% block templates %}{% endblock %}
+
     {% block scripts %}
     <script src="js/app.js"></script>
     {% endblock scripts %}
 
-    {% block templates %}
-    {% endblock %}
 </body>
 </html>

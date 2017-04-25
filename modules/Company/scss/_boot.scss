@@ -1,17 +1,160 @@
-
-// #company
-// {
-//     &.pagebox > .pagebox_inner
-//     {
-//         .pagebox_navbar
-//         {
-//             background-color: cadetblue;
-//         }
-//     }
-// }
-
-.company_section
+.company_pagebox
 {
-    height: 200vh;
-    width: 100%;
+    $mainColor: cadetblue;
+    $navheaderHeight: 50px;
+    $bodyPadding: 2px;
+
+    // each company
+    $companyItemHeight: 50px;
+
+    > .pagebox_inner .pagebox_navbar
+    {
+        background-color: $mainColor;
+    }
+
+    .company_section
+    {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .company_navheader
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: $navheaderHeight;
+        width: 100%;
+        background-color: $mainColor;
+        display: block;
+        border-bottom: 2px solid #fff;
+        color: #fff;
+        padding: 10px;
+
+        .navheader_inner
+        {
+            @include flexbox();
+            @include flex-just(flex-start);
+            @include align-items(center);
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .company_body
+    {
+        position: relative;
+        top: $navheaderHeight;
+        left: 0;
+        max-height: calc(100% - #{$navheaderHeight} - 2px);
+        padding: 0px $bodyPadding;
+    }
+
+    .companies_table
+    {
+        position: relative;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 50vh;
+        min-width: 500px;
+
+        td
+        {
+            padding: 12px 11px;
+            vertical-align: middle;
+            border-top: 1px solid #CCC5B9;
+        }
+
+        th
+        {
+            padding: 8px 11px;
+            vertical-align: middle;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        .row_toolbar
+        {
+            text-align: right;
+
+            .row_tool
+            {
+                display: inline-block;
+                vertical-align: top;
+                cursor: pointer;
+                color: cornflowerblue;
+
+                &:hover
+                {
+                    color: darken(cornflowerblue, 10%);
+                }
+            }
+        }
+
+        .row_title
+        {
+            display: block;
+        }
+
+        .row_phones
+        {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            span
+            {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    #search
+    {
+        $regionHeight: 30px;
+        $fontColor: #fff;
+        $fontSize: 16px;
+        $fontHoverSize: 14px;
+
+        height: $regionHeight;
+        position: relative;
+        margin-right: 10px;
+
+        label
+        {
+            @include flexbox();
+            @include flex-just(center);
+            @include align-items(center);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: $regionHeight;
+            height: $regionHeight;
+        }
+
+        #search_input
+        {
+            height: 100%;
+            padding: 5px 5px 5px $regionHeight;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: $fontColor;
+            font-size: $fontSize;
+
+            @include placeholder
+            {
+                color: rgba($fontColor, .7);
+                font-size: $fontHoverSize;
+            }
+
+            &:focus
+            {
+                border-bottom: 1px solid $fontColor;
+            }
+        }
+    }
 }
+

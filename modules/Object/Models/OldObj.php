@@ -6,7 +6,7 @@ use \Modules\App\BaseModel;
 /**
  *
  */
-class Obj extends BaseModel
+class OldObj extends BaseModel
 {
     protected $connection = 'mysql';
     protected $table = 'object';
