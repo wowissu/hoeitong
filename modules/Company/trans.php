@@ -20,8 +20,6 @@ $app->get('/company/trans', function ($req, $res, $args)
 
     $factory = Factory::each(function ($row) use(&$companies, &$companies_phones)
     {
-        // dd($row->toArray());
-
         if ($row->contacter === '任何會計' || strlen($row->contacter) <= 0) {
             $row->contacter = null;
         }
@@ -32,7 +30,7 @@ $app->get('/company/trans', function ($req, $res, $args)
             'address' => $row->address ? $row->address : null,
             'email' => $row->email ? $row->email : null,
             'summary' => $row->memo ? $row->memo : null,
-            'contactor' => $row->contacter,
+            'owner' => $row->contacter,
             'created_at' => $row->created_at,
             'updated_at' => $row->updated_at
         ];
@@ -45,7 +43,8 @@ $app->get('/company/trans', function ($req, $res, $args)
             $companies_phones[] = [
                 'company_id' => $row->fty_id,
                 'type' => 0,
-                'phone' => $phone
+                'phone' => $phone,
+                'contactor' => $row->contacter
             ];
         }
 
@@ -53,7 +52,8 @@ $app->get('/company/trans', function ($req, $res, $args)
             $companies_phones[] = [
                 'company_id' => $row->fty_id,
                 'type' => 1,
-                'phone' => $phone
+                'phone' => $phone,
+                'contactor' => $row->contacter
             ];
         }
     });

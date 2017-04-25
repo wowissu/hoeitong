@@ -17,6 +17,9 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
+.colorinherit {
+  color: inherit; }
+
 .pagebox_wraper {
   height: 100vh;
   width: 100vw;
@@ -35,15 +38,14 @@ body {
     height: 100%;
     width: 100%; }
   .pagebox .pagebox_navbar {
-    -webkit-transition-property: box-shadow, width;
-    transition-property: box-shadow, width;
-    -webkit-transition-duration: 0.5s, 0.5s;
-    transition-duration: 0.5s, 0.5s;
-    -webkit-transition-delay: 0s, 0.7s;
-    transition-delay: 0s, 0.7s;
+    -webkit-transition-property: box-shadow;
+    transition-property: box-shadow;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transition-delay: 0s;
+    transition-delay: 0s;
     position: relative;
-    width: 50px;
-    height: 100vh;
+    height: 100%;
     background-color: #333;
     color: #fff;
     display: inline-block;
@@ -52,12 +54,11 @@ body {
       -webkit-box-shadow: 1px 1px 15px 5px rgba(0, 0, 0, 0.3);
       -moz-box-shadow: 1px 1px 15px 5px rgba(0, 0, 0, 0.3);
       box-shadow: 1px 1px 15px 5px rgba(0, 0, 0, 0.3);
-      -webkit-transition-delay: 0s, 0.7s;
-      transition-delay: 0s, 0.7s;
-      z-index: 2;
-      width: 200px; }
+      z-index: 2; }
       .pagebox .pagebox_navbar:not(.pagebox_navbar__locked).pagebox_navbar__unfold + .pagebox_section, .pagebox .pagebox_navbar:not(.pagebox_navbar__locked):hover + .pagebox_section {
         width: calc(100% - 200px); }
+      .pagebox .pagebox_navbar:not(.pagebox_navbar__locked).pagebox_navbar__unfold .pagebox_menu, .pagebox .pagebox_navbar:not(.pagebox_navbar__locked):hover .pagebox_menu {
+        width: 200px; }
   .pagebox .pagebox_icon {
     display: -webkit-box;
     display: -webkit-flex;
@@ -79,9 +80,18 @@ body {
     font-size: 20px;
     border-bottom: 2px solid #fff; }
   .pagebox .pagebox_menu {
+    -webkit-transition-property: width;
+    transition-property: width;
+    -webkit-transition-delay: 0.7s;
+    transition-delay: 0.7s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
     padding: 0;
     margin: 0;
-    list-style: none; }
+    list-style: none;
+    width: 50px;
+    overflow: hidden;
+    height: calc(100vh - 52px); }
     .pagebox .pagebox_menu .pagebox_menu_li {
       width: 100%;
       display: block; }
@@ -152,6 +162,9 @@ body {
     max-height: 100vh;
     overflow-y: auto; }
 
+.company_wraper {
+  height: 100vh; }
+
 .company_pagebox > .pagebox_inner .pagebox_navbar {
   background-color: cadetblue; }
 
@@ -203,7 +216,8 @@ body {
   border-collapse: collapse;
   border-spacing: 0;
   width: 50vh;
-  min-width: 500px; }
+  min-width: 500px;
+  max-width: 100%; }
   .company_pagebox .companies_table td {
     padding: 12px 11px;
     vertical-align: middle;
@@ -219,7 +233,8 @@ body {
       display: inline-block;
       vertical-align: top;
       cursor: pointer;
-      color: cornflowerblue; }
+      color: cornflowerblue;
+      margin-right: 5px; }
       .company_pagebox .companies_table .row_toolbar .row_tool:hover {
         color: #3676e8; }
   .company_pagebox .companies_table .row_title {
@@ -231,11 +246,11 @@ body {
     .company_pagebox .companies_table .row_phones span {
       margin-right: 5px; }
 
-.company_pagebox #search {
+.company_pagebox .searchbar {
   height: 30px;
   position: relative;
   margin-right: 10px; }
-  .company_pagebox #search label {
+  .company_pagebox .searchbar label {
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-flex;
@@ -256,7 +271,7 @@ body {
     left: 0;
     width: 30px;
     height: 30px; }
-  .company_pagebox #search #search_input {
+  .company_pagebox .searchbar #search_input {
     height: 100%;
     padding: 5px 5px 5px 30px;
     background-color: transparent;
@@ -264,17 +279,17 @@ body {
     outline: none;
     color: #fff;
     font-size: 16px; }
-    .company_pagebox #search #search_input::-webkit-input-placeholder {
+    .company_pagebox .searchbar #search_input::-webkit-input-placeholder {
       color: rgba(255, 255, 255, 0.7);
       font-size: 14px; }
-    .company_pagebox #search #search_input::-moz-placeholder {
+    .company_pagebox .searchbar #search_input::-moz-placeholder {
       color: rgba(255, 255, 255, 0.7);
       font-size: 14px; }
-    .company_pagebox #search #search_input:-ms-input-placeholder {
+    .company_pagebox .searchbar #search_input:-ms-input-placeholder {
       color: rgba(255, 255, 255, 0.7);
       font-size: 14px; }
-    .company_pagebox #search #search_input:-moz-placeholder {
+    .company_pagebox .searchbar #search_input:-moz-placeholder {
       color: rgba(255, 255, 255, 0.7);
       font-size: 14px; }
-    .company_pagebox #search #search_input:focus {
+    .company_pagebox .searchbar #search_input:focus {
       border-bottom: 1px solid #fff; }

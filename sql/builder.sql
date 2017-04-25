@@ -61,7 +61,7 @@ BEGIN;
         address TEXT,
         email TEXT,
         summary TEXT,
-        contactor TEXT,
+        owner TEXT,
         created_at timestamp(0) default (now()),
         updated_at timestamp(0) default (now())
     );
@@ -72,6 +72,7 @@ BEGIN;
         id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
         type SMALLINT DEFAULT 0 NOT NULL, -- 0: 市話, 1: 傳真
         company_id INTEGER references company(id) ON DELETE CASCADE ON UPDATE CASCADE,
+        contactor TEXT,
         phone TEXT
     );
 

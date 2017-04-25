@@ -1,6 +1,5 @@
-{% autoescape %}
 <div class="pagebox">
-    {% spaceless %}
+
     <div class="pagebox_inner">
         {#
             -- Navbar --
@@ -24,6 +23,9 @@
                     <li
                         class="pagebox_menu_li"
                         v-for="item in menu"
+                        :class="{
+                            pagebox_menu_li__disable: item.disable
+                        }"
                     >
                         <div class="pagebox_menu_item" :title="item.title">
                             <div v-if="item.url">
@@ -59,6 +61,5 @@
             <slot name="section"></slot>
         </div>
     </div>
-    {% endspaceless %}
+
 </div>
-{% endautoescape %}

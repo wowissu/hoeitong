@@ -1,3 +1,8 @@
+.company_wraper
+{
+    height: 100vh;
+}
+
 .company_pagebox
 {
     $mainColor: cadetblue;
@@ -55,10 +60,12 @@
     {
         position: relative;
         margin-bottom: 20px;
+        // table-layout: fixed;
         border-collapse: collapse;
         border-spacing: 0;
         width: 50vh;
         min-width: 500px;
+        max-width: 100%;
 
         td
         {
@@ -85,6 +92,7 @@
                 vertical-align: top;
                 cursor: pointer;
                 color: cornflowerblue;
+                margin-right: 5px;
 
                 &:hover
                 {
@@ -111,7 +119,7 @@
         }
     }
 
-    #search
+    .searchbar
     {
         $regionHeight: 30px;
         $fontColor: #fff;

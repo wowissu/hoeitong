@@ -34,12 +34,12 @@
 
     .pagebox_navbar
     {
-        @include transition-property(box-shadow, width);
-        @include transition-duration($navbar_unfold_speed, $navbar_unfold_speed);
-        @include transition-delay(0s, $navbar_unfold_delay);
+        @include transition-property(box-shadow);
+        @include transition-duration($navbar_unfold_speed);
+        @include transition-delay(0s);
         position: relative;
-        width: $navbar_size;
-        height: 100vh;
+        // width: $navbar_size;
+        height: 100%;
         background-color: $navbar_bgcolor;
         color: $navbar_fontcolor;
         display: inline-block;
@@ -51,13 +51,18 @@
             &:hover
             {
                 @include box-shadow($navbar_shadow);
-                @include transition-delay(0s, $navbar_unfold_delay);
+                // @include transition-delay(0s, $navbar_unfold_delay);
                 z-index: 2;
-                width: $navbar_size_unfold;
+                // width: $navbar_size_unfold;
 
                 + .pagebox_section
                 {
                     width: calc(100% - #{$navbar_size_unfold});
+                }
+
+                .pagebox_menu
+                {
+                    width: $navbar_size_unfold;
                 }
             }
         }
@@ -76,14 +81,25 @@
 
         .pagebox_menu
         {
+            @include transition-property(width);
+            @include transition-delay($navbar_unfold_delay);
+            @include transition-duration($navbar_unfold_speed);
             padding: 0;
             margin: 0;
             list-style: none;
+            width: $navbar_size;
+            overflow: hidden;
+            height: calc(100vh - #{$navbar_size + 2px});
 
             .pagebox_menu_li
             {
                 width: 100%;
                 display: block;
+
+                &.pagebox_menu_li__disable
+                {
+
+                }
             }
         }
 

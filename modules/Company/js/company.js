@@ -4,6 +4,7 @@
 
     window.VueComponents = window.VueComponents || {};
 
+
     window.VueComponents.companiesComponent = {
         template: '#companies-template',
         methods: {
@@ -19,46 +20,71 @@
             {
                 console.log('remove company');
             },
+            filterCompanies: function (companies)
+            {
+                if (!companies.length) {
+                    return companies;
+                }
+
+                var $this = this;
+                var filterby = $this.table.filterby;
+
+                if (filterby.length && typeof filterby === 'string') {
+                    companies = companies.filter(function (row)
+                    {
+                        var live = false;
+
+                        deeploop(row, function (column)
+                        {
+                            if (column && column.toString().indexOf(filterby) >= 0) {
+                                live = true;
+                                return false;
+                            }
+                        });
+
+                        return live;
+                    });
+                }
+
+                return companies;
+            }
         },
         data: function () {
 
             var $this = this;
 
             return {
-                checkAll: false,
                 companies: [],
                 menu: {
                     insert: {
                         title: '新增廠商',
+                        icon: '<i class="fa fa-plus"></i>',
                         click: function ()
                         {
-                            $this.insertCompany();
-                        },
-                        icon: '<i class="fa fa-plus"></i>'
+                            if (!this.disable) {
+                                $this.insertCompany();
+                            }
+                        }
                     },
-                    remove: {
-                        title: '刪除廠商',
-                        click: function ()
-                        {
-                            $this.removeCompany();
-                        },
-                        icon: '<i class="fa fa-trash-o"></i>'
-                    },
+                    // remove: {
+                    //     disable: true,
+                    //     title: '刪除廠商',
+                    //     icon: '<i class="fa fa-trash-o"></i>',
+                    //     click: function ()
+                    //     {
+                    //         if (!this.disable) {
+                    //             $this.removeCompany();
+                    //         }
+                    //     }
+                    // },
                 },
                 navbar: {
                     locked: true
+                },
+                table: {
+                    filterby: ''
                 }
             };
-        },
-        watch: {
-            checkAll: function (state)
-            {
-                this.companies.map(function (company)
-                {
-                    company.checked = state;
-                    return company;
-                });
-            }
         },
         mounted: function ()
         {
@@ -69,7 +95,7 @@
             $this.getList()
                 .done(function (companies)
                 {
-                    console.log(companies);
+                    // console.log(companies);
                     $this.companies = companies;
                 });
         }
