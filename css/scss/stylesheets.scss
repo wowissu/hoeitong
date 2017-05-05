@@ -2,6 +2,8 @@
 
 @import "mixin";
 @import "app";
-@import "component";
+@import "components/pagebox";
+@import "components/form";
 
-@import "Company/boot";
+@import "site";
+@import "Company/company";

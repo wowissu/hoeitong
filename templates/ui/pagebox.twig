@@ -1,65 +1,62 @@
-<div class="pagebox">
-
+{% spaceless %}
+<div
+    class="pagebox"
+    :layout="layout"
+    :id="id"
+>
     <div class="pagebox_inner">
-        {#
-            -- Navbar --
-        #}
         <div
-            class="pagebox_navbar"
-            @click="navbar.locked = true"
-            :style="navbar.style"
+            :id="id"
+            class="pagebox_layout"
             :class="{
-                pagebox_navbar__locked: navbar.locked,
-                pagebox_navbar__unfold: navbar.unfold
+                layout__noheader: layout.header === false,
+                layout__nosidebar: layout.sidebar === false,
+                layout__empty: layout.empty === false,
+                layout__nologo: layout.logo === false
+                {# layout__sidebarlocked: sidebar.locked #}
+            }"
+        ></div>
+        <div
+            class="pagebox_sidebar"
+            :class="{
+                pagebox_sidebar__locker: sidebar.locked,
+                pagebox_sidebar__unfold: sidebar.unfold,
+                pagebox_sidebar__hover_unfold: sidebar.hoverUnfold
             }"
         >
-            <div class="pagebox_navbar_inner">
-                <div class="pagebox_icon">
-                    <slot name="logo">
-                        <i class="fa fa-list-ul"></i>
-                    </slot>
-                </div>
-                <ul class="pagebox_menu">
-                    <li
-                        class="pagebox_menu_li"
-                        v-for="item in menu"
-                        :class="{
-                            pagebox_menu_li__disable: item.disable
-                        }"
-                    >
-                        <div class="pagebox_menu_item" :title="item.title">
-                            <div v-if="item.url">
-                                <router-link
-                                    class="item_header"
-                                    :to="item.url"
-
-                                >
-                                    <div class="item_icon" v-html="item.icon"></div>
-                                    <div class="item_title" v-text="item.title"></div>
-                                </router-link>
-                            </div>
-                            <div v-else>
-                                <div
-                                    class="item_header"
-                                    @click="item.click()"
-                                >
-
-                                    <div class="item_icon" v-html="item.icon"></div>
-                                    <div class="item_title" v-text="item.title"></div>
-                                </div>
-                            </div>
-
+            <ul class="pagebox_menu">
+                <li
+                    class="pagebox_menu_li"
+                    v-for="item in menu"
+                    v-show="!item.hidden"
+                    :class="{
+                        pagebox_menu_li__disable: item.disable
+                    }"
+                >
+                    <div class="pagebox_menu_item" :title="item.title">
+                        <router-link :to="item.url" class="item_header" v-if="item.url">
+                            <div class="item_icon" v-html="item.icon"></div>
+                            <div class="item_title" v-text="item.title"></div>
+                        </router-link>
+                        <div v-else class="item_header" @click="item.disable || item.click()">
+                            <div class="item_icon" v-html="item.icon"></div>
+                            <div class="item_title" v-text="item.title"></div>
                         </div>
-                    </li>
-                </ul>
-            </div>
+                    </div>
+                </li>
+            </ul>
         </div>
-        {#
-            -- Section --
-        #}
+        <div class="pagebox_logo">
+            <slot name="logo">
+                <i class="fa fa-list-ul" @click="sidebar.unfold = !sidebar.unfold"></i>
+            </slot>
+        </div>
+        <div class="pagebox_header">
+            <slot name="header"></slot>
+        </div>
         <div class="pagebox_section">
             <slot name="section"></slot>
         </div>
     </div>
-
 </div>
+{% endspaceless %}

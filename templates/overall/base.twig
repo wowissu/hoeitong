@@ -1,17 +1,18 @@
 {% extends 'overall/html.twig' %}
 
-
 {% block Body %}
 
     <div class="pagebox_wraper">
         <pagebox
             id="site"
+            :layout="{
+                header: false
+            }"
             :menu="sitemenu"
+            class="default"
         >
             <template slot="section">
-                <div>
-                    <router-view></router-view>
-                </div>
+                <router-view></router-view>
             </template>
         </pagebox>
     </div>
@@ -28,9 +29,7 @@
     </script>
 
     <script type="text/x-template" id="company-template">
-        <div>
-            company id
-        </div>
+        {% include 'Company/detail.twig' %}
     </script>
 {% endblock %}
 
@@ -40,7 +39,5 @@
     <script src="js/Company/company.js"></script>
 
     {{ parent() }}
-    {# <script src="js/pages/object.js"></script> #}
-    {# <script src="js/pages/tools.js"></script> #}
 {% endblock scripts %}
 

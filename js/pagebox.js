@@ -9,25 +9,36 @@
                 type: Object,
                 required: true
             },
-            navbar: {
+            sidebar: {
                 type: Object,
-                default: {
-                    locked: false,
-                    unfold: false,
-                    style: {}
+                default: function () {
+                    return {
+                        locked: false,
+                        unfold: false,
+                        hoverUnfold: false,
+                        style: {}
+                    };
                 }
-            }
+            },
+            layout: {
+                type: String,
+                default: function () {
+                    return {};
+                },
+            },
         },
         template: '#pagebox-template',
         data: function ()
         {
             var $this = this;
 
-            return {};
+            return {
+                sidebarunfold: false,
+            };
         },
         mounted: function ()
         {
-            // console.log('pagebox mounted', this);
+
         }
     });
 

@@ -73,7 +73,8 @@ BEGIN;
         type SMALLINT DEFAULT 0 NOT NULL, -- 0: 市話, 1: 傳真
         company_id INTEGER references company(id) ON DELETE CASCADE ON UPDATE CASCADE,
         contactor TEXT,
-        phone TEXT
+        phone TEXT,
+        ranking integer
     );
 
     -- 工具

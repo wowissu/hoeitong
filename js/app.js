@@ -5,16 +5,23 @@
     var router = new VueRouter({
         routes: [
             {
+                name: 'companyList',
                 path: '/company',
-                component: VueComponents.companiesComponent,
+                component: VueComponents.companyListComponent,
                 children: [
                     {
+                        name: 'companyDetail',
                         path: ':id',
                         component: VueComponents.companyComponent
                     }
                 ]
-            },
-        ]
+            }
+        ],
+        scrollBehavior: function ()
+        {
+            console.log('scrollBehavior');
+            return { x: 0, y: 0 };
+        }
     });
 
     var app = new Vue({
@@ -39,6 +46,5 @@
             }
         }
     }).$mount('#app');
-
 
 }());
