@@ -15,4 +15,5 @@ class Company extends BaseModel
     {
         return $this->hasMany(Phones::class, 'company_id');
     }
+
 }

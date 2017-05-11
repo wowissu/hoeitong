@@ -7,12 +7,17 @@
             {
                 name: 'companyList',
                 path: '/company',
-                component: VueComponents.companyListComponent,
+                component: RouteComponents.companyComponent,
                 children: [
+                    {
+                        name: 'companyInsert',
+                        path: 'insert',
+                        component: RouteComponents.companyComponent
+                    },
                     {
                         name: 'companyDetail',
                         path: ':id',
-                        component: VueComponents.companyComponent
+                        component: RouteComponents.companyComponent
                     }
                 ]
             }
@@ -24,7 +29,7 @@
         }
     });
 
-    var app = new Vue({
+    window.app = new Vue({
         router: router,
         data: {
             sitemenu: {
@@ -44,7 +49,7 @@
                     icon: '<i class="fa fa-wrench"></i>'
                 }
             }
-        }
+        },
     }).$mount('#app');
 
 }());

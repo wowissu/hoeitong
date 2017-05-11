@@ -25,8 +25,15 @@
         </div>
     </template>
     <template slot="section">
-        <router-view v-if="id"></router-view>
-        <div class="company_section" v-else>
+        {#
+            -- Company Detail Component --
+        #}
+        <company v-if="editCompany" :bind="editCompany"></company>
+
+        {#
+            -- Company List --
+        #}
+        <div v-else class="company_section">
             <div class="company_body pagebox_section_scroll">
                 <table class="companies_table">
                     <thead>
@@ -73,7 +80,7 @@
                             </td>
                             <td>
                                 <div class="row_toolbar">
-                                    <span class="row_tool trash">
+                                    <span class="row_tool trash" @click="removeCompany(company.id)">
                                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     </span>
                                 </div>

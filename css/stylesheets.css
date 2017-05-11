@@ -291,6 +291,9 @@ body {
 #companyList .pagebox_menu_li:not(.pagebox_menu_li__disable) .item_header:hover {
   color: rgba(0, 0, 0, 0.5); }
 
+#companyList .pagebox_menu_li:not(.pagebox_menu_li__disable) .item_header.router-link-active {
+  color: currentColor; }
+
 #companyList .company_section {
   position: relative;
   width: 100%; }

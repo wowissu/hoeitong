@@ -31,12 +31,14 @@
     <script type="text/x-template" id="company-template">
         {% include 'Company/detail.twig' %}
     </script>
+
 {% endblock %}
 
 {% block scripts %}
 
     <script src="js/pagebox.js"></script>
     <script src="js/Company/company.js"></script>
+    <script src="js/Object/object.js"></script>
 
     {{ parent() }}
 {% endblock scripts %}

@@ -2,32 +2,28 @@
 {
     "use strict";
 
-    window.VueComponents = window.VueComponents || {};
+    var evt = window.evt || (window.evt = new Vue());
+    var routeComps = window.RouteComponents || (window.RouteComponents = {});
 
-    window.VueComponents.companyListComponent = function (resolve)
+    routeComps.companyComponent = function (resolve)
     {
         var data = function ()
         {
             var $this = this;
 
             return {
-                get id () {
-                    return $this.$route.params.id;
-                },
                 layout: {
                     get header () {
-                        return $this.id ? false : null;
+                        return $this.editCompany ? false : null;
                     }
                 },
                 companies: [],
+                editCompany: false,
                 menu: {
                     insert: {
                         title: '新增廠商',
                         icon: '<i class="fa fa-plus"></i>',
-                        click: function ()
-                        {
-                            $this.insertCompany();
-                        }
+                        url: '/company/insert'
                     }
                 },
                 sidebar: {
@@ -39,38 +35,45 @@
             };
         };
 
-        var getList = function ()
-        {
-            return $.getJSON('api/company');
-        };
-
-        var getCompany = function (id)
-        {
-            return
-        };
-
-        var updateCompany = function (id)
+        var editCompanyById = function (id)
         {
             var $this = this;
 
-            $.getJSON('api/company/' + id).then(function (data) {
-                for (var key in $this.companies) {
-                    if ($this.companies[key].id == data.id) {
-                        $this.companies[key] = data;
-                        break;
-                    }
+            for (var key in $this.companies) {
+                if ($this.companies[key].id == id) {
+                    $this.editCompany = $this.companies[key];
+                    break;
                 }
-            });
+            }
+
+            return $this;
         };
 
         var insertCompany = function ()
         {
             console.log('create company');
+            var $this = this;
+
+            $this.editCompany = {};
         };
 
         var removeCompany = function (id)
         {
-            console.log('remove company: ', id);
+            var $this = this;
+
+            if (id && confirm('確定要刪除廠商？')) {
+                $.delete('api/company/' + id).done(function (result)
+                {
+                    if (result.success) {
+                        $this.companies.forEach(function (company, key)
+                        {
+                            if (company.id == id) {
+                                $this.companies.splice(key, 1);
+                            }
+                        });
+                    }
+                });
+            }
         };
 
         var filterCompanies = function (companies)
@@ -102,36 +105,100 @@
             return companies;
         };
 
+        var checkRouteUpdate = function ()
+        {
+            var $this = this;
+            var $route = $this.$route;
+
+            if ($this.companies.length == 0) {
+                return $.get('api/company').done(function (result)
+                {
+                    if (result.success) {
+                        $this.companies = result.data;
+                        $this.checkRouteUpdate();
+                    }
+                });
+            }
+
+            switch ($route.name) {
+                case 'companyDetail':
+                    $this.editCompanyById($route.params.id);
+                break;
+                case 'companyInsert':
+                    $this.insertCompany();
+                break;
+            }
+
+            return $this;
+        }
+
         resolve({
             template: '#companies-template',
             data: data,
             methods: {
-                getList: getList,
                 insertCompany: insertCompany,
                 removeCompany: removeCompany,
                 filterCompanies: filterCompanies,
-                updateCompany: updateCompany,
+                editCompanyById: editCompanyById,
+                checkRouteUpdate: checkRouteUpdate
             },
             mounted: function ()
             {
                 var $this = this;
 
-                $this.getList()
-                    .done(function (companies)
+                setTimeout(function ()
+                {
+                    $this.checkRouteUpdate();
+                });
+
+                // 更新廠商
+                evt.$on('save.company', function (company)
+                {
+                    console.log('save:', company);
+
+                    $.extend($this.editCompany, company);
+                    $this.$router.push({ name: 'companyList' });
+                });
+
+                // 新增廠商
+                evt.$on('insert.company', function (company)
+                {
+                    console.log('insert: ', company);
+
+                    $this.companies.push(company);
+                    $this.$router.push({ name: 'companyDetail', params: { id: company.id } });
+                });
+
+                evt.$on('delete.company', function (company)
+                {
+                    console.log('delete:', company);
+
+
+                });
+            },
+            beforeRouteUpdate: function (route, prev, next)
+            {
+                var $this = this;
+
+                if ($this) {
+                    $this.editCompany = false;
+
+                    setTimeout(function ()
                     {
-                        // console.log(companies);
-                        $this.companies = companies;
+                        $this.checkRouteUpdate();
                     });
+                }
+
+                next();
             }
         });
     };
 
-    window.VueComponents.companyComponent = function (resolve) {
-
+    Vue.component('company', function (resolve)
+    {
         var data = function ()
         {
             var $this = this;
-            var $route = $this.$route;
 
             var menu = {
                 prev: {
@@ -189,7 +256,6 @@
                             {
                                 setTimeout(function () {
                                     var el = $('[index='+ (length-1) +']').focus();
-                                    console.log(el);
                                 });
                             });
                         }
@@ -202,106 +268,82 @@
                 remove: function (key)
                 {
                     if (key in $this.company.phones) {
-                        if (confirm('確認要移除電話？')) {
-                            $this.company.phones.splice(key, 1);
-                            $this.phoneschange += 1;
-                        }
+                        $this.company.phones.splice(key, 1);
+                        $this.phoneschange += 1;
                     }
                 }
             };
 
             return {
-                get id () { return $route.params.id; },
-                formstate: {},
+                pureBind: false,
                 company: {},
+                formstate: {},
                 menu: menu,
                 PhoneControl: PhoneControl,
                 phoneschange: 0,
             };
         };
 
-        var getCompany = function (id)
-        {
-            return $.getJSON('api/company/' + id);
-        };
-
-        var setId = function (companyId)
-        {
-            var $this = this;
-
-            $this.getCompany(companyId)
-                .done(function (data)
-                {
-                    console.log(data);
-                    $this.company = data;
-                })
-                .fail(function ()
-                {
-                    $this.$router.push({ name: 'companyList' });
-                });
-
-            return $this;
-        };
-
-        var setRoute = function (route)
-        {
-            var $this = this;
-                $this.editmod = false;
-
-            // console.log(route);
-
-            // 如果不是當前公司，就重新拿一個
-            if (route.params.id != $this.company.id) {
-                $this.setId(route.params.id);
-            }
-
-            if (route.name == 'companyEditor') {
-                $this.editmod = true;
-            }
-        };
-
         var saveSubmit = function (formstate)
         {
             var $this = this;
 
+
+            // 通過驗證並被修改過
             if (formstate.$valid && formstate.$dirty) {
 
+
                 var company = $this.company;
+                var $route = $this.$route;
+                var eventName = 'save.company';
+                var request = {
+                    url: 'api/company/' + company.id,
+                    type: 'PUT',
+                    data: {
+                        id      : company.id,
+                        title   : company.title,
+                        email   : company.email,
+                        summary : company.summary,
+                        address : company.address,
+                        owner   : company.owner,
+                        phones  : company.phones
+                    },
+                };
 
-                console.log('submit', company);
+                if ($route.name == 'companyInsert') {
+                    request.type = 'POST';
+                    request.url  = 'api/company';
+                    eventName    = 'insert.company';
+                }
 
-                $.post('api/company/update', {
-                    id: company.id,
-                    title: company.title,
-                    email: company.email,
-                    summary: company.summary,
-                    address: company.address,
-                    owner: company.owner,
-                    phones: company.phones
-                })
-                .then(function (data)
+                $.ajax(request).done(function (result)
                 {
-                    $this.$router.push({ name: 'companyList' });
-
-                    // console.log($this);
-                    // location.reload();
+                    if (result.success) {
+                        evt.$emit(eventName, result.data);
+                    }
                 });
             }
         };
 
         resolve({
             template: '#company-template',
+            props: {
+                bind: {
+                    type: Object,
+                    required: true
+                }
+            },
             data: data,
             methods: {
-                getCompany: getCompany,
-                setId: setId,
-                setRoute: setRoute,
                 saveSubmit: saveSubmit
             },
             mounted: function ()
             {
                 var $this = this;
-                $this.setRoute($this.$route);
+
+                $this.company = JSON.parse(JSON.stringify($this.bind));
+
+                $this.company.phones = $this.company.phones || [];
             },
             watch: {
                 phoneschange: function ()
@@ -309,19 +351,8 @@
                     this.formstate.phones.$dirty = true;
                     this.formstate.phones.$touched = true;
                 }
-            },
-            beforeRouteUpdate: function (route, prev, next)
-            {
-                var $this = this;
-
-                if ($this) {
-                    $this.setRoute(route);
-                }
-
-                next();
             }
         });
-
-    };
+    });
 
 }());

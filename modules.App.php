@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_NOTICE);
+
 // error handle
 include 'modules/App/PhpErrorHandler.php';
 include 'modules/App/NotFoundHandler.php';
