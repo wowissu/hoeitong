@@ -10,7 +10,7 @@
         sidebarBgColor: $mainColor,
         headerBgColor: $mainColor,
         itemHoverFontColor: rgba(0, 0, 0, 0.5),
-        itemActiveFontColor: darken($mainColor, 10%);
+        itemActiveFontColor: darken($mainColor, 10%)
     ));
 
     .company_section
@@ -18,25 +18,6 @@
         position: relative;
         width: 100%;
     }
-
-    // .company_navheader
-    // {
-    //     height: $navheaderHeight;
-    //     width: 100%;
-    //     display: block;
-    //     border-bottom: 2px solid #fff;
-    //     color: #fff;
-    //     padding: 10px;
-
-    //     .navheader_inner
-    //     {
-    //         @include flexbox();
-    //         @include flex-just(flex-start);
-    //         @include align-items(center);
-    //         height: 100%;
-    //         width: 100%;
-    //     }
-    // }
 
     .company_navheader
     {
@@ -117,67 +98,6 @@
                 margin-right: 5px;
             }
         }
-    }
-
-    .searchbar
-    {
-        $regionHeight: 30px;
-        $fontColor: #fff;
-        $fontSize: 16px;
-        $fontHoverSize: 14px;
-
-        height: $regionHeight;
-        position: relative;
-        margin-right: 10px;
-
-        label
-        {
-            @include flexbox();
-            @include flex-just(center);
-            @include align-items(center);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: $regionHeight;
-            height: $regionHeight;
-            cursor: pointer;
-        }
-
-        .clean_input
-        {
-            cursor: pointer;
-            display: inline-block;
-            vertical-align: middle;
-
-            &:hover
-            {
-                opacity: 0.8;
-            }
-
-            &:active
-            {
-                margin-top: 1px;
-            }
-        }
-
-        #search_input
-        {
-            height: 100%;
-            padding: 5px 5px 5px $regionHeight;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            color: $fontColor;
-            font-size: $fontSize;
-
-            @include placeholder
-            {
-                color: rgba($fontColor, .7);
-                font-size: $fontHoverSize;
-            }
-        }
-
-
     }
 }
 
@@ -283,6 +203,23 @@
             .item_phone
             {
                 @include flex(1);
+
+                &.vf-field-dirty
+                {
+                    &.vf-field-invalid-required
+                    {
+                        // border-top: 1px solid red;
+                        // border-bottom: 1px solid red;
+
+                        input.vf-invalid-required
+                        {
+                            @include placeholder
+                            {
+                                color: $vf-invalid-color;
+                            }
+                        }
+                    }
+                }
             }
 
             .item_control
@@ -336,3 +273,61 @@
 }
 
 
+.searchbar
+{
+    $regionHeight: 30px;
+    $fontColor: #fff;
+    $fontSize: 16px;
+    $fontHoverSize: 14px;
+
+    height: $regionHeight;
+    position: relative;
+    margin-right: 10px;
+
+    label
+    {
+        @include flexbox();
+        @include flex-just(center);
+        @include align-items(center);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: $regionHeight;
+        height: $regionHeight;
+        cursor: pointer;
+    }
+
+    .clean_input
+    {
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+
+        &:hover
+        {
+            opacity: 0.8;
+        }
+
+        &:active
+        {
+            margin-top: 1px;
+        }
+    }
+
+    #search_input
+    {
+        height: 100%;
+        padding: 5px 5px 5px $regionHeight;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: $fontColor;
+        font-size: $fontSize;
+
+        @include placeholder
+                  {
+            color: rgba($fontColor, .7);
+            font-size: $fontHoverSize;
+        }
+    }
+}

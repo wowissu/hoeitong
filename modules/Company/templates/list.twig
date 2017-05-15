@@ -1,7 +1,9 @@
 <pagebox
     id="companyList"
     :menu="menu"
-    :sidebar="sidebar"
+    :sidebar="{
+        locked: true
+    }"
     :layout="layout"
 >
     <template slot="logo">

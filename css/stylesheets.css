@@ -292,7 +292,7 @@ body {
   color: rgba(0, 0, 0, 0.5); }
 
 #companyList .pagebox_menu_li:not(.pagebox_menu_li__disable) .item_header.router-link-active {
-  color: currentColor; }
+  color: #678e33; }
 
 #companyList .company_section {
   position: relative;
@@ -359,61 +359,6 @@ body {
     padding: 0; }
     #companyList .companies_table .row_phones span {
       margin-right: 5px; }
-
-#companyList .searchbar {
-  height: 30px;
-  position: relative;
-  margin-right: 10px; }
-  #companyList .searchbar label {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    -moz-justify-content: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    -moz-align-items: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 30px;
-    height: 30px;
-    cursor: pointer; }
-  #companyList .searchbar .clean_input {
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: middle; }
-    #companyList .searchbar .clean_input:hover {
-      opacity: 0.8; }
-    #companyList .searchbar .clean_input:active {
-      margin-top: 1px; }
-  #companyList .searchbar #search_input {
-    height: 100%;
-    padding: 5px 5px 5px 30px;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: #fff;
-    font-size: 16px; }
-    #companyList .searchbar #search_input::-webkit-input-placeholder {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 14px; }
-    #companyList .searchbar #search_input::-moz-placeholder {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 14px; }
-    #companyList .searchbar #search_input:-ms-input-placeholder {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 14px; }
-    #companyList .searchbar #search_input:-moz-placeholder {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 14px; }
 
 #companyDetail .pagebox_header {
   background-color: #678e33; }
@@ -502,6 +447,14 @@ body {
     -moz-flex: 1;
     -ms-flex: 1;
     flex: 1; }
+    #companyDetail .company_form .phones_item .item_phone.vf-field-dirty.vf-field-invalid-required input.vf-invalid-required::-webkit-input-placeholder {
+      color: #de1d5f; }
+    #companyDetail .company_form .phones_item .item_phone.vf-field-dirty.vf-field-invalid-required input.vf-invalid-required::-moz-placeholder {
+      color: #de1d5f; }
+    #companyDetail .company_form .phones_item .item_phone.vf-field-dirty.vf-field-invalid-required input.vf-invalid-required:-ms-input-placeholder {
+      color: #de1d5f; }
+    #companyDetail .company_form .phones_item .item_phone.vf-field-dirty.vf-field-invalid-required input.vf-invalid-required:-moz-placeholder {
+      color: #de1d5f; }
   #companyDetail .company_form .phones_item .item_control {
     width: 34px;
     padding: 0 8px;
@@ -535,3 +488,132 @@ body {
     font-size: 14px;
     padding: 0 8px;
     background-color: transparent; }
+
+.searchbar {
+  height: 30px;
+  position: relative;
+  margin-right: 10px; }
+  .searchbar label {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    cursor: pointer; }
+  .searchbar .clean_input {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle; }
+    .searchbar .clean_input:hover {
+      opacity: 0.8; }
+    .searchbar .clean_input:active {
+      margin-top: 1px; }
+  .searchbar #search_input {
+    height: 100%;
+    padding: 5px 5px 5px 30px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 16px; }
+    .searchbar #search_input::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px; }
+    .searchbar #search_input::-moz-placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px; }
+    .searchbar #search_input:-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px; }
+    .searchbar #search_input:-moz-placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px; }
+
+#object {
+  position: relative; }
+  #object .pagebox_header {
+    background-color: #2e88d0; }
+  #object .pagebox_sidebar {
+    background-color: #2e88d0; }
+  #object .pagebox_logo {
+    background-color: #2e88d0; }
+  #object .pagebox_menu_li:not(.pagebox_menu_li__disable) .item_header:hover {
+    color: rgba(0, 0, 0, 0.5); }
+  #object .pagebox_menu_li:not(.pagebox_menu_li__disable) .item_header.router-link-active {
+    color: #256da6; }
+  #object .object_navheader {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    color: #fff;
+    padding: 0 10px; }
+  #object .object_table {
+    position: relative;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    min-width: 800px;
+    max-width: 100%; }
+    #object .object_table td {
+      padding: 12px 11px;
+      vertical-align: middle;
+      border-top: 1px solid #CCC5B9; }
+    #object .object_table th {
+      padding: 8px 11px;
+      vertical-align: middle;
+      font-size: 1.2rem;
+      text-align: left; }
+    #object .object_table .th_id {
+      width: 30px; }
+    #object .object_table .th_summary {
+      width: 10vw; }
+    #object .object_table .th_toolbar,
+    #object .object_table .row_toolbar {
+      text-align: right; }
+      #object .object_table .th_toolbar .row_tool,
+      #object .object_table .row_toolbar .row_tool {
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        color: cornflowerblue;
+        margin-right: 5px; }
+        #object .object_table .th_toolbar .row_tool:hover,
+        #object .object_table .row_toolbar .row_tool:hover {
+          color: #3676e8; }
+    #object .object_table .row_id {
+      text-align: center; }
+    #object .object_table .row_summary {
+      max-height: 48px;
+      overflow-y: hidden;
+      display: block;
+      text-overflow: ellipsis;
+      white-space: pre; }

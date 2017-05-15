@@ -20,6 +20,18 @@
                         component: RouteComponents.companyComponent
                     }
                 ]
+            },
+            {
+                name: 'object',
+                path: '/object',
+                component: RouteComponents.objectComponent,
+                children: [
+                    {
+                        name: 'objectDetail',
+                        path: ':id',
+                        component: RouteComponents.objectComponent
+                    }
+                ]
             }
         ],
         scrollBehavior: function ()

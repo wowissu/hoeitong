@@ -10,6 +10,13 @@
         var data = function ()
         {
             var $this = this;
+            var menu = {
+                insert: {
+                    title: '新增廠商',
+                    icon: '<i class="fa fa-plus"></i>',
+                    url: '/company/insert'
+                }
+            };
 
             return {
                 layout: {
@@ -19,16 +26,7 @@
                 },
                 companies: [],
                 editCompany: false,
-                menu: {
-                    insert: {
-                        title: '新增廠商',
-                        icon: '<i class="fa fa-plus"></i>',
-                        url: '/company/insert'
-                    }
-                },
-                sidebar: {
-                    locked: true
-                },
+                menu: menu,
                 table: {
                     filterby: ''
                 }
@@ -169,12 +167,10 @@
                     $this.$router.push({ name: 'companyDetail', params: { id: company.id } });
                 });
 
-                evt.$on('delete.company', function (company)
-                {
-                    console.log('delete:', company);
-
-
-                });
+                // evt.$on('delete.company', function (company)
+                // {
+                //     console.log('delete:', company);
+                // });
             },
             beforeRouteUpdate: function (route, prev, next)
             {
@@ -275,12 +271,14 @@
             };
 
             return {
-                pureBind: false,
+                get inserted() {
+                    return $this.$route.name == 'companyInsert';
+                },
                 company: {},
                 formstate: {},
+                phoneschange: 0,
                 menu: menu,
                 PhoneControl: PhoneControl,
-                phoneschange: 0,
             };
         };
 

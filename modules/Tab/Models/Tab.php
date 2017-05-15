@@ -10,4 +10,10 @@ class Tab extends BaseModel
 {
     protected $table = 'tabs';
     protected $fillable = ['title'];
+
+
+    public function tab()
+    {
+        return $this->belongsToMany(TabShip::class, 'tab_id');
+    }
 }
