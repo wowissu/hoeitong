@@ -93,7 +93,8 @@ BEGIN;
     CREATE TABLE IF NOT EXISTS tabs
     (
         id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
-        title TEXT
+        title TEXT,
+        ship_count INTEGER DEFAULT 0 NOT NULL -- 被關聯的次數
     );
 
     -- 標籤與關係id
@@ -112,6 +113,7 @@ BEGIN;
         relate_id INTEGER references object(id) ON DELETE CASCADE ON UPDATE CASCADE, --
         parent_id INTEGER references object(id) ON DELETE CASCADE ON UPDATE CASCADE, --
         manual_id INTEGER references manual(id) ON DELETE NO ACTION ON UPDATE CASCADE, -- 文件
+        lineage LTREE,
         title TEXT,
         model TEXT,
         summary TEXT,
@@ -142,5 +144,45 @@ BEGIN;
         PRIMARY KEY (object_id, company_id)
     );
 
+    --
+    -- Tab counter
+    --
+    CREATE OR REPLACE FUNCTION tab_counter() RETURNS trigger AS $tab_counter$
+        BEGIN
+            UPDATE tabs SET ship_count = (SELECT count(id) FROM tab_ship WHERE relate_id = NEW.relate_id) WHERE id = NEW.tab_id;
+            RETURN NEW;
+        END;
+    $tab_counter$ LANGUAGE plpgsql;
+
+    CREATE TRIGGER tab_counter AFTER INSERT OR UPDATE ON tab_ship
+        FOR EACH ROW EXECUTE PROCEDURE tab_counter();
+
+    --
+    -- LTree
+    --
+    CREATE INDEX object_lineage_idx ON object USING GIST (lineage);
+    CREATE INDEX object_parent_id_idx ON object (parent_id);
+
+    CREATE OR REPLACE FUNCTION update_files_lineage () RETURNS TRIGGER AS $$
+        DECLARE
+            path ltree;
+        BEGIN
+            IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' OR OLD.parent_id != NEW.parent_id THEN
+                SELECT lineage || id::text FROM object WHERE id = NEW.parent_id INTO path;
+                IF path IS NULL THEN
+                    NEW.lineage = 'root'::ltree;
+                ELSE
+                    NEW.lineage = path;
+                END IF;
+            END IF;
+            RETURN NEW;
+        END;
+    $$ LANGUAGE plpgsql;
+
+    CREATE TRIGGER lineage_tgr
+        BEFORE INSERT OR UPDATE ON object
+        FOR EACH ROW EXECUTE PROCEDURE update_files_lineage();
 
 COMMIT;
+
+
