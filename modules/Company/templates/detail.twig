@@ -1,6 +1,5 @@
 <pagebox
     id="companyDetail"
-    :layout="{}"
     :menu="menu"
 >
     <template slot="logo">
@@ -17,9 +16,8 @@
     </template>
     <template slot="section">
         <div class="company_detail">
-
             <div class="company_edit_form">
-                <vue-form :state="formstate" {# @submit.prevent="saveSubmit(formstate)" #} class="vf-form company_form">
+                <vue-form :state="formstate" class="vf-form company_form">
 
                     <validate tag="div" class="vf-group">
                         <label class="vf-label" for="title">公司名稱：</label>

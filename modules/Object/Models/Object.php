@@ -21,7 +21,9 @@ class Object extends BaseModel
 
     public function tabs()
     {
-        return $this->hasMany(TabShip::class, 'relate_id');
+        return $this->hasMany(TabShip::class, 'relate_id')
+            ->join('tabs', 'tab_ship.tab_id', '=', 'tabs.id')
+            ->select('tab_ship.id', 'relate_id', 'ship_count', 'tab_id', 'title');
     }
 
     public function images()

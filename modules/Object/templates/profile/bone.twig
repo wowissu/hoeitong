@@ -1,0 +1,18 @@
+<pagebox
+    id="object"
+    :menu="menu"
+    :config="{
+        sidebarLocked: true
+    }"
+>
+    <template slot="logo">
+        <i class="fa fa-cube" v-show="object.type == 2"></i>
+        <i class="fa fa-cog" v-show="object.type == 1"></i>
+    </template>
+    <template slot="header">
+        <div class="profile_header"><h2 v-text="object.title"></h2></div>
+    </template>
+    <tempalte slot="section">
+        <router-view :object="object"></router-view>
+    </tempalte>
+</pagebox>

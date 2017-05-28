@@ -1,0 +1,12 @@
+<div class="node_item">
+    <div class="node_header" :type="node.type" :id="node.id">
+        <span class="node_type__part"><i class="fa fa-folder"></i></span>
+        <span class="node_type__spec"><i class="fa fa-link"></i></span>
+        <span v-text="node.title"></span>
+    </div>
+    <ul class="node_ul">
+        <li class="node_li" v-for="child in node[childnode]">
+            <treenode :node="child" :parent="node" />
+        </li>
+    </ul>
+</div>

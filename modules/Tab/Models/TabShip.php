@@ -9,6 +9,7 @@ use \Modules\App\BaseModel;
 class TabShip extends BaseModel
 {
     protected $table = 'tab_ship';
+    protected $fillable = ['relate_id', 'tab_id'];
 
     public function tab()
     {

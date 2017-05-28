@@ -2,7 +2,7 @@
 {
     "use strict";
 
-    var evt = window.evt || (window.evt = new Vue());
+    var bus = window.bus || (window.bus = new Vue());
     var routeComps = window.RouteComponents || (window.RouteComponents = {});
 
     routeComps.objectComponent = function (resolve)
@@ -30,7 +30,12 @@
             return {
                 search: '',
                 menu: menu,
-                showHeader: undefined,
+                pageboxConfig: {
+                    sidebarLocked: true,
+                    get layoutHeader() {
+                        return !$this.$route.params.id;
+                    },
+                },
                 objectList: [],
             };
         };
@@ -92,22 +97,7 @@
                 template: template,
                 data: $COMP.data,
                 methods: $COMP.methods,
-                mounted: $COMP.mounted,
-                beforeRouteUpdate: function (route, prev, next)
-                {
-                    var $this = this;
-
-                    if ($this) {
-                        $this.editCompany = false;
-
-                        setTimeout(function ()
-                        {
-                            $this.checkRouteUpdate();
-                        });
-                    }
-
-                    next();
-                }
+                mounted: $COMP.mounted
             });
         });
     };

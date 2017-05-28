@@ -3,11 +3,15 @@
     "use strict";
 
     var router = new VueRouter({
+        // mode: 'history',
         routes: [
             {
                 name: 'companyList',
                 path: '/company',
                 component: RouteComponents.companyComponent,
+                meta: {
+                    scrollTop: 0
+                },
                 children: [
                     {
                         name: 'companyInsert',
@@ -27,18 +31,36 @@
                 component: RouteComponents.objectComponent,
                 children: [
                     {
-                        name: 'objectDetail',
+                        props: true,
                         path: ':id',
-                        component: RouteComponents.objectComponent
+                        redirect: function (route) {
+                            return { name: 'objectProfile', params: route.params };
+                        },
+                        component: RouteComponents.objectProfileBase,
+                        children: [
+                            {
+                                props: ['object'],
+                                name: 'objectProfile',
+                                path: 'profile',
+                                component: RouteComponents.objectProfile,
+                            },
+                            {
+                                props: ['object'],
+                                name: 'objectElements',
+                                path: 'elements',
+                                component: RouteComponents.objectProfileElements
+                            },
+                            {
+                                props: ['object'],
+                                name: 'objectManual',
+                                path: 'manual',
+                                component: RouteComponents.objectProfileManual
+                            }
+                        ]
                     }
                 ]
             }
-        ],
-        scrollBehavior: function ()
-        {
-            console.log('scrollBehavior');
-            return { x: 0, y: 0 };
-        }
+        ]
     });
 
     window.app = new Vue({
@@ -62,6 +84,9 @@
                 }
             }
         },
+        filters: {
+            json: function (value) { return JSON.stringify(value, null, 2); }
+        }
     }).$mount('#app');
 
 }());

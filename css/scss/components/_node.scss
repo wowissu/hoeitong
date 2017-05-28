@@ -1,0 +1,26 @@
+.node_item
+{
+
+    .node_header
+    {
+        margin-bottom: 10px;
+
+        .node_type__spec,
+        .node_type__part {
+            display: none;
+        }
+
+        &[type="3"] .node_type__part,
+        &[type="4"] .node_type__spec {
+            display: inline-block;
+        }
+    }
+
+    .node_ul
+    {
+        margin: 0;
+        padding: 0;
+        padding-left: 20px;
+        list-style: none;
+    }
+}

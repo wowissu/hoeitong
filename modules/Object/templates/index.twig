@@ -1,13 +1,7 @@
 <pagebox
-    id="object"
-    class="object_pagebox"
+    id="objectList"
     :menu="menu"
-    :sidebar="{
-        locked: true
-    }"
-    :layout="{
-        header: showHeader
-    }"
+    :config="pageboxConfig"
 >
     <template slot="logo">
         <router-link :to="{ name: 'object' }" class="colorinherit">
@@ -30,41 +24,46 @@
         </div>
     </template>
     <template slot="section" class="object_section">
-        <table class="object_table">
-            <thead>
-                <tr>
-                    <th class="th_id">#</th>
-                    <th class="th_title">名稱 / 規格</th>
-                    <th class="th_summary">備註</th>
-                    <th class="th_toolbar">
-                        <i class="fa fa-wrench" aria-hidden="true"></i>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="object in filterList(objectList)">
-                    <td>
-                        <span class="row_id">
-                            <router-link :to="{ name: 'objectDetail', params: { id: object.id } }">
-                                <span v-text="object.id"></span>
+        <router-view v-if="$route.params.id"></router-view>
+        <div v-else>
+            <table class="object_table">
+                <thead>
+                    <tr>
+                        <th class="th_id">類型</th>
+                        <th class="th_title">名稱 / 規格</th>
+                        <th class="th_summary">備註</th>
+                        <th class="th_toolbar">
+                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="object in filterList(objectList)">
+                        <td>
+                            {# <div class="row_id" v-text="object.id"></div> #}
+                            <div class="row_id">
+                                <i class="fa fa-cube" v-show="object.type == 2"></i>
+                                <i class="fa fa-cog" v-show="object.type == 1"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <router-link :to="{ name: 'objectProfile', params: { id: object.id } }">
+                                <span class="row_title" v-text="object.title"></span><span class="row_spec" v-text="' / ' + object.spec" v-if="object.spec"></span>
                             </router-link>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="row_title" v-text="object.title"></span><span class="row_spec" v-text="' / ' + object.spec" v-if="object.spec"></span>
-                    </td>
-                    <td>
-                        <span class="row_summary" v-text="object.summary"></span>
-                    </td>
-                    <td>
-                        <div class="row_toolbar">
-                            {#<span class="row_tool trash" @click="removeObject(object.id)">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </span>#}
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                        <td>
+                            <span class="row_summary" v-text="object.summary"></span>
+                        </td>
+                        <td>
+                            <div class="row_toolbar">
+                                {# <span class="row_tool preview">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </span> #}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </template>
 </pagebox>
