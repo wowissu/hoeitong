@@ -1,7 +1,5 @@
-{% spaceless %}
 <div
     class="pagebox"
-    :layout="layout"
     :id="id"
 >
     <div class="pagebox_inner">
@@ -9,19 +7,18 @@
             :id="id"
             class="pagebox_layout"
             :class="{
-                layout__noheader: layout.header === false,
-                layout__nosidebar: layout.sidebar === false,
-                layout__empty: layout.empty === false,
-                layout__nologo: layout.logo === false
-                {# layout__sidebarlocked: sidebar.locked #}
+                layout__noheader: config.layoutHeader === false,
+                layout__nosidebar: config.layoutSidebar === false,
+                layout__nologo: config.layoutLogo === false,
+                layout__empty: config.layoutEmpty === true,
             }"
         ></div>
         <div
             class="pagebox_sidebar"
             :class="{
-                pagebox_sidebar__locker: sidebar.locked,
-                pagebox_sidebar__unfold: sidebar.unfold,
-                pagebox_sidebar__hover_unfold: sidebar.hoverUnfold
+                pagebox_sidebar__locker: config.sidebarLocked,
+                pagebox_sidebar__unfold: config.sidebarUnfold,
+                pagebox_sidebar__hover_unfold: config.sidebarHoverUnfold
             }"
         >
             <ul class="pagebox_menu">
@@ -48,7 +45,7 @@
         </div>
         <div class="pagebox_logo">
             <slot name="logo">
-                <i class="fa fa-list-ul" @click="sidebar.unfold = !sidebar.unfold"></i>
+                <i class="fa fa-list-ul" @click="config.sidebarUnfold = !config.sidebarUnfold"></i>
             </slot>
         </div>
         <div class="pagebox_header">
@@ -59,4 +56,3 @@
         </div>
     </div>
 </div>
-{% endspaceless %}

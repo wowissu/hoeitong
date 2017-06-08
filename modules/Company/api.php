@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Company Api
+ */
+
 use Illuminate\Database\Capsule\Manager as DB;
 use Modules\Company\Models\Company;
 use Modules\Company\Models\Phones;

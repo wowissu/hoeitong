@@ -2,7 +2,7 @@
 {
     "use strict";
 
-    var evt = window.evt || (window.evt = new Vue());
+    var bus = window.bus || (window.bus = new Vue());
     var routeComps = window.RouteComponents || (window.RouteComponents = {});
 
     routeComps.companyComponent = function (resolve)
@@ -10,25 +10,24 @@
         var data = function ()
         {
             var $this = this;
+            var menu = {
+                insert: {
+                    title: '新增廠商',
+                    icon: '<i class="fa fa-plus"></i>',
+                    url: '/company/insert'
+                }
+            };
 
             return {
-                layout: {
-                    get header () {
-                        return $this.editCompany ? false : null;
+                pageboxConfig: {
+                    sidebarLocked: true,
+                    get layoutHeader() {
+                        return $this.editCompany ? false : true;
                     }
                 },
                 companies: [],
                 editCompany: false,
-                menu: {
-                    insert: {
-                        title: '新增廠商',
-                        icon: '<i class="fa fa-plus"></i>',
-                        url: '/company/insert'
-                    }
-                },
-                sidebar: {
-                    locked: true
-                },
+                menu: menu,
                 table: {
                     filterby: ''
                 }
@@ -51,7 +50,6 @@
 
         var insertCompany = function ()
         {
-            console.log('create company');
             var $this = this;
 
             $this.editCompany = {};
@@ -132,6 +130,7 @@
             return $this;
         }
 
+
         resolve({
             template: '#companies-template',
             data: data,
@@ -144,6 +143,8 @@
             },
             mounted: function ()
             {
+                console.log('mounted company list');
+
                 var $this = this;
 
                 setTimeout(function ()
@@ -152,7 +153,7 @@
                 });
 
                 // 更新廠商
-                evt.$on('save.company', function (company)
+                bus.$on('save.company', function (company)
                 {
                     console.log('save:', company);
 
@@ -161,7 +162,7 @@
                 });
 
                 // 新增廠商
-                evt.$on('insert.company', function (company)
+                bus.$on('insert.company', function (company)
                 {
                     console.log('insert: ', company);
 
@@ -169,12 +170,10 @@
                     $this.$router.push({ name: 'companyDetail', params: { id: company.id } });
                 });
 
-                evt.$on('delete.company', function (company)
-                {
-                    console.log('delete:', company);
-
-
-                });
+                // bus.$on('delete.company', function (company)
+                // {
+                //     console.log('delete:', company);
+                // });
             },
             beforeRouteUpdate: function (route, prev, next)
             {
@@ -190,7 +189,7 @@
                 }
 
                 next();
-            }
+            },
         });
     };
 
@@ -275,12 +274,14 @@
             };
 
             return {
-                pureBind: false,
+                get inserted() {
+                    return $this.$route.name == 'companyInsert';
+                },
                 company: {},
                 formstate: {},
+                phoneschange: 0,
                 menu: menu,
                 PhoneControl: PhoneControl,
-                phoneschange: 0,
             };
         };
 
@@ -319,7 +320,7 @@
                 $.ajax(request).done(function (result)
                 {
                     if (result.success) {
-                        evt.$emit(eventName, result.data);
+                        bus.$emit(eventName, result.data);
                     }
                 });
             }

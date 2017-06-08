@@ -4,6 +4,9 @@
 @import "app";
 @import "components/pagebox";
 @import "components/form";
+@import "components/node";
 
 @import "site";
-@import "Company/company";
+@import "modules/company";
+@import "modules/object";
+@import "modules/tabpanel";

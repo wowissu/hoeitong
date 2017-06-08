@@ -1,8 +1,7 @@
 <pagebox
     id="companyList"
     :menu="menu"
-    :sidebar="sidebar"
-    :layout="layout"
+    :config="pageboxConfig"
 >
     <template slot="logo">
         <router-link to="/company" class="colorinherit">
@@ -53,6 +52,9 @@
                             <td>
                                 <div class="row_toolbar">
                                     <span class="row_tool editor">
+                                        {# <a @click.prevent="routeToDetail(company)">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </a> #}
                                         <router-link :to="{ name: 'companyDetail', params: { id: company.id } }">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </router-link>

@@ -5,11 +5,11 @@
     <div class="pagebox_wraper">
         <pagebox
             id="site"
-            :layout="{
-                header: false
-            }"
-            :menu="sitemenu"
             class="default"
+            :menu="sitemenu"
+            :config="{
+                layoutHeader: false
+            }"
         >
             <template slot="section">
                 <router-view></router-view>
@@ -21,7 +21,7 @@
 
 {% block templates %}
     <script type="text/x-template" id="pagebox-template">
-        {% include 'ui/pagebox.twig' %}
+        {% spaceless %}{% include 'ui/pagebox.twig' %}{% endspaceless %}
     </script>
 
     <script type="text/x-template" id="companies-template">
@@ -38,7 +38,13 @@
 
     <script src="js/pagebox.js"></script>
     <script src="js/Company/company.js"></script>
-    <script src="js/Object/object.js"></script>
+    <script src="js/Tab/tabpanel.js"></script>
+    <script src="js/Object/treenode.js"></script>
+    <script src="js/Object/objectList.js"></script>
+    <script src="js/Object/objectProfileBase.js"></script>
+    <script src="js/Object/objectProfile.js"></script>
+    <script src="js/Object/objectProfileNodes.js"></script>
+    <script src="js/Object/objectProfileManual.js"></script>
 
     {{ parent() }}
 {% endblock scripts %}

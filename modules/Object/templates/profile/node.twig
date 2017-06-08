@@ -1,0 +1,18 @@
+<div class="node">
+    <div class="node_header" :type="node.type" :id="node.id" v-show="!node.hidden">
+        <div class="node_header_inner">
+            <span class="node_type__part"><i class="fa fa-folder"></i></span>
+            <span class="node_type__spec"><i class="fa fa-link"></i></span>
+            <span v-text="node.title" class="node_title"></span>
+            {# <router-link :to="{ name: 'objectProfile', params: { id: node.id } }" tag="span" v-text="node.title" class="node_title"></router-link> #}
+            <span v-text="node.spec"></span>
+
+            <span style="float: right" v-text="node.amount"></span>
+        </div>
+    </div>
+    <ul class="node_ul">
+        <li class="node_li" v-for="child in node[childnode]">
+            <treenode :node="child" :parent="node" />
+        </li>
+    </ul>
+</div>

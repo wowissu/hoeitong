@@ -9,16 +9,9 @@
                 type: Object,
                 required: true
             },
-            sidebar: {
+            config: {
                 type: Object,
-                default: function () {
-                    return {
-                        locked: false,
-                        unfold: false,
-                        hoverUnfold: false,
-                        style: {}
-                    };
-                }
+                default: function () { return {}; }
             },
             layout: {
                 type: String,
@@ -34,11 +27,20 @@
 
             return {
                 sidebarunfold: false,
+                defaultConfig: {
+                    sidebarLocked: false,
+                    sidebarUnfold: false,
+                    sidebarHoverUnfold: false,
+                    layoutHeader: true,
+                    layoutSidebar: true,
+                    layoutEmpty: false,
+                    layoutLogo: true,
+                }
             };
         },
         mounted: function ()
         {
-
+            Object.assign(this.config, this.defaultConfig, this.config);
         }
     });
 

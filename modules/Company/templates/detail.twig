@@ -1,23 +1,23 @@
 <pagebox
     id="companyDetail"
-    :layout="{}"
     :menu="menu"
 >
     <template slot="logo">
-        <i class="fa fa-pencil"></i>
+        <i aria-hidden="true" v-if="inserted" class="fa fa-plus"></i>
+        <i aria-hidden="true" v-else class="fa fa-pencil"></i>
     </template>
     <template slot="header">
         <div class="company_navheader">
             <div>
-                <h2 v-text="company.title"></h2>
+                <h2 v-if="inserted">新增廠商</h2>
+                <h2 v-else>編輯廠商</h2>
             </div>
         </div>
     </template>
     <template slot="section">
         <div class="company_detail">
-
             <div class="company_edit_form">
-                <vue-form :state="formstate" {# @submit.prevent="saveSubmit(formstate)" #} class="vf-form company_form">
+                <vue-form :state="formstate" class="vf-form company_form">
 
                     <validate tag="div" class="vf-group">
                         <label class="vf-label" for="title">公司名稱：</label>
@@ -58,17 +58,38 @@
                         <label class="vf-label" for="contactor">聯絡：</label>
                         <div class="vf-field">
                             <ul class="company_form_phones">
-                                <li v-for="(item, key) in company.phones" class="phones_item" :class="{phones_item__focus: item.focus}">
+                                <li
+                                    class="phones_item"
+                                    v-for="(item, key) in company.phones"
+                                    :class="{
+                                        phones_item__focus: item.focus,
+                                        phones_item__error: formstate['photo']
+                                    }"
+                                >
                                     <div class="item_type" @click="PhoneControl.toggleType(item)">
                                         <i v-if="item.type == 0" class="fa fa-phone-square" aria-hidden="true"></i>
                                         <i v-else class="fa fa-fax" aria-hidden="true"></i>
                                     </div>
-                                    <div class="item_phone">
-                                        <input type="text" v-model.trim="item.phone" :name="'phone' + key" @change="phoneschange += 1" @focus="PhoneControl.toggleFocus(item, true)" @blur="PhoneControl.toggleFocus(item, false)" placeholder="電話" required>
-                                    </div>
-                                    <div class="item_contactor">
-                                        <input type="text" v-model.trim="item.contactor" :name="'contactor' + key" @change="phoneschange += 1" @focus="PhoneControl.toggleFocus(item, true)" @blur="PhoneControl.toggleFocus(item, false)" :index="key" placeholder="聯絡人">
-                                    </div>
+                                    <validate class="item_phone">
+                                        <input type="text" required
+                                            :name="'phone' + key"
+                                            placeholder="*電話"
+                                            v-model.trim="item.phone"
+                                            @change="phoneschange += 1"
+                                            @focus="PhoneControl.toggleFocus(item, true)"
+                                            @blur="PhoneControl.toggleFocus(item, false)"
+                                        >
+                                    </validate>
+                                    <validate class="item_contactor">
+                                        <input type="text" :index="key"
+                                            :name="'contactor' + key"
+                                            placeholder="輸入聯絡人"
+                                            v-model.trim="item.contactor"
+                                            @change="phoneschange += 1"
+                                            @focus="PhoneControl.toggleFocus(item, true)"
+                                            @blur="PhoneControl.toggleFocus(item, false)"
+                                        >
+                                    </validate>
                                     <div class="item_control" @click="PhoneControl.remove(key)">
                                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                                     </div>

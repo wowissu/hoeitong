@@ -1,9 +1,7 @@
-#companyList
+#objectList
 {
-    $mainColor: #82b440;
+    $mainColor: #2e88d0;
     $navheaderHeight: 50px;
-    $bodyPadding: 2px;
-    $companyItemHeight: 50px;
 
     @include pageboxtheme((
         logoBgColor: $mainColor,
@@ -13,13 +11,10 @@
         itemActiveFontColor: darken($mainColor, 10%)
     ));
 
-    .company_section
-    {
-        position: relative;
-        width: 100%;
-    }
 
-    .company_navheader
+    position: relative;
+
+    .object_navheader
     {
         @include flexbox();
         @include flex-just(space-between);
@@ -31,15 +26,7 @@
         padding: 0 10px;
     }
 
-    .company_body
-    {
-        position: relative;
-        left: 0;
-        max-height: calc(100% - #{$navheaderHeight} - 2px);
-        padding: 0px $bodyPadding;
-    }
-
-    .companies_table
+    .object_table
     {
         position: relative;
         margin-bottom: 20px;
@@ -47,6 +34,14 @@
         border-spacing: 0;
         min-width: 800px;
         max-width: 100%;
+
+        tr
+        {
+            &:hover
+            {
+                background-color: rgba(lighten($mainColor, 5%), 0.1);
+            }
+        }
 
         td
         {
@@ -63,8 +58,17 @@
             text-align: left;
         }
 
-        .row_toolbar
-        {
+        .th_id {
+            width: 1px;
+            white-space: nowrap;
+        }
+
+        .th_summary {
+            width: 10vw;
+        }
+
+        .th_toolbar,
+        .row_toolbar {
             text-align: right;
 
             .row_tool
@@ -82,70 +86,64 @@
             }
         }
 
-        .row_title
-        {
-            display: block;
+        .row_id {
+            text-align: center;
         }
 
-        .row_phones
+        .row_title
         {
-            list-style: none;
-            margin: 0;
-            padding: 0;
 
-            span
-            {
-                margin-right: 5px;
-            }
+        }
+
+        .row_summary {
+            max-height: 48px;
+            overflow-y: hidden;
+            display: block;
+            text-overflow: ellipsis;
+            white-space: pre;
         }
     }
 }
 
-#companyDetail
+#object
 {
-    $mainColor: darken(#82b440, 10%);
+    $mainColor: darken(#2e88d0, 10%);
 
     @include pageboxtheme((
         logoBgColor: $mainColor,
         sidebarBgColor: $mainColor,
         headerBgColor: $mainColor,
-        itemActiveFontColor: currentColor
+        itemHoverFontColor: rgba(0, 0, 0, 0.5),
+        itemActiveFontColor: rgba(0, 0, 0, 0.5)
     ));
 
-    .company_save
+    .profile_header
     {
-        height: 30px;
-        width: 30px;
-        margin-right: 10px;
-        font-size: 20px;
-        cursor: pointer;
+        @include flexbox();
+        // @include flex-just(center);
+        @include align-items(center);
 
-        &:hover
-        {
-            opacity: 0.8;
-        }
+        height: 100%;
     }
 
-    .company_edit_form
+}
+
+
+#profile
+{
+    $mainColor: darken(#2e88d0, 15%);
+
+    .profile_form_wrapper
     {
         display: block;
         width: 50vw;
         max-width: 500px;
         min-width: 300px;
-
         padding: 50px 10px;
     }
 
-
-    .company_form
+    .profile_form
     {
-
-        .company_form_phones
-        {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
 
         .phones_item
         {
@@ -270,64 +268,14 @@
             }
         }
     }
+
 }
 
-
-.searchbar
+#profile_nodes
 {
-    $regionHeight: 30px;
-    $fontColor: #fff;
-    $fontSize: 16px;
-    $fontHoverSize: 14px;
-
-    height: $regionHeight;
-    position: relative;
-    margin-right: 10px;
-
-    label
+    .treenode_wrapper
     {
-        @include flexbox();
-        @include flex-just(center);
-        @include align-items(center);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: $regionHeight;
-        height: $regionHeight;
-        cursor: pointer;
-    }
-
-    .clean_input
-    {
-        cursor: pointer;
-        display: inline-block;
-        vertical-align: middle;
-
-        &:hover
-        {
-            opacity: 0.8;
-        }
-
-        &:active
-        {
-            margin-top: 1px;
-        }
-    }
-
-    #search_input
-    {
-        height: 100%;
-        padding: 5px 5px 5px $regionHeight;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        color: $fontColor;
-        font-size: $fontSize;
-
-        @include placeholder
-                  {
-            color: rgba($fontColor, .7);
-            font-size: $fontHoverSize;
-        }
+        padding-left: 10px;
+        padding-top: 20px;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use Modules\Object\Models\Object;
-use Modules\Object\Models\Image as ObjImage;
+use Modules\Object\Models\Images as ObjImage;
 use Modules\Object\Models\Provider as ObjProvider;
 
 use Modules\Object\Models\OldObj;

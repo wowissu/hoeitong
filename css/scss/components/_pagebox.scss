@@ -106,11 +106,15 @@
                     display: none;
                 }
 
-                ~ .pagebox_sidebar:hover .pagebox_header,
                 ~ .pagebox_header
                 {
                     width: 100% !important;
                     left: 0px !important;
+                }
+
+                ~ .pagebox_sidebar {
+                    top: 0px;
+                    height: 100%;
                 }
             }
 
@@ -188,14 +192,15 @@
         {
             .item_header
             {
-                $margin: 5px;
+                $margin: 0px;
                 @include flexbox;
                 @include flex-just(center);
                 @include align-items(center);
                 width: calc(100% - #{$margin * 2});
                 padding: $margin * 2;
+                margin: 0;
                 height: 40px;
-                margin: 0 5px;
+                margin: 0 $margin;
                 cursor: pointer;
                 overflow: hidden;
                 text-decoration: none;
@@ -335,6 +340,8 @@
         &:not(.pagebox_menu_li__disable) {
             .item_header
             {
+                position: relative;
+
                 &:hover
                 {
                     background-color: map_get($boxparams, itemHoverBgColor);
@@ -345,6 +352,18 @@
                 {
                     background-color: map_get($boxparams, itemActiveBgColor);
                     color: map_get($boxparams, itemActiveFontColor);
+
+                    @if map_has_key($boxparams, itemActiveAfterExtend)
+                    {
+                        $bind: map_get($boxparams, itemActiveAfterExtend);
+                        &::after { @extend #{$bind}; }
+                    }
+
+                    @if map_has_key($boxparams, itemActiveBeforeExtend)
+                    {
+                        $bind: map_get($boxparams, itemActiveBeforeExtend);
+                        &::before { @extend #{$bind}; }
+                    }
                 }
             }
         }
