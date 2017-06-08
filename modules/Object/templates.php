@@ -14,8 +14,8 @@ $app->group('/object/profile', function () use($app)
         return view('Object/profile/profile.twig');
     });
 
-    $app->get('/elements.html', function () use($app) {
-        return view('Object/profile/elements.twig');
+    $app->get('/nodes.html', function () use($app) {
+        return view('Object/profile/nodes.twig');
     });
 
     $app->get('/manual.html', function () use($app) {

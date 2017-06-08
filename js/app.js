@@ -33,7 +33,8 @@
                     {
                         props: true,
                         path: ':id',
-                        redirect: function (route) {
+                        redirect: function (route)
+                        {
                             return { name: 'objectProfile', params: route.params };
                         },
                         component: RouteComponents.objectProfileBase,
@@ -46,9 +47,9 @@
                             },
                             {
                                 props: ['object'],
-                                name: 'objectElements',
-                                path: 'elements',
-                                component: RouteComponents.objectProfileElements
+                                name: 'objectNodes',
+                                path: 'nodes',
+                                component: RouteComponents.objectProfileNodes
                             },
                             {
                                 props: ['object'],

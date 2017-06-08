@@ -28,26 +28,27 @@ $app->get('/object', function ($req, $res, $args) use($app)
 
 $app->get('/object/{id}/nodes', function ($req, $res, $args) use($app)
 {
-    $objectId = $args['id'];
-    $obj = Object::where('parent_id', $objectId)
-                ->orWhere('relate_id', $objectId)
-                ->get()->toArray();
 
-    $map = array_combine(array_column($obj, 'id'), $obj);
     $output = [];
+    $objectId = $args['id'];
+    $obj = Object::where('lineage', '<@', "root.{$objectId}")
+        ->orderBy('type')
+        ->get()
+        ->keyBy('id');
 
-    foreach ($map as $objId => $objVal) {
-        $parentId = $objVal['parent_id'];
+    if ($obj->count()) {
+        $map = $obj->toArray();
 
-        if (isset($map[$parentId])) {
-            $map[$parentId]['children'][] = &$map[$objId];
-        }
+        foreach ($map as $objId => $objVal) {
+            $parentId = $objVal['parent_id'];
 
-        if (
-            $objVal['relate_id'] == $objectId &&
-            $objVal['parent_id'] == $objectId
-        ) {
-            $output[] = &$map[$objId];
+            if (isset($map[$parentId])) {
+                $map[$parentId]['children'][] = &$map[$objId];
+            }
+
+            if ($objVal['parent_id'] == $objectId) {
+                $output[] = &$map[$objId];
+            }
         }
     }
 
