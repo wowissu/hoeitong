@@ -16,8 +16,13 @@
                         type: Object,
                         reuqired: true
                     },
+                    root: {
+                        type: Object,
+                        default: false
+                    },
                     parent: {
-                        type: Object
+                        type: Object,
+                        default: false
                     },
                     childnode: {
                         type: String,
@@ -29,7 +34,9 @@
                     var $this = this;
 
                     return {
-                        get hasChild() {
+                        unfold: true, // 預設開啟
+                        get is_root() { return $this.node === $this.root; },
+                        get has_child() {
                             if ($this.childnode in $this.node && $this.node[$this.childnode] instanceof Array) {
                                 if ($this.node[$this.childnode].length) {
                                     return true;
@@ -40,9 +47,17 @@
                         }
                     };
                 },
-                methods: function ()
+                mounted: function ()
                 {
-
+                    // set root if not specify
+                    if (this.root === false && this.parent === false) {
+                        this.root = this.node;
+                    }
+                },
+                methods: {
+                    nodeRemove: function () {
+                        console.log('node remove');
+                    }
                 }
             });
         });

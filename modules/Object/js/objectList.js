@@ -7,14 +7,7 @@
 
     routeComps.objectComponent = function (resolve)
     {
-        var $COMP = {
-            mounted: function ()
-            {
-                var $this = this;
-
-                $this.updateObjectList();
-            }
-        };
+        var $COMP = {};
 
         $COMP.data = function ()
         {
@@ -93,11 +86,49 @@
 
         $.get('template/object.html').done(function (template)
         {
+            var prevScrollTop = 0;
+
             resolve({
                 template: template,
                 data: $COMP.data,
                 methods: $COMP.methods,
-                mounted: $COMP.mounted
+                mounted: function ()
+                {
+                    var $this = this;
+
+                    $this.updateObjectList();
+                },
+                beforeRouteUpdate: function (to, from, next)
+                {
+                    if (this) {
+
+                        // record list scrollTop
+                        $(this.$el).find('.pagebox_section[belong=objectList]').each(function ()
+                        {
+                            var section = $(this);
+
+                            if (from.name == 'object') {
+
+                                from.meta.recrodScroll = section.scrollTop();
+
+                            } else if (to.name == 'object') {
+                                setTimeout(function (top) {
+
+                                    section.scrollTop(top);
+
+                                }.bind(
+                                    null,
+                                    to.meta.recrodScroll || 0
+                                ), 50);
+
+                                to.meta.recrodScroll = 0;
+                            }
+                        });
+
+                    }
+
+                    next();
+                }
             });
         });
     };

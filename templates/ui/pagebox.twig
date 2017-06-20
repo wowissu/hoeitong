@@ -43,15 +43,15 @@
                 </li>
             </ul>
         </div>
-        <div class="pagebox_logo">
+        <div class="pagebox_logo" :belong="id">
             <slot name="logo">
                 <i class="fa fa-list-ul" @click="config.sidebarUnfold = !config.sidebarUnfold"></i>
             </slot>
         </div>
-        <div class="pagebox_header">
+        <div class="pagebox_header" :belong="id">
             <slot name="header"></slot>
         </div>
-        <div class="pagebox_section">
+        <div class="pagebox_section" :belong="id">
             <slot name="section"></slot>
         </div>
     </div>

@@ -23,9 +23,9 @@
             </div>
         </div>
     </template>
-    <template slot="section" class="object_section">
+    <template slot="section" >
         <router-view v-if="$route.params.id"></router-view>
-        <div v-else>
+        <div v-else class="object_section">
             <table class="object_table">
                 <thead>
                     <tr>

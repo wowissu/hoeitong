@@ -1,14 +1,18 @@
 .node
 {
     $node_bgcolor: transparent;
-    $header_bgcolor: rgba(#60a7e0, .3);
-    $header_inner_bgcolor: #cfe4f6;
+    $header_bgcolor: transparent;
+    $header_fontcolor: currentColor;
+    $header_inner_bgcolor: transparent;
+
     $nodes_top: 0px;
     $nodes_left: 20px;
     $nodes_bgcolor: transparent;
+    $nodes_bgcolor_hover: lighten($header_inner_bgcolor, 10%);
     $line_style: 1px dashed #999;
     $line_left: $nodes_left / 2;
     $line_top: 0px;
+
 
     background-color: $node_bgcolor;
     position: relative;
@@ -20,12 +24,11 @@
     {
         position: relative;
         background-color: $header_bgcolor;
-        padding: 5px;
-        margin-right: 2px;
         z-index: 1;
         height: 100%;
         border-right: 1px solid #fff;
-        margin-bottom: 5px;
+        padding-right: 2px;
+        padding-bottom: 5px;
 
         .node_type__spec,
         .node_type__part
@@ -43,6 +46,12 @@
         {
             padding: 5px;
             background-color: $header_inner_bgcolor;
+            color: $header_fontcolor;
+            border: 1px dashed #999;
+
+            &:hover {
+                background-color: #ff9;
+            }
         }
 
         .node_title
@@ -51,18 +60,13 @@
             // writing-mode: vertical-lr;
         }
 
-        // &::after
-        // {
-        //     content: '';
-        //     position: absolute;
-        //     display: block;
-        //     bottom: calc(100% + 2px);
-        //     left: 0px;
-        //     width: calc(50% - 1px);
-        //     height: $nodes_top / 2;
-        //     border-top: 1px solid #333;
-        //     border-right: 1px solid #333;
-        // }
+        &:hover ~ .node_insert {
+            display: block;
+        }
+    }
+
+    .node_type {
+
     }
 
     .node_ul
@@ -70,30 +74,96 @@
         margin: 0;
         padding: 0;
         padding-top: $nodes_top;
-        padding-left: $nodes_left;
+        margin-left: $nodes_left;
         list-style: none;
         background-color: $nodes_bgcolor;
-        display: block;
+        display: none;
+        position: relative;
 
         &:empty {
             display: none !important;
         }
 
-        .node_li
-        {
+        &.node_ul__hover {
+            background-color: $nodes_bgcolor_hover;
+        }
 
+        // &:after {
+        //     content: '';
+        //     display: block;
+        //     position: absolute;
+        //     top: 0;
+        //     left: calc(#{$nodes_left / 2} - 2.5px);
+        //     width: 0;
+        //     height: 0;
+        //     border-style: solid;
+        //     border-width: 5px 5px 0 5px;
+        //     border-color: currentColor transparent transparent transparent;
+        // }
+    }
+
+    &.node__unfold {
+        .node_ul {
+            display: block;
         }
     }
 
-    &:after
-    {
-        content: '';
-        display: block;
-        position: absolute;
-        left: $line_left;
-        top: $line_top;
-        border-left: $line_style;
-        height: 100%;
-        width: $nodes_left / 2;
+    .node_amount {
+        $width: 30px;
+        $bgcolor: #ddd;
+
+        padding: 2px 5px;
+        position: relative;
+        color: #888;
+        display: inline-block;
+    }
+
+    .node_insert {
+        height: 20px;
+        width: 100%;
+        margin-bottom: 5px;
+        display: none;
+
+        &:hover {
+            display: block;
+        }
+
+        .node_insert__inner {
+            @include flexbox();
+            @include flex-wrap(nowrap);
+            @include align-items(center);
+            width: 100%;
+            height: 100%;
+            padding: 0 10px;
+        }
+    }
+
+    .node_order_bar {
+        cursor: pointer;
+        color: #ddd;
+
+        &.node_order__hover {
+            color: #333;
+        }
+    }
+
+    .node_tool_bar {
+        .node_tool {
+            margin-left: 5px;
+            display: inline-block;
+            vertical-align: middle;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: #999;
+
+            &:hover {
+                color: inherit;
+            }
+        }
+    }
+
+    .node_spec {
+        color: #888;
     }
 }

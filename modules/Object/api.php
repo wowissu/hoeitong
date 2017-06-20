@@ -59,18 +59,20 @@ $app->get('/object/{id}/nodes', function ($req, $res, $args) use($app)
 });
 
 // get object by id
-$app->get('/object/{id}[/{query:.*}]', function ($req, $res, $args) use($app)
+$app->get('/object/{id}', function ($req, $res, $args) use($app)
 {
+
+    $with = $req->getQueryParam('with') ?: [];
+
+    if ($with) {
+        $with = explode(',', $with);
+    }
+
     try {
         $obj = Object::where('id', $args['id']);
-        $query = $args['query'];
 
-        if (strpos($query, 'tabs') > -1) {
-            $obj->with('tabs');
-        }
-
-        if (strpos($query, 'images') > -1) {
-            $obj->with('images');
+        foreach ($with as $row) {
+            $obj->with($row);
         }
 
         return $res->withJson([

@@ -10,6 +10,7 @@
         $.get('template/object/profile/nodes.html').done(function (template)
         {
             resolve({
+                template: template,
                 props: {
                     object: {
                         type: Object,
@@ -18,9 +19,11 @@
                 },
                 data: function () {
 
+                    var hoverId = 0;
                     var $this = this;
 
                     return {
+                        formstate: {},
                         node: {
                             get id() { return $this.object.id; },
                             get title() { return $this.object.title; },
@@ -28,15 +31,14 @@
                             get type() { return $this.object.type; },
                             get model() { return $this.object.model; },
                             get spec() { return $this.object.spec; },
-                            hidden: true,
+                            // hidden: true,
                             children: []
                         }
                     };
                 },
-                template: template,
                 mounted: function ()
                 {
-                    var $this = this;
+                    var $this = this, $subtracted;
 
                     bus.$once('object.change', function (obj)
                     {
@@ -46,6 +48,7 @@
                     if ($this.$route.params.id == $this.object.id) {
                         bus.$emit('object.change', $this.object);
                     }
+
                 },
                 methods: {
                     getTree: function (id)
@@ -73,5 +76,6 @@
             });
         });
     };
+
 
 }());

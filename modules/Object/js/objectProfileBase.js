@@ -20,6 +20,11 @@
         {
             var $this = this;
             var menu = {
+                back: {
+                    title: '上一頁',
+                    icon: '<i class="fa fa-arrow-left" style="color: #fff;"></i>',
+                    url: { path: '/object' }
+                },
                 profile: {
                     title: '檔案',
                     icon: '<i class="fa fa-list-alt"></i>',
@@ -41,7 +46,7 @@
                 },
                 save: {
                     title: '儲存',
-                    icon: '<i class="fa fa-save" style="color: #82b440"></i>',
+                    icon: '<i class="fa fa-save"></i>',
                     click: function ()
                     {
                         if ($this.$route.name == 'objectProfile') {
@@ -60,7 +65,7 @@
         $COMP.methods = {
             getObject: function () {
                 var $this = this;
-                var url = 'api/object/{id}/tabs/images';
+                var url = 'api/object/{id}?with=tabs,images';
 
                 return new Promise(function (resolve, reject)
                 {
