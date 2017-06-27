@@ -12,14 +12,14 @@
 
     {% block styles %}
         <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/stylesheets.css">
+        {# <link rel="stylesheet" href="css/stylesheets.css"> #}
         <link rel="stylesheet" href="css/font-awesome/css/font-awesome.css">
     {% endblock styles %}
 
 </head>
 <body >
 
-    <div class="{% block pageClass %}site_body{% endblock %}" id="app">
+    <div class="{% block pageClass %}site_body{% endblock %}">
         {% block Header %}
             {% include "overall/header.twig" %}
         {% endblock Header %}
@@ -31,19 +31,10 @@
         {% endblock Footer %}
     </div>
 
-    <script src="js/jquery/jquery.min.js"></script>
-    <script src="js/vue/vue.min.js"></script>
-    <script src="js/vue2-filters/vue2-filters.min.js"></script>
-    <script src="js/vue-router/vue-router.min.js"></script>
-    <script src="js/vue-form/vue-form.min.js"></script>
-
-    {% block templates %}{% endblock %}
-
-    <script src="js/helper.js"></script>
 
     {% block scripts %}
-    <script src="js/form.js"></script>
-    <script src="js/app.js"></script>
+    <script src="src/jquery/jquery.min.js"></script>
+    <script src="dist/build.js"></script>
     {% endblock scripts %}
 
 </body>

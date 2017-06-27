@@ -1,0 +1,152 @@
+@import '~styles/mixins/flex';
+
+.node
+{
+    $node_bgcolor: transparent;
+    $header_bgcolor: transparent;
+    $header_fontcolor: currentColor;
+    $header_inner_bgcolor: transparent;
+    $nodes_top: 0px;
+    $nodes_left: 20px;
+    $nodes_bgcolor: transparent;
+    $nodes_bgcolor_hover: lighten($header_inner_bgcolor, 10%);
+    $line_style: 1px dashed #999;
+    $line_left: $nodes_left / 2;
+    $line_top: 0px;
+    background-color: $node_bgcolor;
+    position: relative;
+    vertical-align: middle;
+    height: 100%;
+    display: block;
+
+    .node_header {
+        position: relative;
+        background-color: $header_bgcolor;
+        z-index: 1;
+        height: 100%;
+        border-right: 1px solid #fff;
+        padding-right: 2px;
+        padding-bottom: 5px;
+
+        .node_type__spec,
+        .node_type__part {
+            display: none;
+        }
+
+        &[type="3"] .node_type__part,
+        &[type="4"] .node_type__spec {
+            display: inline-block;
+        }
+
+        .node_header_inner {
+            padding: 5px;
+            background-color: $header_inner_bgcolor;
+            color: $header_fontcolor;
+            border: 1px dashed #999;
+
+            &:hover {
+                background-color: #ff9;
+            }
+        }
+
+        &:hover ~ .node_insert {
+            display: block;
+        }
+    }
+
+    .node_ul {
+        margin: 0;
+        padding: 0;
+        padding-top: $nodes_top;
+        margin-left: $nodes_left;
+        list-style: none;
+        background-color: $nodes_bgcolor;
+        display: none;
+        position: relative;
+
+        &:empty {
+            display: none !important;
+        }
+
+        &.node_ul__hover {
+            background-color: $nodes_bgcolor_hover;
+        }
+    }
+
+    &.node__unfold {
+        .node_ul {
+            display: block;
+        }
+    }
+
+    &.node__recoverable {
+        color: #999;
+
+        .node_header_inner {
+            border-color: #de1d5f;
+            background-color: rgba(#de1d5f, .3);
+
+            &:hover {
+                background-color: rgba(#de1d5f, .3);
+            }
+        }
+    }
+
+    .node_amount {
+        $width: 30px;
+        $bgcolor: #ddd;
+        padding: 2px 5px;
+        position: relative;
+        color: #888;
+        display: inline-block;
+    }
+
+    .node_insert {
+        height: 20px;
+        width: 100%;
+        margin-bottom: 5px;
+        display: none;
+
+        &:hover {
+            display: block;
+        }
+
+        .node_insert__inner {
+            @include flexbox();
+            @include flex-wrap(nowrap);
+            @include align-items(center);
+            width: 100%;
+            height: 100%;
+            padding: 0 10px;
+        }
+    }
+
+    .node_order_bar {
+        cursor: pointer;
+        color: #ddd;
+
+        &.node_order__hover {
+            color: #333;
+        }
+    }
+
+    .node_tool_bar {
+        .node_tool {
+            margin-left: 5px;
+            display: inline-block;
+            vertical-align: middle;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: #999;
+
+            &:hover {
+                color: inherit;
+            }
+        }
+    }
+
+    .node_spec {
+        color: #888;
+    }
+}

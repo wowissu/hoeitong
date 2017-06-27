@@ -1,51 +1,5 @@
 {% extends 'overall/html.twig' %}
 
 {% block Body %}
-
-    <div class="pagebox_wraper">
-        <pagebox
-            id="site"
-            class="default"
-            :menu="sitemenu"
-            :config="{
-                layoutHeader: false
-            }"
-        >
-            <template slot="section">
-                <router-view></router-view>
-            </template>
-        </pagebox>
-    </div>
-
+<div id="app"></div>
 {% endblock %}
-
-{% block templates %}
-    <script type="text/x-template" id="pagebox-template">
-        {% spaceless %}{% include 'ui/pagebox.twig' %}{% endspaceless %}
-    </script>
-
-    <script type="text/x-template" id="companies-template">
-        {% include 'Company/list.twig' %}
-    </script>
-
-    <script type="text/x-template" id="company-template">
-        {% include 'Company/detail.twig' %}
-    </script>
-
-{% endblock %}
-
-{% block scripts %}
-
-    <script src="js/pagebox.js"></script>
-    <script src="js/Company/company.js"></script>
-    <script src="js/Tab/tabpanel.js"></script>
-    <script src="js/Object/treenode.js"></script>
-    <script src="js/Object/objectList.js"></script>
-    <script src="js/Object/objectProfileBase.js"></script>
-    <script src="js/Object/objectProfile.js"></script>
-    <script src="js/Object/objectProfileNodes.js"></script>
-    <script src="js/Object/objectProfileManual.js"></script>
-
-    {{ parent() }}
-{% endblock scripts %}
-

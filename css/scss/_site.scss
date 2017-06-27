@@ -1,9 +1,0 @@
-#site
-{
-    $mainColor: #82b440;
-
-    @include pageboxtheme((
-        itemActiveFontColor: $mainColor,
-        itemHoverFontColor: lighten($mainColor, 10%)
-    ));
-}

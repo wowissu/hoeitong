@@ -1,0 +1,92 @@
+<template>
+<div class="pagebox" :id="id">
+    <div class="pagebox_inner">
+        <div
+            :id="id"
+            class="pagebox_layout"
+            :class="{
+                layout__noheader: config.layoutHeader === false,
+                layout__nosidebar: config.layoutSidebar === false,
+                layout__nologo: config.layoutLogo === false,
+                layout__empty: config.layoutEmpty === true,
+            }"
+        ></div>
+        <div
+            class="pagebox_sidebar"
+            :class="{
+                pagebox_sidebar__locker: config.sidebarLocked,
+                pagebox_sidebar__unfold: config.sidebarUnfold,
+                pagebox_sidebar__hover_unfold: config.sidebarHoverUnfold
+            }"
+        >
+            <ul class="pagebox_menu">
+                <li
+                    class="pagebox_menu_li"
+                    v-for="item in menu"
+                    v-show="!item.hidden"
+                    :class="{
+                        pagebox_menu_li__disable: item.disable
+                    }"
+                >
+                    <div class="pagebox_menu_item" :title="item.title">
+                        <router-link :to="item.url" class="item_header" v-if="item.url">
+                            <div class="item_icon" v-html="item.icon"></div>
+                            <div class="item_title" v-text="item.title"></div>
+                        </router-link>
+                        <div v-else class="item_header" @click="item.disable || item.click()">
+                            <div class="item_icon" v-html="item.icon"></div>
+                            <div class="item_title" v-text="item.title"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="pagebox_logo" :belong="id">
+            <slot name="logo">
+                <i class="fa fa-list-ul" @click="config.sidebarUnfold = !config.sidebarUnfold"></i>
+            </slot>
+        </div>
+        <div class="pagebox_header" :belong="id">
+            <slot name="header"></slot>
+        </div>
+        <div class="pagebox_section" :belong="id">
+            <slot name="section"></slot>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+
+module.exports = {
+    name: 'pagebox',
+    props: {
+        id: String,
+        menu: {
+            type: Object,
+            required: true
+        },
+        config: {
+            type: Object,
+            default: function() { return {}; }
+        }
+    },
+    data () {
+        return {
+            sidebarunfold: false,
+            defaultConfig: {
+                sidebarLocked: false,
+                sidebarUnfold: false,
+                sidebarHoverUnfold: false,
+                layoutHeader: true,
+                layoutSidebar: true,
+                layoutEmpty: false,
+                layoutLogo: true,
+            }
+        };
+    },
+    mounted () {
+        Object.assign(this.config, this.defaultConfig, this.config);
+    }
+}
+</script>
