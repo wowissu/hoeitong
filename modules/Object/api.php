@@ -32,6 +32,7 @@ $app->get('/object/{id}/nodes', function ($req, $res, $args) use($app)
     $output = [];
     $objectId = $args['id'];
     $obj = Object::where('lineage', '<@', "root.{$objectId}")
+        // ->withTrashed()
         ->orderBy('type')
         ->get()
         ->keyBy('id');
@@ -158,9 +159,43 @@ $app->post('/object/create', function ($req, $res, $args) use($app)
 });
 
 // delete object by id
-$app->delete('/object/{id}', function ($req, $res, $args) use($app)
+$app->delete('/object/{id}/delete', function ($req, $res, $args) use($app)
 {
+    try {
+        $o = Object::findOrFail($args['id']);
 
+        if ($o->delete()) {
+            return $res->withJson([
+                'success' => true,
+                'data' => $o->toArray()
+            ], 200);
+        }
+    } catch (Exception $e) {
+        return $res->withJson([
+            'error' => true,
+            'message' => $e->getMessage()
+        ], 400);
+    }
+});
+
+// recover object by id
+$app->post('/object/{id}/recover', function ($req, $res, $args) use($app)
+{
+    try {
+        $o = Object::withTrashed()->findOrFail($args['id']);
+
+        if ($o->restore()) {
+            return $res->withJson([
+                'success' => true,
+                'data' => $o->toArray()
+            ], 200);
+        }
+    } catch (Exception $e) {
+        return $res->withJson([
+            'error' => true,
+            'message' => $e->getMessage()
+        ], 400);
+    }
 });
 
 // create object

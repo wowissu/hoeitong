@@ -3,14 +3,16 @@ namespace Modules\Object\Models;
 
 use Modules\App\BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
-// use Modules\Tab\Models\Tab;
 use Modules\Tab\Models\TabShip;
+// use Modules\Tab\Models\Tab;
 
 /**
  *
  */
 class Object extends BaseModel
 {
+    use SoftDeletes;
+
     protected $table = 'object';
     public $timestamps = true;
 
