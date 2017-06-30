@@ -2,11 +2,6 @@
 <div class="popup" v-show="show">
     <div class="popup_inner">
         <slot name="content"></slot>
-        <!-- <slot name="close">
-            <div class="popup_close">
-                <i class="fa fa-close" @click="show = false"></i>
-            </div>
-        </slot> -->
     </div>
 </div>
 </template>
@@ -17,9 +12,12 @@ export default {
     props: {
         show: {
             type: Boolean,
-            default: () => {
-                return false
-            }
+            default: () => { return true }
+        }
+    },
+    data() {
+        return {
+
         }
     }
 }

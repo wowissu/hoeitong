@@ -10,7 +10,7 @@ export default {
             required: true
         }
     },
-    data: () => {
+    data() {
         var $this = this;
 
         return {
@@ -23,32 +23,32 @@ export default {
         };
     },
     methods: {
-        clearSearch: () => {
+        clearSearch() {
             this.search.text = '';
             this.search.tabs = [];
             this.search.focusIndex = -1;
         },
-        addTab: (tab) => {
+        addTab(tab) {
             this.tabs.push(tab);
             this.clearSearch();
             this.$emit('change', this.tabs);
         },
-        searchResultKeyDown: (event) => {
+        searchResultKeyDown(event) {
             this.search.focusIndex = Math.min(this.search.focusIndex + 1, this.search.tabs.length - 1);
             this.search.text = this.search.tabs[this.search.focusIndex].title;
         },
-        searchResultKeyUp: (event) => {
+        searchResultKeyUp(event) {
             this.search.focusIndex = Math.max(this.search.focusIndex - 1, 0);
             this.search.text = this.search.tabs[this.search.focusIndex].title;
         },
-        deleteTabByIndex: (index) => {
+        deleteTabByIndex(index) {
             if (index in this.tabs) {
                 this.tabs.splice(index, 1);
                 this.clearSearch();
                 this.$emit('change', this.tabs);
             }
         },
-        searchInputOnEnter: () => {
+        searchInputOnEnter() {
             if (this.search.focusIndex in this.search.tabs) {
                 this.addTab(this.search.tabs[this.search.focusIndex]);
             } else if (this.search.text) {
@@ -57,12 +57,12 @@ export default {
                 });
             }
         },
-        searchInputOnDelete: () => {
+        searchInputOnDelete() {
             if (!this.search.text) {
                 this.tabs.pop();
             }
         },
-        updateSearchResult: () => {
+        updateSearchResult() {
             var $this = this;
 
             $this.search.tabs = [];
@@ -77,7 +77,7 @@ export default {
                     });
             }
         },
-        filterResult: (result) => {
+        filterResult(result) {
             return result;
         }
     }

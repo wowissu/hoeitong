@@ -26,59 +26,24 @@ $app->get('/object', function ($req, $res, $args) use($app)
     ], 200);
 });
 
-$app->get('/object/{id}/nodes', function ($req, $res, $args) use($app)
-{
-
-    $output = [];
-    $objectId = $args['id'];
-    $obj = Object::where('lineage', '<@', "root.{$objectId}")
-        // ->withTrashed()
-        ->orderBy('type')
-        ->get()
-        ->keyBy('id');
-
-    if ($obj->count()) {
-        $map = $obj->toArray();
-
-        foreach ($map as $objId => $objVal) {
-            $parentId = $objVal['parent_id'];
-
-            if (isset($map[$parentId])) {
-                $map[$parentId]['children'][] = &$map[$objId];
-            }
-
-            if ($objVal['parent_id'] == $objectId) {
-                $output[] = &$map[$objId];
-            }
-        }
-    }
-
-    return $res->withJSON([
-        'success' => true,
-        'data' => $output
-    ]);
-});
-
 // get object by id
 $app->get('/object/{id}', function ($req, $res, $args) use($app)
 {
-
-    $with = $req->getQueryParam('with') ?: [];
-
-    if ($with) {
-        $with = explode(',', $with);
-    }
+    $objectId = $args['id'];
 
     try {
-        $obj = Object::where('id', $args['id']);
 
-        foreach ($with as $row) {
-            $obj->with($row);
-        }
+        $target = Object::with(['images', 'tabs'])
+            ->nodes($objectId)
+            ->get()
+            ->tree(function ($map) use($objectId)
+            {
+                return $map->get($objectId);
+            });
 
         return $res->withJson([
             'success' => true,
-            'data' => $obj->first()
+            'data' => $target
         ], 200);
 
     } catch (Exception $e) {
@@ -97,49 +62,48 @@ $app->put('/object/{id}', function ($req, $res, $args) use($app)
     $userpost = $req->getParams();
 
     try {
-
         $obj = Object::findOrFail($userpost['id']);
 
         DB::transaction(function () use ($userpost, &$obj)
         {
-            $obj->title = $userpost['title'];
+            $obj->title   = $userpost['title'];
             $obj->summary = $userpost['summary'] ?: null;
-            $obj->model = $userpost['model'] ?: null;
-            $obj->spec = $userpost['spec'] ?: null;
-
+            $obj->model   = $userpost['model'] ?: null;
+            $obj->spec    = $userpost['spec'] ?: null;
             $obj->save();
 
-
-            // TabShip::where('relate_id', $obj->id)->delete(); // remove all tabs
-            // Image::where('object_id', $obj->id)->delete(); // remove all images
-
             if (is_array($userpost['tabs'])) {
-                $old = $obj->tabs->pluck('title')->toArray();
-                $new = array_column($userpost['tabs'], 'title');
+                $old = $obj->tabs->pluck('title');
+                $new = collect($userpost['tabs'])->pluck('title');
 
-                $addtabs = array_diff($new, $old);
-                $removetabs = array_diff($old, $new);
-
-                foreach ($addtabs as $tab) {
-                    $tab = Tab::firstOrCreate(['title' => $tab]);
-
-                    if ($tab) {
+                // create tabs if not exists
+                $new->diff($old)->each(function ($tabTitle) use($obj)
+                {
+                    if ($tab = Tab::firstOrCreate(['title' => $tabTitle])) {
                         $tab->shipWith($obj->id);
                     }
-                }
-
-                Tab::whereIn('title', $removetabs)->get()->each(function ($row) use($obj)
-                {
-                    $row->unship($obj->id);
                 });
+
+                // remove tabs
+                Tab::whereIn('title', $old->diff($new))
+                    ->get()
+                    ->each(function ($row) use($obj)
+                    {
+                        $row->unship($obj->id);
+                    });
             }
         });
 
         return $res->withJson([
             'success' => true,
-            'data' => Object::where('id', $obj->id)->with(['tabs', 'images'])->first()
+            'data' => Object::with(['tabs', 'images'])
+                ->nodes($obj->id)
+                ->get()
+                ->tree(function ($map) use($obj)
+                {
+                    return $map->get($obj->id);
+                })
         ], 200);
-
 
     } catch (Exception $e) {
 
@@ -179,7 +143,7 @@ $app->delete('/object/{id}/delete', function ($req, $res, $args) use($app)
 });
 
 // recover object by id
-$app->post('/object/{id}/recover', function ($req, $res, $args) use($app)
+$app->put('/object/{id}/recover', function ($req, $res, $args) use($app)
 {
     try {
         $o = Object::withTrashed()->findOrFail($args['id']);
@@ -198,4 +162,4 @@ $app->post('/object/{id}/recover', function ($req, $res, $args) use($app)
     }
 });
 
-// create object
+//

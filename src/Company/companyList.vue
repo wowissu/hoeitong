@@ -2,10 +2,13 @@
 <template src="./templates/companyList.html"></template>
 
 <script>
-var Company = require('./company.vue');
+var {deeploop} = require('../helper.js');
 
 module.exports = {
-    components: {Company},
+    components: {
+        company: require('./company.vue'),
+        searchbar: require('../Searchbar.vue')
+    },
     data () {
         var $this = this;
         var menu = {
@@ -23,12 +26,10 @@ module.exports = {
                     return $this.editCompany ? false : true;
                 }
             },
-            companies: [],
+            searchValue: '',
             editCompany: false,
+            companies: [],
             menu: menu,
-            table: {
-                filterby: ''
-            }
         };
     },
     mounted: function ()
@@ -45,7 +46,7 @@ module.exports = {
         // 更新廠商
         this.$bus.$on('save.company', function (company)
         {
-            // console.log('save:', company);
+            console.log('save:', company);
 
             $.extend($this.editCompany, company);
             $this.$router.push({ name: 'companyList' });
@@ -74,6 +75,34 @@ module.exports = {
         }
 
         next();
+    },
+    computed: {
+        filtedCompanies() {
+            var companies = this.companies;
+            var searchValue = this.searchValue;
+
+            if (!companies.length) {} else if (searchValue && typeof searchValue === 'string') {
+                return companies.filter(function (row)
+                {
+                    var live = false;
+
+                    deeploop(row, function (column)
+                    {
+                        if (typeof column === 'string' || typeof column === 'number') {
+                            if (column.toString().indexOf(searchValue) >= 0) {
+                                live = true;
+                                return false;
+                            }
+                        }
+
+                    });
+
+                    return live;
+                });
+            }
+
+            return companies;
+        }
     },
     methods: {
         editCompanyById: function (id)
@@ -112,34 +141,6 @@ module.exports = {
                     }
                 });
             }
-        },
-        filterCompanies: function (companies)
-        {
-            if (!companies.length) {
-                return companies;
-            }
-
-            var $this = this;
-            var filterby = $this.table.filterby;
-
-            if (filterby.length && typeof filterby === 'string') {
-                companies = companies.filter(function (row)
-                {
-                    var live = false;
-
-                    deeploop(row, function (column)
-                    {
-                        if (column && column.toString().indexOf(filterby) >= 0) {
-                            live = true;
-                            return false;
-                        }
-                    });
-
-                    return live;
-                });
-            }
-
-            return companies;
         },
         checkRouteUpdate: function ()
         {

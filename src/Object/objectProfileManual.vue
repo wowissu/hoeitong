@@ -1,4 +1,6 @@
-<template src="./templates/profile/manual.html"></template>
+<template>
+<div id="manual">manual</div>
+</template>
 
 <script>
     module.exports = {

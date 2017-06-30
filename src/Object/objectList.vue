@@ -1,9 +1,13 @@
 <style lang="scss" src="./scss/objectList.scss"></style>
-<template src="./templates/index.html"></template>
+<template src="./templates/objectList.html"></template>
 
 <script>
+var {deeploop} = require('../helper.js');
 
 module.exports = {
+    components: {
+        searchbar: require('../Searchbar.vue')
+    },
     data() {
         var $this = this;
         var menu = {
@@ -15,15 +19,15 @@ module.exports = {
         };
 
         return {
-            search: '',
+            searchValue: '',
+            objectList: [],
             menu: menu,
             pageboxConfig: {
                 sidebarLocked: true,
                 get layoutHeader() {
                     return !$this.$route.params.id;
                 }
-            },
-            objectList: [],
+            }
         };
     },
     methods: {
@@ -44,19 +48,14 @@ module.exports = {
             var $this = this;
         },
         filterList(data) {
-            if (!data.length) {
-                return data;
-            }
+            var searchValue = this.searchValue;
 
-            var $this = this;
-            var filterby = $this.search;
-
-            if (filterby.length && typeof filterby === 'string') {
-                data = data.filter((row) => {
+            if (!data.length) {} else if (searchValue.length && typeof searchValue === 'string') {
+                return data.filter((row) => {
                     var live = false;
 
                     deeploop(row, (column) => {
-                        if (column && column.toString().indexOf(filterby) >= 0) {
+                        if (column && column.toString().indexOf(searchValue) >= 0) {
                             live = true;
                             return false;
                         }

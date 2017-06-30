@@ -56,50 +56,40 @@ export default {
 
 </script>
 
-<style lang="scss">
-@charset "utf-8";
+<style lang="sass">
+@charset "utf-8"
+@import "~styles/mixin"
+@import "~styles/Form"
+@import "~styles/Pagebox"
 
-@import "~styles/mixin";
-@import "~styles/Form";
-@import "~styles/Pagebox";
+.pagebox_wraper
+    height: 100vh
+    width: 100vw
+    display: block
 
 html
-{
-    font-size: 14px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-}
+    font-size: 14px
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif
 
 body
-{
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-    overflow: hidden;
-    color: #333;
-}
+    margin: 0
+    padding: 0
+    border: 0
+    font-size: 100%
+    font: inherit
+    vertical-align: baseline
+    overflow: hidden
+    color: #333
 
 *, *:after, *:before
-{
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
 
 .colorinherit
-{
-    color: inherit;
-}
+    color: inherit
 
 #site
-{
-    $mainColor: #82b440;
-
-    @include pageboxtheme((
-        itemActiveFontColor: $mainColor,
-        itemHoverFontColor: lighten($mainColor, 10%)
-    ));
-}
+    $mainColor: #82b440
+    @include pageboxtheme((itemActiveFontColor: $mainColor, itemHoverFontColor: lighten($mainColor, 10%)))
 </style>

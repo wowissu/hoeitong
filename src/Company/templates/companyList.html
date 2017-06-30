@@ -10,23 +10,12 @@
     </template>
     <template slot="header">
         <div class="company_navheader">
-            <div>
-                <div class="searchbar">
-                    <input type="text" id="search_input" placeholder="搜尋..." v-model="table.filterby">
-                    <label for="search_input">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </label>
-                    <span class="clean_input" @click="table.filterby = ''" v-show="table.filterby.length">
-                        <i class="fa fa-remove"></i>
-                    </span>
-                </div>
-            </div>
+            <searchbar v-model="searchValue"></searchbar>
         </div>
     </template>
     <template slot="section">
         <!-- Company Detail Component -->
         <company v-if="editCompany" :bind="editCompany"></company>
-
         <!-- Company List -->
         <div v-else class="company_section">
             <div class="company_body pagebox_section_scroll">
@@ -44,7 +33,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="company in filterCompanies(companies)">
+                        <tr v-for="company in filtedCompanies">
                             <td>
                                 <div class="row_toolbar">
                                     <span class="row_tool editor">

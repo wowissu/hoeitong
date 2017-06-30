@@ -1,12 +1,6 @@
-.pagebox_wraper
-{
-    height: 100vh;
-    width: 100vw;
-    display: block;
-}
+@import "~styles/mixin";
 
-@mixin pageboxDefiner ($settings: ())
-{
+@mixin pageboxDefiner ($settings: ()) {
     $bindSelector: &;
 
     $defSettings: (
@@ -31,12 +25,10 @@
 
     $settings: map_merge($defSettings, $settings);
 
-    &.pagebox
-    {
+    &.pagebox {
         height: 100%;
 
-        .pagebox_inner
-        {
+        .pagebox_inner {
             display: block;
             white-space: normal;
             height: 100%;
@@ -55,13 +47,10 @@
             // @include transition-delay(map_get($settings, unfoldDelay));
         };
 
-        @include pageboxSider($settings)
-        {
-            &:not(.pagebox_sidebar__locker)
-            {
+        @include pageboxSider($settings) {
+            &:not(.pagebox_sidebar__locker) {
                 &.pagebox_sidebar__unfold,
-                &.pagebox_sidebar__hover_unfold:hover
-                {
+                &.pagebox_sidebar__hover_unfold:hover {
                     // @include animation-name(sidebarUnfold);
                     // @include animation-duration(map_get($settings, unfoldDuration));
                     // @include animation-delay(map_get($settings, unfoldDelay));
@@ -70,19 +59,16 @@
                     z-index: 2;
 
                     > .pagebox_menu,
-                    ~ .pagebox_logo
-                    {
+                    ~ .pagebox_logo {
                         width: map_get($settings, sidebarUnfoldWidth);
                     }
 
-                    ~ .pagebox_header
-                    {
+                    ~ .pagebox_header {
                         left: map_get($settings, sidebarUnfoldWidth);
                         width: calc(100% - #{map_get($settings, sidebarUnfoldWidth)});
                     }
 
-                    ~ .pagebox_section
-                    {
+                    ~ .pagebox_section {
                         left: map_get($settings, sidebarUnfoldWidth);
                         width: calc(100% - #{map_get($settings, sidebarUnfoldWidth)});
                     }
@@ -95,74 +81,59 @@
             @include transition-duration(map_get($settings, unfoldDuration), map_get($settings, unfoldDuration));
         };
 
-        #{$bindSelector}.pagebox_layout
-        {
+        #{$bindSelector}.pagebox_layout {
             display: none;
 
-            &.layout__nologo
-            {
-                ~.pagebox_logo
-                {
+            &.layout__nologo {
+                ~.pagebox_logo {
                     display: none;
                 }
 
-                ~ .pagebox_header
-                {
+                ~ .pagebox_header {
                     width: 100% !important;
                     left: 0px !important;
                 }
 
-                ~ .pagebox_sidebar {
-                    top: 0px;
+                ~ .pagebox_sidebar {top: 0px;
                     height: 100%;
                 }
             }
 
             &.layout__noheader,
-            &.layout__empty
-            {
-                ~ .pagebox_header
-                {
+            &.layout__empty {
+                ~ .pagebox_header {
                     display: none;
                 }
 
-                ~ .pagebox_section
-                {
+                ~ .pagebox_section {
                     left: map_get($settings, sidebarWidth);
                     height: 100%;
                 }
             }
 
             &.layout__nosidebar,
-            &.layout__empty
-            {
-                ~ .pagebox_sidebar
-                {
+            &.layout__empty {
+                ~ .pagebox_sidebar {
                     display: none;
                 }
 
-                ~ .pagebox_section
-                {
+                ~ .pagebox_section {
                     left: 0;
                     width: 100%;
                 }
             }
 
             &.layout__noheader.layout__nosidebar,
-            &.layout__empty
-            {
-                ~ .pagebox_logo
-                {
+            &.layout__empty {
+                ~ .pagebox_logo {
                     display: none;
                 }
             }
         }
 
-        .pagebox_menu
-        {
+        .pagebox_menu {
             @include transition-property(width);
             @include transition-duration(map_get($settings, unfoldDuration));
-
             padding: 0;
             margin: 0;
             list-style: none;
@@ -171,15 +142,12 @@
             width: map_get($settings, sidebarWidth);
             padding: 10px 0;
 
-            .pagebox_menu_li
-            {
+            .pagebox_menu_li {
                 width: 100%;
                 display: block;
 
-                &.pagebox_menu_li__disable
-                {
-                    > .pagebox_menu_item > .item_header
-                    {
+                &.pagebox_menu_li__disable {
+                    > .pagebox_menu_item > .item_header {
                         background-color: map_get($settings, itemDisableBgColor);
                         color: map_get($settings, itemDisableFontColor);
                         cursor: not-allowed;
@@ -188,10 +156,8 @@
             }
         }
 
-        .pagebox_menu_item
-        {
-            .item_header
-            {
+        .pagebox_menu_item {
+            .item_header {
                 $margin: 0px;
                 @include flexbox;
                 @include flex-just(center);
@@ -206,8 +172,7 @@
                 text-decoration: none;
                 color: map_get($settings, sidebarFontColor);
 
-                .item_icon
-                {
+                .item_icon {
                     @include flexbox;
                     @include flex-just(center);
                     @include align-items(center);
@@ -216,8 +181,7 @@
                     font-size: 16px;
                 }
 
-                .item_title
-                {
+                .item_title {
                     @include flex(1, 0);
                     overflow: hidden;
                     white-space: nowrap;
@@ -227,12 +191,10 @@
     }
 }
 
-@mixin pageboxSider ($settings)
-{
+@mixin pageboxSider ($settings) {
     $headerHeight: map_get($settings, headerHeight);
 
-    .pagebox_sidebar
-    {
+    .pagebox_sidebar {
         position: absolute;
         top: $headerHeight;
         left: 0;
@@ -244,10 +206,8 @@
     }
 }
 
-@mixin pageboxLogo ($settings)
-{
-    .pagebox_logo
-    {
+@mixin pageboxLogo ($settings) {
+    .pagebox_logo {
         @include inline-flex;
         @include flex-just(center);
         @include align-items(center);
@@ -265,13 +225,11 @@
     }
 }
 
-@mixin pageboxHeader ($settings)
-{
+@mixin pageboxHeader ($settings) {
     $sidebarWidth: map_get($settings, sidebarWidth);
     $headerHeight: map_get($settings, headerHeight);
 
-    .pagebox_header
-    {
+    .pagebox_header {
         position: relative;
         width: calc(100% - #{$sidebarWidth});
         height: $headerHeight;
@@ -287,13 +245,11 @@
     }
 }
 
-@mixin pageboxSection ($settings)
-{
+@mixin pageboxSection ($settings) {
     $sidebarWidth: map_get($settings, sidebarWidth);
     $headerHeight: map_get($settings, headerHeight);
 
-    .pagebox_section
-    {
+    .pagebox_section {
         width: calc(100% - #{$sidebarWidth});
         height: calc(100% - #{$headerHeight});
         overflow-y: auto;
@@ -309,58 +265,47 @@
     }
 }
 
-@mixin pageboxtheme ($boxparams: ())
-{
-    .pagebox_header
-    {
+@mixin pageboxtheme ($boxparams: ()) {
+    .pagebox_header {
         background-color: map_get($boxparams, headerBgColor);
         color: map_get($boxparams, headerFontColor);
     }
 
-    .pagebox_sidebar
-    {
+    .pagebox_sidebar {
         background-color: map_get($boxparams, sidebarBgColor);
         color: map_get($boxparams, sidebarFontColor);
     }
 
-    .pagebox_logo
-    {
+    .pagebox_logo {
         background-color: map_get($boxparams, logoBgColor);
         color: map_get($boxparams, logoFontColor);
     }
 
-    .pagebox_section
-    {
+    .pagebox_section {
         background-color: map_get($boxparams, sectionBgColor);
         color: map_get($boxparams, sectionFontColor);
     }
 
-    .pagebox_menu_li
-    {
+    .pagebox_menu_li {
         &:not(.pagebox_menu_li__disable) {
-            .item_header
-            {
+            .item_header {
                 position: relative;
 
-                &:hover
-                {
+                &:hover {
                     background-color: map_get($boxparams, itemHoverBgColor);
                     color: map_get($boxparams, itemHoverFontColor);
                 }
 
-                &.router-link-active
-                {
+                &.router-link-active {
                     background-color: map_get($boxparams, itemActiveBgColor);
                     color: map_get($boxparams, itemActiveFontColor);
 
-                    @if map_has_key($boxparams, itemActiveAfterExtend)
-                    {
+                    @if map_has_key($boxparams, itemActiveAfterExtend) {
                         $bind: map_get($boxparams, itemActiveAfterExtend);
                         &::after { @extend #{$bind}; }
                     }
 
-                    @if map_has_key($boxparams, itemActiveBeforeExtend)
-                    {
+                    @if map_has_key($boxparams, itemActiveBeforeExtend) {
                         $bind: map_get($boxparams, itemActiveBeforeExtend);
                         &::before { @extend #{$bind}; }
                     }
@@ -368,15 +313,12 @@
             }
         }
 
-        &.pagebox_menu_li__disable
-        {
-            > .pagebox_menu_item > .item_header
-            {
+        &.pagebox_menu_li__disable {
+            > .pagebox_menu_item > .item_header {
                 background-color: map_get($boxparams, itemDisableBgColor);
                 color: map_get($boxparams, itemDisableFontColor);
             }
         }
-
     }
 
     @content;

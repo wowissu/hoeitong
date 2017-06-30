@@ -10,17 +10,7 @@
     </template>
     <template slot="header">
         <div class="object_navheader">
-            <div>
-                <div class="searchbar">
-                    <input type="text" id="search_input" placeholder="搜尋..." v-model.tirm="search">
-                    <label for="search_input">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                    </label>
-                    <span class="clean_input" @click="search = ''" v-show="search.length">
-                        <i class="fa fa-remove"></i>
-                    </span>
-                </div>
-            </div>
+            <searchbar v-model="searchValue"></searchbar>
         </div>
     </template>
     <template slot="section" >

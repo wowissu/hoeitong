@@ -16,10 +16,10 @@
                 <span class="node_type__spec"><i class="fa fa-link"></i></span>
             </span>
             <span class="node_amount" v-if="!is_root">
-                <div class="node_amount_input" v-text="node.amount"></div>
+                <div class="node_amount_input">{{ node.amount }}</div>
             </span>
-            <a href="javascript:void(0)" v-text="node.title" class="node_title"></a>
-            <span class="node_spec" v-text="node.spec"></span>
+            <a class="node_title" href="javascript:void(0)" @click="triggerTitleClick">{{ node.title }}</a>
+            <span class="node_spec">{{ node.spec }}</span>
             <span class="node_tool_bar" style="float: right;" v-if="!is_root">
                 <span class="node_tool" @click="remove" v-show="!node.deleted_at"><i class="fa fa-trash-o"></i></span>
                 <span class="node_tool" @click="recover" v-show="node.deleted_at"><i class="fa fa-undo"></i></span>
@@ -67,33 +67,16 @@ export default {
     },
     methods: {
         remove() {
-            var $this = this;
-
-            $.delete('api/object/{id}/delete'.replace('{id}', $this.node.id))
-                .done((res) => {
-                    if (res.success) {
-                        $this.node.deleted_at = res.data.deleted_at;
-                        $this.unfold = false;
-                    }
-                })
-                .fail((res) => {
-
-                });
+            this.node.deleted_at = new Date();
+            this.unfold = false;
         },
         recover() {
-            var $this = this;
-
-            $.post('api/object/{id}/recover'.replace('{id}', $this.node.id))
-                .done((res) => {
-                    if (res.success) {
-                        $this.node.deleted_at = null;
-                        $this.unfold = true;
-                    }
-                })
-                .fail((res) => {
-
-                });
+            this.node.deleted_at = null;
+            this.unfold = true;
         },
+        triggerTitleClick(evt) {
+            this.$bus.$emit('node.title.click', this.node);
+        }
     }
 }
 </script>

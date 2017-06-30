@@ -20,21 +20,25 @@ if (jQuery) {
     });
 }
 
+var isloopable = (value) => {
+    return typeof value === 'object' || typeof value === 'array';
+};
+
+var deeploop = (input, handle) => {
+    if (isloopable(input)) {
+        for (var row in input) {
+            if (deeploop(input[row], handle) === false) {
+                break;
+            }
+        }
+    } else {
+        return handle(input);
+    }
+};
+
 
 module.exports = {
-    isloopable (value) {
-        return typeof value === 'object' || typeof value === 'array';
-    },
-    deeploop (input, handle) {
-        if (isloopable(input)) {
-            for (var row in input) {
-                if (deeploop(input[row], handle) === false) {
-                    break;
-                }
-            }
-        } else {
-            return handle(input);
-        }
-    }
+    isloopable,
+    deeploop
 }
 
