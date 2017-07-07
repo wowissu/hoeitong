@@ -47,11 +47,26 @@
             &:hover {
                 background-color: #ff9;
             }
+
+            &.node_focus {
+                border-color: darken(#2e88d0, 5%);
+                background-color: rgba(#2e88d0, 0.4);
+            }
         }
 
         &:hover ~ .node_insert {
             display: block;
         }
+
+        .root_node {
+            .root_node_bar {
+                display: block;
+            }
+        }
+    }
+
+    .root_node_bar {
+        display: none;
     }
 
     .node_ul {
@@ -148,5 +163,17 @@
 
     .node_spec {
         color: #888;
+    }
+
+    .create_folder {
+        position: relative;
+
+        .fa-plus-circle {
+            position: absolute;
+            top: 7px;
+            left: -2px;
+            font-size: 12px;
+            color: #fff;
+        }
     }
 }

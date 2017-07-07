@@ -120,13 +120,14 @@ module.exports = {
                 }
 
                 $http('api/object/{id}'.replace('{id}', replace), {
-                    id      : object.id,
-                    title   : object.title,
-                    summary : object.summary,
-                    model   : object.model,
-                    spec    : object.spec,
-                    images  : object.images,
-                    tabs    : object.tabs
+                    id       : object.id,
+                    title    : object.title,
+                    summary  : object.summary,
+                    model    : object.model,
+                    spec     : object.spec,
+                    images   : object.images,
+                    tabs     : object.tabs,
+                    children : object.children
                 })
                     .done((res) => {
                         if (res.success) {

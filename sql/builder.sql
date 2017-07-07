@@ -118,7 +118,7 @@ BEGIN;
         model TEXT,
         summary TEXT,
         spec TEXT,
-        amount INTEGER, -- 3: 數量
+        amount NUMERIC DEFAULT 0, -- 3: 數量
         created_at timestamp(0) default (now()),
         updated_at timestamp(0) default (now()),
         deleted_at timestamp(0)

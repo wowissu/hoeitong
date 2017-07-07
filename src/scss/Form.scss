@@ -79,6 +79,13 @@
         color: $vf-dirty-color;
     }
 
+    .vf-header {
+        @include flexbox();
+        @include flex-just(flex-start);
+        position: relative;
+        padding-bottom: 10px;
+    }
+
     .vf-footer {
         @include flexbox();
         @include flex-just(flex-end);

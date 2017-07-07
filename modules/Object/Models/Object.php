@@ -23,6 +23,8 @@ class Object extends BaseModel
     const TYPE_PARTS    = 3; // 部位
     const TYPE_LINK     = 4; // 關聯
 
+    protected $fillable = ['id'];
+
     public function tabs()
     {
         return $this->hasMany(TabShip::class, 'relate_id')
@@ -38,8 +40,7 @@ class Object extends BaseModel
     public function scopeNodes($qry, $objectId)
     {
         return $qry->where('id', $objectId)
-            ->orWhere('lineage', '<@', "root.{$objectId}")
-            ->orderBy('type');
+            ->orWhere('lineage', '<@', "root.{$objectId}");
     }
 
     /**
@@ -72,4 +73,23 @@ class Object extends BaseModel
     {
         return $this->where('type', self::TYPE_LINK);
     }
+
+    public static function flattenTreeNode(&$parent, $callback=null, $childkey='children', $map=[])
+    {
+        $map[] = &$parent;
+        $children = &$parent[$childkey];
+
+        $callback = is_callable($callback) ? $callback : (function () {});
+
+        if (is_array($children) && count($children)) {
+            foreach ($children as $key => $row) {
+                $callback($children[$key], $parent);
+                $map = self::flattenTreeNode($children[$key], $callback, $childkey, $map);
+            }
+        }
+
+        return $map;
+    }
 }
+
+

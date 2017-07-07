@@ -13,7 +13,7 @@ class Tab extends BaseModel
 
     public function ship()
     {
-        return $this->belongsToMany(TabShip::class, 'tab_id');
+        return $this->hasMany(TabShip::class, 'tab_id');
     }
 
     public function shipWith($relateId)

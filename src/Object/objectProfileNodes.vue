@@ -8,7 +8,10 @@
             <template slot="content">
                 <nodeitor :node="targetNode">
                     <template slot="header">
-                        <span class="nodeditor_close" @click="targetNode = false"><i class="fa fa-window-close"></i></span>
+                        <span class="nodeditor_close" @click="targetNode = false">
+                            <div class="show"><i class="fa fa-window-close-o"></i></div>
+                            <div class="hover"><i class="fa fa-window-close"></i></div>
+                        </span>
                     </template>
                 </nodeitor>
             </template>
@@ -42,7 +45,7 @@ module.exports = {
         };
     },
     mounted() {
-        this.$bus.$on('node.title.click', (node) => {
+        this.$bus.$on('click.node.title', (node) => {
             this.targetNode = node;
         });
     }
@@ -56,5 +59,15 @@ module.exports = {
     min-width: 300px
     width: 50vw
 
-    .nodeditor_header
+    .nodeditor_close
+        cursor: pointer
+
+
+        .hover,
+        &:hover .show
+            display: none
+
+        .show
+        &:hover .hover
+            display: inline-block
 </style>
