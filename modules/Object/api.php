@@ -34,33 +34,43 @@ $app->get('/object/search', function ($req, $res, $args) use($app)
 
     try {
 
+        DB::enableQueryLog();
+
         if (is_string($text) && strlen($text)) {} else {
 
         }
 
         $tabs = Tab::where('title', 'ILIKE', $text)->where('ship_count', '>', 0)->with('ship')->get();
 
+        $objects = Object::whereIn('type', [Object::TYPE_MATERIAL, Object::TYPE_LINK])
+            ->where(function ($qry) use($tabs, $text) {
+                $qry->where('title', 'ILIKE', "%{$text}%")
+                    ->orWhere('spec', 'ILIKE', "%{$text}%")
+                    ->orWhere('model', 'ILIKE', "%{$text}%")
+                    ->when($tabs, function ($qry) use($tabs)
+                    {
+                        $ships = $tabs->reduce(function ($carry, $row)
+                        {
+                            $carry = $carry->merge($row->ship);
+                            return $carry;
+                        }, collect([]));
 
+                        if ($ships->count()) {
+                            $qry->orWhere(function ($qry) use($ships)
+                            {
+                                $qry->whereIn('id', $ships->pluck('relate_id'));
+                            });
+                        }
 
-        $objects = Object::where('title', 'ILIKE', "%{$text}%")
-            ->orWhere('spec', 'ILIKE', "%{$text}%")
-            ->orWhere('model', 'ILIKE', "%{$text}%")
-            ->when($tabs->count(), function ($qry) use($tabs)
-            {
-                $ships = $tabs->reduce(function ($carry, $row)
-                {
-                    $carry = $carry->merge($row->ship);
-                    return $carry;
-                }, collect([]));
-
-                return $qry->orWhere(function ($qry) use($ships)
-                {
-                    $qry->whereIn('id', $ships->pluck('object_id'));
-                });
+                        return $qry;
+                    });
             })
-            ->where('type', Object::TYPE_MATERIAL)
+            ->with('parent')
+            ->orderBy('type', 'ASC')
             ->orderBy('created_at')
             ->get();
+
+    // dd(DB::getQueryLog());
 
         return $res->withJson([
             'success' => true,

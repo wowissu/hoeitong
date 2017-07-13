@@ -1,19 +1,18 @@
 <template>
 <div class="searchbar">
-    <input type="text" id="search_input" placeholder="搜尋..." v-model="internalValue" @change="internalValueChange">
-    <label for="search_input">
-        <i class="fa fa-search" aria-hidden="true"></i>
+    <label :for="id" class="searchbar_label">
+        <div class="search_icon"><i class="fa fa-search" aria-hidden="true"></i></div>
+        <input type="text" class="search_input" placeholder="搜尋..." v-model.trim="internalValue" @change="internalValueChange" :id="id">
+        <span class="search_clean" @click="internalValueClean" v-show="internalValue"><i class="fa fa-remove"></i></span>
     </label>
-    <span class="clean_input" @click="internalValueEmpty" v-show="internalValue">
-        <i class="fa fa-remove"></i>
-    </span>
+    <slot name="behind"></slot>
 </div>
 </template>
 
 <script>
 export default {
     name: 'searchbar',
-    props: ['value'],
+    props: ['value', 'id'],
     data() {
         return {
             internalValue: ''
@@ -25,10 +24,18 @@ export default {
     methods: {
         internalValueChange() {
             this.$emit('input', this.internalValue);
+            this.$emit('change', this.internalValue);
         },
-        internalValueEmpty() {
+        internalValueClean() {
             this.internalValue = '';
             this.$emit('input', this.internalValue);
+
+            setTimeout(() => {
+                this.$emit('clean');
+            });
+        },
+        getInput() {
+            return this.$el.querySelector('input.search_input')
         }
     }
 }
@@ -39,45 +46,51 @@ export default {
 
 .searchbar
     $regionHeight: 30px;
-    $fontColor: #fff;
+    $fontColor: currentColor;
     $fontSize: 16px;
     $fontHoverSize: 14px;
-    height: $regionHeight
     position: relative
-    margin-right: 10px
 
-    label
+    .searchbar_label
+        position: relative
+        height: $regionHeight
+        @include inline-flex()
+        @include flex-just(space-between)
+        @include align-items(center)
+
+    .search_icon
         @include flexbox()
         @include flex-just(center)
         @include align-items(center)
-        position: absolute
-        top: 0
-        left: 0
+        min-width: $regionHeight
         width: $regionHeight
         height: $regionHeight
         cursor: pointer
 
-    .clean_input
+    .search_clean
         cursor: pointer
         display: inline-block
         vertical-align: middle
+        padding: 5px
+        opacity: 0.6
 
         &:hover
-            opacity: 0.8
+            opacity: 1
 
         &:active
             margin-top: 1px
 
-    #search_input
+    .search_input
         height: 100%
-        padding: 5px 5px 5px $regionHeight
+        padding: 5px
         background-color: transparent
         border: none
         outline: none
         color: $fontColor
-        font-size: $fontSize
+        @include flex(1)
 
         @include placeholder
-            color: rgba($fontColor, .7)
+            opacity: 0.5
+            color: $fontColor
             font-size: $fontHoverSize
 </style>

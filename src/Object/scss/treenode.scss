@@ -1,4 +1,4 @@
-@import '~styles/mixins/flex';
+@import '~styles/mixin';
 
 .node
 {
@@ -13,6 +13,7 @@
     $line_style: 1px dashed #999;
     $line_left: $nodes_left / 2;
     $line_top: 0px;
+    $node_focus_bgcolor: rgba(#2e88d0, 0.4);
     background-color: $node_bgcolor;
     position: relative;
     vertical-align: middle;
@@ -38,35 +39,44 @@
             display: inline-block;
         }
 
-        .node_header_inner {
+        .node_header_bar {
             padding: 5px;
             background-color: $header_inner_bgcolor;
             color: $header_fontcolor;
-            border: 1px dashed #999;
 
             &:hover {
                 background-color: #ff9;
             }
+        }
+
+        .node_header_inner {
+            border: 1px dashed #999;
 
             &.node_focus {
+                outline: none;
                 border-color: darken(#2e88d0, 5%);
-                background-color: rgba(#2e88d0, 0.4);
+                border-style: solid;
+                border-width: 1px;
+
+                .node_header_bar {
+                    background-color: rgba(#2e88d0, 0.1);
+                }
+            }
+
+            &.no_id {
+                background-color: rgba(#82b440, 0.5);
+            }
+
+            &.node_deleted {
+                .node_header_bar {
+                    background-color: rgba(#de1d5f, .3);
+                }
             }
         }
 
-        &:hover ~ .node_insert {
-            display: block;
+        .node_header_hr {
+            border-bottom: 1px solid #ddd;
         }
-
-        .root_node {
-            .root_node_bar {
-                display: block;
-            }
-        }
-    }
-
-    .root_node_bar {
-        display: none;
     }
 
     .node_ul {
@@ -91,19 +101,6 @@
     &.node__unfold {
         .node_ul {
             display: block;
-        }
-    }
-
-    &.node__recoverable {
-        color: #999;
-
-        .node_header_inner {
-            border-color: #de1d5f;
-            background-color: rgba(#de1d5f, .3);
-
-            &:hover {
-                background-color: rgba(#de1d5f, .3);
-            }
         }
     }
 
@@ -151,9 +148,10 @@
             display: inline-block;
             vertical-align: middle;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: normal;
             color: #999;
+            position: relative;
 
             &:hover {
                 color: inherit;
@@ -165,15 +163,74 @@
         color: #888;
     }
 
-    .create_folder {
-        position: relative;
+    .link_material_panel {
+        margin-bottom: 10px;
 
-        .fa-plus-circle {
-            position: absolute;
-            top: 7px;
-            left: -2px;
-            font-size: 12px;
-            color: #fff;
+        .search_wrapper {
+            @include flexbox();
+            @include flex-just(space-between);
+            @include align-items(center);
+        }
+
+        .searchbar {
+            width: 100%;
+            max-width: 200px;
+            font-size: 14px;
+        }
+
+        .search_toolbar {
+            padding: 0;
+            margin: 0;
+            margin-right: 10px;
+
+            li {
+                list-style: none;
+                cursor: pointer;
+                display: inline-block;
+                vertical-align: middle;
+                border-bottom: 1px solid transparent;
+
+                &:hover {
+                    border-color: #000;
+                }
+            }
+        }
+
+        .link_material_list {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            padding: 10px 0px;
+
+            li {
+                list-style: none;
+                padding: 5px 20px;
+
+                &:hover {
+                    background-color: $node_focus_bgcolor;
+                }
+
+                .link_material_item_inner {
+
+                }
+
+                .item_title {
+                    color: blue;
+                }
+
+                .item_spec {
+                    color: #888;
+                }
+
+                .item_copy {
+                    cursor: pointer;
+                    color: #999;
+
+                    &:hover {
+                        color: #000;
+                    }
+                }
+            }
         }
     }
 }

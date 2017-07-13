@@ -72,6 +72,8 @@ module.exports = {
                             $this.object.tabs    = data.tabs;
                             $this.object.chilren = data.chilren;
                             $this.$bus.$emit('object.save', $this.object);
+
+                            alert('儲存成功！');
                         });
                     }
                 }

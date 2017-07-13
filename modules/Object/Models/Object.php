@@ -37,6 +37,11 @@ class Object extends BaseModel
         return $this->hasMany(Images::class, 'object_id');
     }
 
+    public function parent()
+    {
+        return $this->hasOne(self::class, 'id', 'parent_id');
+    }
+
     public function scopeNodes($qry, $objectId)
     {
         return $qry->where('id', $objectId)
@@ -52,26 +57,6 @@ class Object extends BaseModel
     public function newCollection(array $models = [])
     {
         return new ObjectCollection($models);
-    }
-
-    public function isMeterial()
-    {
-        return $this->where('type', self::TYPE_MATERIAL);
-    }
-
-    public function isProduct()
-    {
-        return $this->where('type', self::TYPE_PRODUCT);
-    }
-
-    public function isParts()
-    {
-        return $this->where('type', self::TYPE_PARTS);
-    }
-
-    public function isLink()
-    {
-        return $this->where('type', self::TYPE_LINK);
     }
 
     public static function flattenTreeNode(&$parent, $callback=null, $childkey='children', $map=[])

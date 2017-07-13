@@ -110,7 +110,7 @@ BEGIN;
     (
         id INTEGER PRIMARY KEY DEFAULT nextval('seq_id') NOT NULL,
         type SMALLINT, -- 1:原料 2:成品 3:部位 4:規格
-        relate_id INTEGER references object(id) ON DELETE CASCADE ON UPDATE CASCADE, --
+        relate_id INTEGER references object(id) ON DELETE NO ACTION ON UPDATE CASCADE, --
         parent_id INTEGER references object(id) ON DELETE CASCADE ON UPDATE CASCADE, --
         manual_id INTEGER references manual(id) ON DELETE NO ACTION ON UPDATE CASCADE, -- 文件
         lineage LTREE,
@@ -123,6 +123,21 @@ BEGIN;
         updated_at timestamp(0) default (now()),
         deleted_at timestamp(0)
     );
+
+    -- CREATE OR REPLACE VIEW object_material AS
+    --     SELECT *
+    --     FROM object
+    --     WHERE type = 1;
+
+    -- CREATE OR REPLACE VIEW object_product AS
+    --     SELECT *
+    --     FROM object
+    --     WHERE type = 2;
+
+    -- CREATE OR REPLACE VIEW object_link AS
+    --     SELECT *
+    --     FROM object
+    --     WHERE type = 4;
 
     -- 圖片
     CREATE TABLE IF NOT EXISTS object_images
