@@ -11,11 +11,16 @@ module.exports = {
     data() {
         var $this = this;
         var menu = {
-            insert: {
-                title: '新增物件',
-                icon: '<i class="fa fa-plus"></i>',
-                url: '/object/insert'
-            }
+            // insertCube: {
+            //     title: '新增成品',
+            //     icon: '<i class="fa fa-cube"></i>',
+            //     url: '/object/create/cube'
+            // },
+            // insertMaterial: {
+            //     title: '新增成品',
+            //     icon: '<i class="fa fa-gear"></i>',
+            //     url: '/object/create/material'
+            // }
         };
 
         return {
@@ -44,9 +49,6 @@ module.exports = {
                 });
             });
         },
-        checkRouteUpdate() {
-            var $this = this;
-        },
         filterList(data) {
             var searchValue = this.searchValue;
 
@@ -66,6 +68,22 @@ module.exports = {
             }
 
             return data;
+        },
+        createProduct() {
+            $.post('api/object/create/product')
+                .done((res) => {
+                    if (res.success) {
+                        this.objectList.unshift(res.data);
+                    }
+                });
+        },
+        createMaterial() {
+            $.post('api/object/create/material')
+                .done((res) => {
+                    if (res.success) {
+                        this.objectList.unshift(res.data);
+                    }
+                });
         }
     },
     mounted() {
@@ -97,6 +115,11 @@ module.exports = {
                 }
             });
 
+            if (to.name === 'objectInsertCube') {
+
+            } else if (to.name === 'objectInsertMaterial') {
+
+            }
         }
 
         next();

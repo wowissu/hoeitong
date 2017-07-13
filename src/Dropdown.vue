@@ -61,8 +61,6 @@ export default {
                 var list = $(this.$refs.list);
                 var trigger = $(this.$refs.trigger);
 
-
-
                 list.css({
                     left: trigger.offset().left + ( trigger.width() / 2 ) - ( list.width() / 2 ),
                     top: trigger.offset().top + trigger.height() + 5

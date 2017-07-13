@@ -23,11 +23,15 @@
         @include flexbox();
         @include flex-just(space-between);
         @include align-items(center);
-
         height: $navheaderHeight;
         width: 100%;
         color: #fff;
         padding: 0 10px;
+
+        .header_tool_item {
+            margin-right: 10px;
+            cursor: pointer;
+        }
     }
 
     .object_table

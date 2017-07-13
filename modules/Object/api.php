@@ -206,12 +206,51 @@ $app->put('/object/{id}', function ($req, $res, $args) use($app)
     }
 });
 
-// put object by id
-// $app->post('/object/create', function ($req, $res, $args) use($app)
-// {
-//     $userpost = $req->getParams();
-//     dd($userpost);
-// });
+// create product
+$app->post('/object/create/product', function ($req, $res, $args) use($app)
+{
+    try {
+
+        return $res->withJson([
+            'success' => true,
+            'data' => Object::create([
+                'title' => '新成品',
+                'type' => Object::TYPE_PRODUCT
+            ])
+        ], 200);
+
+    } catch (Exception $e) {
+
+        return $res->withJson([
+            'error' => true,
+            'message' => $e->getMessage()
+        ], 400);
+
+    }
+});
+
+// create product
+$app->post('/object/create/material', function ($req, $res, $args) use($app)
+{
+    try {
+
+        return $res->withJson([
+            'success' => true,
+            'data' => Object::create([
+                'title' => '新材料',
+                'type' => Object::TYPE_MATERIAL
+            ])
+        ], 200);
+
+    } catch (Exception $e) {
+
+        return $res->withJson([
+            'error' => true,
+            'message' => $e->getMessage()
+        ], 400);
+
+    }
+});
 
 // delete object by id
 // $app->delete('/object/{id}/delete', function ($req, $res, $args) use($app)

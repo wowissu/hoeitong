@@ -23,7 +23,7 @@ class Object extends BaseModel
     const TYPE_PARTS    = 3; // 部位
     const TYPE_LINK     = 4; // 關聯
 
-    protected $fillable = ['id'];
+    protected $fillable = ['id', 'title', 'type'];
 
     public function tabs()
     {
