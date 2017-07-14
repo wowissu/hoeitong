@@ -110,11 +110,11 @@ module.exports = {
             $(this.$el).find('.pagebox_section[belong=objectList]').each(() => {
                 var section = $(this);
 
-                if (from.name == 'object') {
+                if (from.name == 'objectList') {
 
                     from.meta.recrodScroll = section.scrollTop();
 
-                } else if (to.name == 'object') {
+                } else if (to.name == 'objectList') {
 
                     setTimeout(((top) => {
                         section.scrollTop(top);
