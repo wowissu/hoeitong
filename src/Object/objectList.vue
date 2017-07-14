@@ -10,25 +10,27 @@ module.exports = {
     },
     data() {
         var $this = this;
-        var menu = {
-            // insertCube: {
-            //     title: '新增成品',
-            //     icon: '<i class="fa fa-cube"></i>',
-            //     url: '/object/create/cube'
-            // },
-            // insertMaterial: {
-            //     title: '新增成品',
-            //     icon: '<i class="fa fa-gear"></i>',
-            //     url: '/object/create/material'
-            // }
-        };
 
         return {
             searchValue: '',
             objectList: [],
-            menu: menu,
+            menu: {
+                insertProduct: {
+                    title: '新增成品',
+                    icon: '<span class="object_create_item"><i class="fa fa-cube"></i><small><i class="fa fa-plus"></i></small></span>',
+                    click() {
+                        $this.createProduct();
+                    }
+                },
+                insertMaterial: {
+                    title: '新增成品',
+                    icon: '<span class="object_create_item"><i class="fa fa-gear"></i><small><i class="fa fa-plus"></i></small></span>',
+                    click() {
+                        $this.createMaterial();
+                    }
+                }
+            },
             pageboxConfig: {
-                sidebarLocked: true,
                 get layoutHeader() {
                     return !$this.$route.params.id;
                 }

@@ -124,21 +124,6 @@ BEGIN;
         deleted_at timestamp(0)
     );
 
-    -- CREATE OR REPLACE VIEW object_material AS
-    --     SELECT *
-    --     FROM object
-    --     WHERE type = 1;
-
-    -- CREATE OR REPLACE VIEW object_product AS
-    --     SELECT *
-    --     FROM object
-    --     WHERE type = 2;
-
-    -- CREATE OR REPLACE VIEW object_link AS
-    --     SELECT *
-    --     FROM object
-    --     WHERE type = 4;
-
     -- 圖片
     CREATE TABLE IF NOT EXISTS object_images
     (

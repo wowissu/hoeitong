@@ -2,7 +2,6 @@
 <div class="pagebox" :id="id">
     <div class="pagebox_inner">
         <div
-            :id="id"
             class="pagebox_layout"
             :class="{
                 layout__noheader: config.layoutHeader === false,
@@ -12,6 +11,7 @@
             }"
         ></div>
         <div
+            :belong="id"
             class="pagebox_sidebar"
             :class="{
                 pagebox_sidebar__locker: config.sidebarLocked,
@@ -68,12 +68,11 @@ module.exports = {
         },
         config: {
             type: Object,
-            default: function() { return {}; }
+            default() { return {}; }
         }
     },
     data () {
         return {
-            sidebarunfold: false,
             defaultConfig: {
                 sidebarLocked: false,
                 sidebarUnfold: false,
@@ -86,7 +85,7 @@ module.exports = {
         };
     },
     mounted () {
-        Object.assign(this.config, this.defaultConfig, this.config);
+        Object.assign(this.config, Object.assign(this.defaultConfig, this.config));
     }
 }
 </script>

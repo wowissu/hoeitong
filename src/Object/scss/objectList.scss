@@ -15,6 +15,20 @@
         itemActiveFontColor: darken($mainColor, 10%)
     ));
 
+    .pagebox_sidebar[belong="objectList"] {
+        .object_create_item {
+            position: relative;
+            width: 20px;
+            height: 20px;
+
+            small {
+                position: absolute;
+                bottom: -2px;
+                right: -2px;
+                font-size: 12px;
+            }
+        }
+    }
 
     position: relative;
 
