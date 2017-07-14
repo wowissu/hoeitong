@@ -19,14 +19,20 @@ module.exports = {
                     title: '新增成品',
                     icon: '<span class="object_create_item"><i class="fa fa-cube"></i><small><i class="fa fa-plus"></i></small></span>',
                     click() {
-                        $this.createProduct();
+                        $this.createProduct().then((newNode) => {
+                            $this.objectList.unshift(newNode);
+                            $this.$router.push({ name: 'objectList' });
+                        });
                     }
                 },
                 insertMaterial: {
                     title: '新增成品',
                     icon: '<span class="object_create_item"><i class="fa fa-gear"></i><small><i class="fa fa-plus"></i></small></span>',
                     click() {
-                        $this.createMaterial();
+                        $this.createMaterial().then((newNode) => {
+                            $this.objectList.unshift(newNode);
+                            $this.$router.push({ name: 'objectList' });
+                        });
                     }
                 }
             },
@@ -72,20 +78,24 @@ module.exports = {
             return data;
         },
         createProduct() {
-            $.post('api/object/create/product')
-                .done((res) => {
-                    if (res.success) {
-                        this.objectList.unshift(res.data);
-                    }
-                });
+            return new Promise(function (resolve) {
+                $.post('api/object/create/product')
+                    .done((res) => {
+                        if (res.success) {
+                            resolve(res.data);
+                        }
+                    });
+            });
         },
         createMaterial() {
-            $.post('api/object/create/material')
-                .done((res) => {
-                    if (res.success) {
-                        this.objectList.unshift(res.data);
-                    }
-                });
+            return new Promise(function (resolve) {
+                $.post('api/object/create/material')
+                    .done((res) => {
+                        if (res.success) {
+                            resolve(res.data);
+                        }
+                    });
+            });
         }
     },
     mounted() {

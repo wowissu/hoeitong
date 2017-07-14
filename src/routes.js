@@ -29,7 +29,7 @@ export default new VueRouter({
             ]
         },
         {
-            name: 'object',
+            name: 'objectList',
             path: '/object',
             component: ObjectList,
             children: [

@@ -5,7 +5,7 @@
  */
 return [
 
-    'db' => require 'db.config.php',
+    'db' => require('db.config.php'),
 
     /**
      * The protocol version used by the Response object.
