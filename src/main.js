@@ -5,11 +5,12 @@ import VueRouter from 'vue-router';
 import VueForm from 'vue-form';
 // import Vue2Filters from 'vue2-filters'
 import App from './App.vue';
+import filter from './filter.js';
 
 Vue.use(VueBus);
 Vue.use(VueRouter);
 Vue.use(VueForm);
-// Vue.use(Vue2Filters)
+
 
 new Vue({
   el: '#app',

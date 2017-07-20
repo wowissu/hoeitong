@@ -12,6 +12,7 @@
   "dependencies": {
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
+    "moment": "^2.18.1",
     "normalize.css": "^6.0.0",
     "sass-flex-mixin": "^1.0.3",
     "scss-utils": "^1.0.1",

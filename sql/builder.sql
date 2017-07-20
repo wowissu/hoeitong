@@ -14,7 +14,6 @@ BEGIN;
     -- DROP TABLE IF EXISTS object_category CASCADE;
     -- DROP TABLE IF EXISTS object_spec CASCADE;
     -- DROP TABLE IF EXISTS object_material CASCADE;
-    -- DROP TABLE IF EXISTS object_spec_provider CASCADE;
     DROP TABLE IF EXISTS tools CASCADE;
 
     --
@@ -167,7 +166,7 @@ BEGIN;
         DECLARE
             path ltree;
         BEGIN
-            IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' OR OLD.parent_id != NEW.parent_id THEN
+            IF TG_OP = 'INSERT' OR ( TG_OP = 'UPDATE' AND OLD.parent_id != NEW.parent_id ) THEN
                 SELECT lineage || id::text FROM object WHERE id = NEW.parent_id INTO path;
                 IF path IS NULL THEN
                     NEW.lineage = 'root'::ltree;

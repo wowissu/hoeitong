@@ -104,35 +104,26 @@ module.exports = {
         $this.updateObjectList();
     },
     beforeRouteUpdate(to, from, next) {
-        if (this) {
+        // record list scrollTop
+        $(this.$el).find('.pagebox_section[belong=objectList]').each(function () {
+            var section = $(this);
 
-            // record list scrollTop
-            $(this.$el).find('.pagebox_section[belong=objectList]').each(() => {
-                var section = $(this);
+            if (from.name == 'objectList') {
 
-                if (from.name == 'objectList') {
+                from.meta.recrodScroll = section.scrollTop();
 
-                    from.meta.recrodScroll = section.scrollTop();
+            } else if (to.name == 'objectList') {
 
-                } else if (to.name == 'objectList') {
+                setTimeout(((top) => {
+                    section.scrollTop(top);
+                }).bind(
+                    null,
+                    to.meta.recrodScroll || 0
+                ), 50);
 
-                    setTimeout(((top) => {
-                        section.scrollTop(top);
-                    }).bind(
-                        null,
-                        to.meta.recrodScroll || 0
-                    ), 50);
-
-                    to.meta.recrodScroll = 0;
-                }
-            });
-
-            if (to.name === 'objectInsertCube') {
-
-            } else if (to.name === 'objectInsertMaterial') {
-
+                to.meta.recrodScroll = 0;
             }
-        }
+        });
 
         next();
     }

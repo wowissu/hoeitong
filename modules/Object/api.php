@@ -29,16 +29,11 @@ $app->get('/object', function ($req, $res, $args) use($app)
 
 $app->get('/object/search', function ($req, $res, $args) use($app)
 {
-
     $text = (string)$req->getQueryParam('text');
 
     try {
-
-        DB::enableQueryLog();
-
-        if (is_string($text) && strlen($text)) {} else {
-
-        }
+        // DB::enableQueryLog();
+        // if (is_string($text) && strlen($text)) {} else {}
 
         $tabs = Tab::where('title', 'ILIKE', $text)->where('ship_count', '>', 0)->with('ship')->get();
 
@@ -69,8 +64,6 @@ $app->get('/object/search', function ($req, $res, $args) use($app)
             ->orderBy('type', 'ASC')
             ->orderBy('created_at')
             ->get();
-
-    // dd(DB::getQueryLog());
 
         return $res->withJson([
             'success' => true,
@@ -251,43 +244,3 @@ $app->post('/object/create/material', function ($req, $res, $args) use($app)
 
     }
 });
-
-// delete object by id
-// $app->delete('/object/{id}/delete', function ($req, $res, $args) use($app)
-// {
-//     try {
-//         $o = Object::findOrFail($args['id']);
-
-//         if ($o->delete()) {
-//             return $res->withJson([
-//                 'success' => true,
-//                 'data' => $o->toArray()
-//             ], 200);
-//         }
-//     } catch (Exception $e) {
-//         return $res->withJson([
-//             'error' => true,
-//             'message' => $e->getMessage()
-//         ], 400);
-//     }
-// });
-
-// recover object by id
-// $app->put('/object/{id}/recover', function ($req, $res, $args) use($app)
-// {
-//     try {
-//         $o = Object::withTrashed()->findOrFail($args['id']);
-
-//         if ($o->restore()) {
-//             return $res->withJson([
-//                 'success' => true,
-//                 'data' => $o->toArray()
-//             ], 200);
-//         }
-//     } catch (Exception $e) {
-//         return $res->withJson([
-//             'error' => true,
-//             'message' => $e->getMessage()
-//         ], 400);
-//     }
-// });
