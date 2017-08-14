@@ -19,7 +19,10 @@ $app->get('/object', function ($req, $res, $args) use($app)
         ->whereIn('type', [
             Object::TYPE_MATERIAL,
             Object::TYPE_PRODUCT
-        ])->get();
+        ])
+        ->orderBy('id', 'desc')
+        ->orderBy('title')
+        ->get();
 
     return $res->withJson([
         'success' => $object->count() > 0,

@@ -5,7 +5,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: 'dist/',
     filename: 'build.js'
   },
   module: {
@@ -25,6 +25,18 @@ module.exports = {
         }
       },
       {
+        test: /\.css$/,
+        loader: 'vue-style-loader!css-loader'
+      },
+      // {
+      //   test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+      //   loader: 'url',
+      //   query: {
+      //     limit: 10000,
+      //     name: path.posix.join('/dist/fonts', 'fonts/[name].[hash:7].[ext]')
+      //   }
+      // },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
@@ -41,8 +53,7 @@ module.exports = {
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      'styles': path.resolve(__dirname, './src/scss'),
-      'fontAwesome': 'font-awesome'
+      'styles': path.resolve(__dirname, './src/scss')
     }
   },
   devServer: {
@@ -52,7 +63,13 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    })
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {
