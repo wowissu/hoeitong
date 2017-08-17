@@ -2,9 +2,24 @@
 
 $app->group('/api', function () use($app)
 {
+    include 'modules/Manual/api.php';
     include 'modules/Object/api.php';
     include 'modules/Company/api.php';
     include 'modules/Tab/api.php';
+
+})->add(function ($req, $res, $next) {
+
+    $csrfToken = $req->getHeader('X-CSRF-TOKEN')[0];
+
+    if ( csrf_verify($csrfToken) ) {
+
+        return $next($req, $res);
+
+    } else {
+
+        die("不合法途徑");
+
+    }
 });
 
 // $app->group('/template', function () use($app)
@@ -16,9 +31,11 @@ $app->group('/api', function () use($app)
 
 $app->get('/[{path:.*}]', function ($req, $res, $args) use($app)
 {
-    $basePath = $req->getUri()->getBasePath();
+    $uri = $req->getUri();
 
     view('overall/base.twig', [
-        'basePath' => $basePath
+        'csrf_token' => uniqid(),
+        'baseUrl' => $uri->getBaseUrl(),
+        'basePath' => $uri->getBasePath()
     ]);
 });

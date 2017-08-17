@@ -10,14 +10,17 @@
     </template>
     <template slot="header">
         <div class="object_navheader">
-            <searchbar v-model="searchValue"></searchbar>
-            <!-- <span>
-                <span class="header_tool_item" @click="createProduct"><i class="fa fa-cube"></i> 新增成品</span>
-                <span class="header_tool_item" @click="createMaterial"><i class="fa fa-gear"></i> 新增材料</span>
-            </span> -->
+            <span>
+                <span style="display: inline-block;margin-right: 5px"><searchbar v-model="searchValue" tag="span" ></searchbar></span>
+                <span style="display: inline-block;">
+                    <span>篩選：</span>
+                    <span class="filter_type" :class="{active: filterType.includes('2')}" @click="togglefilterType(2)"><i class="fa fa-cube"></i></span>
+                    <span class="filter_type" :class="{active: filterType.includes('1')}" @click="togglefilterType(1)"><i class="fa fa-gear"></i></span>
+                </span>
+            </span>
         </div>
     </template>
-    <template slot="section" >
+    <template slot="section">
         <router-view v-if="$route.params.id"></router-view>
         <div v-else class="object_section">
             <table class="object_table">

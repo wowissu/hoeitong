@@ -124,9 +124,8 @@
                                 });
                             } else {
                                 $this.$router.push({ name: 'objectList' });
+                                reject();
                             }
-
-                            reject();
                         })
                         .fail((res) => {
                             console.error(res.message);
@@ -136,17 +135,17 @@
             },
             saveObject() {
                 return new Promise((resolve, reject) => {
-                    var replace = 'insert';
                     var object = this.object;
+                    var objectId = 'insert';
                     var $http = $.post;
 
                     // 如果是一般更新
                     if (object.id) {
                         $http = $.put;
-                        replace = object.id;
+                        objectId = object.id;
                     }
 
-                    $http('api/object/{id}'.replace('{id}', replace), {
+                    $http('api/object/{id}'.replace('{id}', objectId), {
                         id       : object.id,
                         title    : object.title,
                         summary  : object.summary,
@@ -154,7 +153,8 @@
                         spec     : object.spec,
                         images   : object.images,
                         tabs     : object.tabs,
-                        children : object.children
+                        children : object.children,
+                        content  : object.content,
                     })
                         .done((res) => {
                             if (res.success) {

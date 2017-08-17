@@ -36,7 +36,6 @@ $app->get('/object/search', function ($req, $res, $args) use($app)
 
     try {
         // DB::enableQueryLog();
-        // if (is_string($text) && strlen($text)) {} else {}
 
         $tabs = Tab::where('title', 'ILIKE', $text)->where('ship_count', '>', 0)->with('ship')->get();
 
@@ -79,8 +78,6 @@ $app->get('/object/search', function ($req, $res, $args) use($app)
             'message' => $e->getMessage()
         ], 400);
     }
-
-
 });
 
 // get object by id
@@ -129,6 +126,7 @@ $app->put('/object/{id}', function ($req, $res, $args) use($app)
             $obj->summary = $userpost['summary'] ?: null;
             $obj->model   = $userpost['model'] ?: null;
             $obj->spec    = $userpost['spec'] ?: null;
+            $obj->content = (string)$userpost['content'];
             $obj->save();
 
             if (is_array($userpost['tabs'])) {
@@ -247,3 +245,4 @@ $app->post('/object/create/material', function ($req, $res, $args) use($app)
 
     }
 });
+

@@ -6,6 +6,7 @@ use Modules\App\BaseModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Object\Collections\ObjectCollection;
 use Modules\Tab\Models\TabShip;
+use Modules\Manual\Models\Manual;
 // use Modules\Tab\Models\Tab;
 
 /**
@@ -37,6 +38,11 @@ class Object extends BaseModel
         return $this->hasMany(Images::class, 'object_id');
     }
 
+    public function manual()
+    {
+        return $this->hasOne(Manual::class, 'id', 'manual_id');
+    }
+
     public function parent()
     {
         return $this->hasOne(self::class, 'id', 'parent_id');
@@ -44,8 +50,32 @@ class Object extends BaseModel
 
     public function scopeNodes($qry, $objectId)
     {
-        return $qry->where('id', $objectId)
+        return $qry
+            ->where('id', $objectId)
             ->orWhere('lineage', '<@', "root.{$objectId}");
+    }
+
+    public function getContentAttribute()
+    {
+        return $this->manual->content;
+    }
+
+    public function setContentAttribute($content)
+    {
+        if (is_string($content)) {
+            $manual = Manual::findOrNew($this->manual_id);
+            $manual->content = (string)$content;
+            if ($manual->save()) {
+                $this->attributes['manual_id'] = $manual->id;
+            }
+        }
+    }
+
+    public function toArray()
+    {
+        $array = parent::toArray();
+        $array['content'] = $this->content;
+        return $array;
     }
 
     /**

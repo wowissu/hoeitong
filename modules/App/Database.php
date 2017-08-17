@@ -1,6 +1,4 @@
 <?php
-
-
 $dbconfig = $ci->settings['db'];
 
 $capsule = new \Illuminate\Database\Capsule\Manager;

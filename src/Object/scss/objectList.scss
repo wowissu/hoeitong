@@ -125,4 +125,20 @@
             white-space: pre;
         }
     }
+
+    .filter_type {
+        font-size: 1.4rem;
+        display: inline-block;
+        // margin-right: 0.8rem;
+        opacity: .4;
+        cursor: pointer;
+
+        &:hover {
+            opacity: .6;
+        }
+
+        &.active {
+            opacity: 1;
+        }
+    }
 }

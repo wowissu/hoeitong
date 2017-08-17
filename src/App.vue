@@ -31,6 +31,13 @@ Vue.component('popup', Popup);
 export default {
     name: 'app',
     router: Router,
+    created() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    },
     data () {
         return {
             sitemenu: {

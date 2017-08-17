@@ -3,6 +3,7 @@
 ini_set('display_errors', 1);
 
 define("__PDIR__", dirname(__DIR__));
+define("__WWWPATH__", __DIR__);
 
 require __PDIR__ . '/vendor/autoload.php';
 require __PDIR__ . '/includes/helpers.php';

@@ -13,6 +13,12 @@ module.exports = {
 
         return {
             searchValue: '',
+            get filterType() {
+                return sessionStorage.filterType || (sessionStorage.filterType = '1234');
+            },
+            set filterType(val) {
+                sessionStorage.filterType = val;
+            },
             objectList: [],
             menu: {
                 insertProduct: {
@@ -44,6 +50,13 @@ module.exports = {
         };
     },
     methods: {
+        togglefilterType(type) {
+            if (this.filterType.includes(type)) {
+                this.filterType = this.filterType.replace(type, '', "g");
+            } else {
+                this.filterType += type;
+            }
+        },
         updateObjectList() {
             var $this = this;
 
@@ -51,7 +64,6 @@ module.exports = {
                 $.get('api/object').done((result) => {
                     if (result.success) {
                         $this.objectList = result.data;
-
                         resolve(result.data);
                     }
                 });
@@ -59,20 +71,30 @@ module.exports = {
         },
         filterList(data) {
             var searchValue = this.searchValue;
+            var filterType = this.filterType;
 
-            if (!data.length) {} else if (searchValue.length && typeof searchValue === 'string') {
-                return data.filter((row) => {
-                    var live = false;
+            if (data.length) {
+                data = data.filter((row) => {
 
-                    deeploop(row, (column) => {
-                        if (column && column.toString().indexOf(searchValue) >= 0) {
-                            live = true;
-                            return false;
-                        }
-                    });
+                    return filterType.includes(row.type);
 
-                    return live;
                 });
+
+                if (searchValue.length && typeof searchValue === 'string') {
+                    data = data.filter((row) => {
+                        var live = false;
+
+                        deeploop(row, (column) => {
+                            if (column && column.toString().includes(searchValue)) {
+                                live = true;
+                                return false;
+                            }
+                        });
+
+                        return live;
+                    });
+                }
+
             }
 
             return data;
