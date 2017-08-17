@@ -11,6 +11,7 @@
   "author": "bbgbbg0123 <bbgbbg0123@gmail.com>",
   "dependencies": {
     "font-awesome": "^4.7.0",
+    "froala-editor": "^2.6.4",
     "jquery": "^3.2.1",
     "moment": "^2.18.1",
     "normalize.css": "^6.0.0",
