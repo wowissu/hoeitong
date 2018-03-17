@@ -18,7 +18,6 @@
                     <small>更新: {{ object.updated_at | formatDate('YYYY/MM/DD hh:mm') }}</small><br>
                 </div>
             </div>
-
         </template>
         <template slot="section">
             <router-view :object="object"></router-view>
@@ -107,35 +106,36 @@
         },
         methods: {
             getObject() {
-                var $this = this;
-                var url = 'api/object/{id}';
-
                 return new Promise((resolve, reject) => {
-                    $this.object = {};
+                    this.object = {};
 
-                    $.get(url.replace('{id}', $this.id))
+                    $.get('api/object/{id}'.replace('{id}', this.id))
                         .done((res) => {
                             if (res.success) {
-                                $this.object = res.data;
-                                resolve($this.object);
+                                this.object = res.data;
+                                resolve(this.object);
 
                                 setTimeout(() => {
-                                    $this.$bus.$emit('object.change', $this.object);
+                                    this.$bus.$emit('object.change', this.object);
                                 });
                             } else {
-                                $this.$router.push({ name: 'objectList' });
+                                this.$router.push({ name: 'objectList' });
                                 reject();
                             }
                         })
                         .fail((res) => {
                             console.error(res.message);
-                            $this.$router.push({ name: 'objectList' });
+                            this.$router.push({ name: 'objectList' });
                         });
                 });
             },
             saveObject() {
+                var object = this.object;
+
+                this.$bus.$emit('object.before.save', object);
+
                 return new Promise((resolve, reject) => {
-                    var object = this.object;
+
                     var objectId = 'insert';
                     var $http = $.post;
 

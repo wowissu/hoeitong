@@ -63,14 +63,19 @@ $app->post('/manual/image/upload', function ($req, $res, $args) use($app)
 
 $app->delete('/manual/image/delete', function ($req, $res, $args) use($app)
 {
-    $src = $req->getParam('src');
+    $removed = $req->getParam('removed');
+    $unlinked = [];
 
-    if (is_file($src)) {
-        unlink($src);
+    foreach ($removed as $src) {
+        if (is_file($src)) {
+            if (unlink($src)) {
+                $unlinked[] = $src;
+            }
+        }
     }
 
     return $res->withJson([
         'success' => true,
-        'unlink' => $src
+        'unlinked' => $unlinked
     ], 200);
 });

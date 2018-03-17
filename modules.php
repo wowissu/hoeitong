@@ -17,7 +17,7 @@ $app->group('/api', function () use($app)
 
     } else {
 
-        die("不合法途徑");
+        die("不合法途徑: csrf-token 失效。");
 
     }
 });
