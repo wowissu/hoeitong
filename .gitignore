@@ -4,4 +4,4 @@ node_modules/
 vendor/
 ignore/
 modules/*/images/
-sftp-config.json
+.vscode
