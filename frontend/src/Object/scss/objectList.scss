@@ -1,0 +1,144 @@
+@import "~styles/variable";
+@import "~styles/mixin";
+@import "~styles/Pagebox";
+
+#objectList
+{
+    $mainColor: #2e88d0;
+    $navheaderHeight: 50px;
+
+    @include pageboxtheme((
+        logoBgColor: $mainColor,
+        sidebarBgColor: $mainColor,
+        headerBgColor: $mainColor,
+        itemHoverFontColor: rgba(0, 0, 0, 0.5),
+        itemActiveFontColor: darken($mainColor, 10%)
+    ));
+
+    .pagebox_sidebar[belong="objectList"] {
+        .object_create_item {
+            position: relative;
+            width: 20px;
+            height: 20px;
+
+            small {
+                position: absolute;
+                bottom: -2px;
+                right: -2px;
+                font-size: 12px;
+            }
+        }
+    }
+
+    position: relative;
+
+    .object_navheader
+    {
+        @include flexbox();
+        @include flex-just(space-between);
+        @include align-items(center);
+        height: $navheaderHeight;
+        width: 100%;
+        color: #fff;
+        padding: 0 10px;
+
+        .header_tool_item {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    }
+
+    .object_table
+    {
+        position: relative;
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        border-spacing: 0;
+        min-width: 800px;
+        max-width: 100%;
+
+        tr
+        {
+            &:hover
+            {
+                background-color: rgba(lighten($mainColor, 5%), 0.1);
+            }
+        }
+
+        td
+        {
+            padding: 12px 11px;
+            vertical-align: middle;
+            border-top: 1px solid #CCC5B9;
+        }
+
+        th
+        {
+            padding: 8px 11px;
+            vertical-align: middle;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        .th_id {
+            width: 1px;
+            white-space: nowrap;
+        }
+
+        .th_summary {
+            width: 10vw;
+        }
+
+        .th_toolbar,
+        .row_toolbar {
+            text-align: right;
+
+            .row_tool
+            {
+                display: inline-block;
+                vertical-align: top;
+                cursor: pointer;
+                color: cornflowerblue;
+                margin-right: 5px;
+
+                &:hover
+                {
+                    color: darken(cornflowerblue, 10%);
+                }
+            }
+        }
+
+        .row_id {
+            text-align: center;
+        }
+
+        .row_title
+        {
+
+        }
+
+        .row_summary {
+            max-height: 48px;
+            overflow-y: hidden;
+            display: block;
+            text-overflow: ellipsis;
+            white-space: pre;
+        }
+    }
+
+    .filter_type {
+        font-size: 1.4rem;
+        display: inline-block;
+        // margin-right: 0.8rem;
+        opacity: .4;
+        cursor: pointer;
+
+        &:hover {
+            opacity: .6;
+        }
+
+        &.active {
+            opacity: 1;
+        }
+    }
+}

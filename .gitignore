@@ -5,3 +5,4 @@ vendor/
 ignore/
 modules/*/images/
 .vscode
+package-lock.json

@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+@import "~styles/mixin";
+@import "~styles/Form";
+@import "~styles/Pagebox";
+@import "~styles/Searchbar";
+
+html
+{
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    overflow: hidden;
+    color: #333;
+}
+
+*, *:after, *:before
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.colorinherit
+{
+    color: inherit;
+}
+
+#site
+{
+    $mainColor: #82b440;
+
+    @include pageboxtheme((
+        itemActiveFontColor: $mainColor,
+        itemHoverFontColor: lighten($mainColor, 10%)
+    ));
+}

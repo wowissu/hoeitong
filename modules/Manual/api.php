@@ -42,6 +42,7 @@ $app->post('/manual/image/upload', function ($req, $res, $args) use($app)
             chmod($storageDir, 0777);
         }
 
+        // ! 要修改為 storepath(path: string): string
         $file->moveTo( wwwpath($urlpath) );
 
         return $res->withJson([

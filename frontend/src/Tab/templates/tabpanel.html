@@ -1,0 +1,38 @@
+<div class="tabpanel">
+    <ul class="tabs_list">
+        <li v-for="(tab, tab_index) in tabs" class="tab_item tab_item__istab">
+            <span v-text="tab.title"></span>
+            <span class="tab_item__delete" @click="deleteTabByIndex(tab_index)">
+                <i class="fa fa-close"></i>
+            </span>
+        </li>
+        <li class="tab_item tab_item__search">
+            <label class="search_tab_input">
+                <input type="text" placeholder="新增..."
+                    name="search_tab"
+                    v-model.trim="search.text"
+                    @input="updateSearchResult"
+                    @keydown.down="searchResultKeyDown"
+                    @keydown.up="searchResultKeyUp"
+                    @keypress.enter="searchInputOnEnter"
+                >
+                <div class="dropdown_menu" :class="{ show_menu: search.tabs.length > 0 }">
+                    <ul class="menu_list">
+                        <div class="menu_list__inner">
+                            <li class="menu_item"
+                                v-for="(item, item_index) in filterResult(search.tabs)"
+                                :class="{ menu_item__focus: search.focusIndex === item_index}"
+                                @mouseover="search.focusIndex = item_index"
+                                @click="addTab(item)"
+                            >
+                                <div class="menu_item_inner">
+                                    <span v-text="item.title"></span>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </label>
+        </li>
+    </ul>
+</div>

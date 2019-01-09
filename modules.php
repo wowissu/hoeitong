@@ -9,16 +9,14 @@ $app->group('/api', function () use($app)
 
 })->add(function ($req, $res, $next) {
 
-    $csrfToken = $req->getHeader('X-CSRF-TOKEN')[0];
+    return $next($req, $res);
 
-    if ( csrf_verify($csrfToken) ) {
+    // $csrfToken = $req->getHeader('X-CSRF-TOKEN')[0];
 
+    if (csrf_verify($csrfToken)) {
         return $next($req, $res);
-
     } else {
-
         die("不合法途徑: csrf-token 失效。");
-
     }
 });
 

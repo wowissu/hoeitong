@@ -1,0 +1,61 @@
+<pagebox
+    id="objectList"
+    :menu="menu"
+    :config="pageboxConfig"
+>
+    <template slot="logo">
+        <router-link :to="{ name: 'objectList' }" class="colorinherit">
+            <i class="fa fa-cubes"></i>
+        </router-link>
+    </template>
+    <template slot="header">
+        <div class="object_navheader">
+            <span>
+                <span style="display: inline-block;margin-right: 5px"><searchbar v-model="searchValue" tag="span" ></searchbar></span>
+                <span style="display: inline-block;">
+                    <span>篩選：</span>
+                    <span class="filter_type" :class="{active: filterType.includes('2')}" @click="togglefilterType(2)"><i class="fa fa-cube"></i></span>
+                    <span class="filter_type" :class="{active: filterType.includes('1')}" @click="togglefilterType(1)"><i class="fa fa-gear"></i></span>
+                </span>
+            </span>
+        </div>
+    </template>
+    <template slot="section">
+        <router-view v-if="$route.params.id"></router-view>
+        <div v-else class="object_section">
+            <table class="object_table">
+                <thead>
+                    <tr>
+                        <th class="th_id">類型</th>
+                        <th class="th_title">名稱 / 規格</th>
+                        <th class="th_summary">備註</th>
+                        <th class="th_toolbar">
+                            <i class="fa fa-wrench" aria-hidden="true"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="object in filterList(objectList)">
+                        <td>
+                            <div class="row_id">
+                                <i class="fa fa-cube" v-show="object.type == 2"></i>
+                                <i class="fa fa-cog" v-show="object.type == 1"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <router-link :to="{ name: 'objectProfile', params: { id: object.id } }">
+                                <span class="row_title">{{ object.title }}</span><span class="row_spec" v-if="object.spec">{{ ' / ' + object.spec }}</span>
+                            </router-link>
+                        </td>
+                        <td>
+                            <span class="row_summary">{{ object.summary }}</span>
+                        </td>
+                        <td>
+                            <div class="row_toolbar"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+</pagebox>

@@ -21,6 +21,7 @@ if ( !function_exists( 'is_dev' ) && function_exists( 'env' ) ) {
     }
 }
 
+// ! delete
 if ( !function_exists( 'wwwpath' ) ) {
     function wwwpath($concat='')
     {

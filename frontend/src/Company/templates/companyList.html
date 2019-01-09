@@ -1,0 +1,78 @@
+<pagebox
+    id="companyList"
+    :menu="menu"
+    :config="pageboxConfig"
+>
+    <template slot="logo">
+        <router-link to="/company" class="colorinherit">
+            <i class="fa fa-briefcase"></i>
+        </router-link>
+    </template>
+    <template slot="header">
+        <div class="company_navheader">
+            <searchbar v-model="searchValue"></searchbar>
+        </div>
+    </template>
+    <template slot="section">
+        <!-- Company Detail Component -->
+        <company v-if="editCompany" :bind="editCompany"></company>
+        <!-- Company List -->
+        <div v-else class="company_section">
+            <div class="company_body pagebox_section_scroll">
+                <table class="companies_table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>公司名稱</th>
+                            <th>負責人</th>
+                            <th>電話</th>
+                            <th>地址</th>
+                            <th class="row_toolbar">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="company in filtedCompanies">
+                            <td>
+                                <div class="row_toolbar">
+                                    <span class="row_tool editor">
+                                        <router-link :to="{ name: 'companyDetail', params: { id: company.id } }">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </router-link>
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="row_title">{{ company.title }}</span>
+                            </td>
+                            <td>
+                                <div class="row_owner">{{ company.owner }}</div>
+                            </td>
+                            <td>
+                                <ul class="row_phones">
+                                   <li v-for="phone in company.phones">
+                                        <span v-if="phone.type == 0"><i class="fa fa-phone" aria-hidden="true"></i></span>
+                                        <span v-else><i class="fa fa-fax" aria-hidden="true"></i></span>
+                                        <span>{{ phone.phone }}</span>
+                                        <span v-show="phone.contactor">{{ phone.contactor }}</span>
+                                   </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <div class="row_address">{{ company.address }}</div>
+                            </td>
+                            <td>
+                                <div class="row_toolbar">
+                                    <span class="row_tool trash" @click="removeCompany(company.id)">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+</pagebox>
