@@ -11,7 +11,7 @@
 
 <script>
 // import VueFroala from 'vue-froala-wysiwyg';
-import $ from 'jquery'
+// import $ from 'jquery'
 import QuillEditor from '@/components/QuillEditor.vue'
 
 export default {
@@ -21,42 +21,9 @@ export default {
     },
     props: ['object'],
     data () {
-        var $this = this;
-
         return {
             imagesRemoved: [],
-            imagesInserted: [],
-            froalaConfig: {
-                placeholderText: '開始編輯文件',
-                charCounterCount: false,
-                heightMin: 300,
-                toolbarInline: true,
-                toolbarButtons: ['undo', 'redo', '|', 'color', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', '-', 'insertLink', 'insertImage', 'insertTable', '|', 'quote', 'insertHR', 'clearFormatting', 'selectAll'],
-                // image upload
-                imageAllowDragAndDrop: true,
-                imageUploadParam: 'image',
-                imageUploadURL: 'api/manual/image/upload',
-                imageUploadMethod: 'POST',
-                imageMaxSize: 1 * 1024 * 1024,
-                imageAllowedTypes: ['jpeg', 'jpg', 'png'],
-                requestHeaders: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                events: {
-                    // 圖片刪除時伺服器也刪除
-                    'froalaEditor.image.removed': (e, editor, $img) => {
-                        var src = $img.attr('src');
-
-                        if (src.includes('blob:')) {} else {
-                            $this.imagesRemoved.push(src);
-                        }
-                    },
-                    'froalaEditor.image.inserted': (e, editor, $img) => {
-                        var src = $img.attr('src');
-                        $this.imagesInserted.push(src);
-                    }
-                }
-            }
+            imagesInserted: []
         };
     },
     mounted () {

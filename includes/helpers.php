@@ -1,37 +1,32 @@
 <?php
 if ( !function_exists( 'dd' ) ) {
-    function dd($output)
-    {
+    function dd($output) {
         dump($output);
         exit;
     }
 }
 
 if ( !function_exists( 'env' ) ) {
-    function env($name, $defval = null)
-    {
+    function env($name, $defval = null) {
         return isset($_ENV[$name]) ? $_ENV[$name] : $defval;
     }
 }
 
 if ( !function_exists( 'is_dev' ) && function_exists( 'env' ) ) {
-    function is_dev()
-    {
-        return env('ENV') == 'dev';
+    function is_dev() {
+        return env('ENV') === 'dev';
     }
 }
 
-// ! delete
+// FIXME 這個函數需要刪除，並新增storepath(path: string):string
 if ( !function_exists( 'wwwpath' ) ) {
-    function wwwpath($concat='')
-    {
+    function wwwpath($concat='') {
         return __WWWPATH__ . DIRECTORY_SEPARATOR . $concat;
     }
 }
 
 if ( !function_exists( 'get_extension' ) ) {
-    function get_extension(string $imagetype)
-    {
+    function get_extension(string $imagetype) {
         static $types = [
             'image/bmp' => '.bmp',
             'image/cis-cod' => '.cod',
@@ -61,13 +56,11 @@ if ( !function_exists( 'get_extension' ) ) {
 }
 
 
-function csrf_token($token_name='csrf_token', $time=null)
-{
+function csrf_token($token_name='csrf_token', $time=null) {
     $token = uniqid();
     return setcookie($token_name, $token, $time) ? $token : null;
 }
 
-function csrf_verify($token, $token_name='csrf_token')
-{
+function csrf_verify($token, $token_name='csrf_token') {
     return $_COOKIE[$token_name] === $token;
 }

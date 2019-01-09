@@ -27,12 +27,7 @@ $app->post('/manual/image/upload', function ($req, $res, $args) use($app)
         $date       = date('Ymd');
         $month      = date('Ym');
         $filename   = uniqid();
-        $filepath   = strtr('{month}/{date}/{filename}{ext}', [
-            '{month}'    => $month,
-            '{date}'     => $date,
-            '{filename}' => $filename,
-            '{ext}'      => $ext
-        ]);
+        $filepath   = `{$month}/{$date}/{$filename}{$ext}`;
         $urlpath    = "images/manual/{$filepath}";
         $storageDir = dirname($urlpath);
 
@@ -42,7 +37,7 @@ $app->post('/manual/image/upload', function ($req, $res, $args) use($app)
             chmod($storageDir, 0777);
         }
 
-        // ! 要修改為 storepath(path: string): string
+        // FIXME 要修改為 storepath(path: string): string
         $file->moveTo( wwwpath($urlpath) );
 
         return $res->withJson([
