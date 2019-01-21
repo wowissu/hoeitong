@@ -4,9 +4,6 @@ ini_set('display_errors', 1);
 
 define("__PDIR__", dirname(dirname(__DIR__)));
 
-// FIXME 找時間刪除
-define("__WWWPATH__", __DIR__);
-
 require __PDIR__ . '/vendor/autoload.php';
 require __PDIR__ . '/includes/helpers.php';
 

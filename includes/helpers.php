@@ -6,6 +6,13 @@ if ( !function_exists( 'dd' ) ) {
     }
 }
 
+if (!function_exists('join_paths')) {
+    function join_paths(...$paths)
+    {
+        return preg_replace('~[/\\\\]+~', DIRECTORY_SEPARATOR, implode(DIRECTORY_SEPARATOR, $paths));
+    }
+}
+
 if ( !function_exists( 'env' ) ) {
     function env($name, $defval = null) {
         return isset($_ENV[$name]) ? $_ENV[$name] : $defval;
@@ -18,15 +25,14 @@ if ( !function_exists( 'is_dev' ) && function_exists( 'env' ) ) {
     }
 }
 
-// FIXME 這個函數需要刪除，並新增storepath(path: string):string
-if ( !function_exists( 'wwwpath' ) ) {
-    function wwwpath($concat='') {
-        return __WWWPATH__ . DIRECTORY_SEPARATOR . $concat;
+if (!function_exists('base_path')) {
+    function base_path($trailer = '') {
+        return join_paths(__PDIR__, $trailer);
     }
 }
 
 if ( !function_exists( 'get_extension' ) ) {
-    function get_extension(string $imagetype) {
+    function is_image_extension(string $imagetype) {
         static $types = [
             'image/bmp' => '.bmp',
             'image/cis-cod' => '.cod',

@@ -1,0 +1,31 @@
+.image-drop-block {
+  display: inline-block;
+  position: relative;
+
+  .uploading-cover {
+    display: none;
+  }
+
+  &.uploading .uploading-cover {
+    background: rgba(#000, .4);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .cover-message {
+      color: #fff;
+      text-align: center;
+      font-size: 18px;
+    }
+  }
+
+  img {
+    display: block;
+  }
+}
